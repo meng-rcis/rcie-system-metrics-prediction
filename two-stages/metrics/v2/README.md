@@ -1,5 +1,7 @@
 ## Models
 
+---- version.1
+
 ### Linear Stack - Base Models
 
 - Linear Regression
@@ -23,3 +25,17 @@
 - Linear Stack: Ridge Regression
 - Tree Stack: Random Forest
 - Neural Network Stack: Linear Layer Neural Network
+
+--- version.2
+
+### Linear Stack - Meta Model
+
+- Linear Regression
+
+### Classification Stack - Meta Model
+
+- Logistic Regression
+
+### Deep Learning Stack - Meta Model
+
+- Linear Layer Neural Network
