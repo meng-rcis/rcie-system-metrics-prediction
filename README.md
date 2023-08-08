@@ -8,7 +8,7 @@
 cd D:\nuttchai\dev\Projects\rcie\repo\rcie-system-metrics-prediction; jupyter notebook
 ```
 
-## Note
+## Note - v1
 
 1. Single input, single output (Univariate time series forecasting): Here, you're using past values of a single time series to predict future values of the same time series.
 
@@ -39,3 +39,5 @@ For ARIMA, the data structure is usually univariate and the model predicts one s
 For Prophet, it is typically used for univariate time series forecasting, but additional regressors (similar to additional features in a multivariate forecast) can be added. The main input to Prophet is a DataFrame with a date-time column and one or more numeric columns. Prophet uses this data to fit its model and make predictions.
 
 VAR is specifically designed for multivariate time series. It uses a set number of previous time steps from all variables in the system to predict the next time step.
+
+## Note - v2
