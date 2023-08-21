@@ -26,7 +26,9 @@
 - Tree Stack: Random Forest
 - Neural Network Stack: Linear Layer Neural Network
 
---- version.2
+--- version.2: Share the same base models
+
+### Base Models
 
 ### Linear Stack - Meta Model
 
