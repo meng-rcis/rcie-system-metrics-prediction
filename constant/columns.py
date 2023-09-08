@@ -6,6 +6,7 @@ COLS = [
     "bandwidth_inbound",
     "bandwidth_outbound",
     "tps",
+    "tps_error",
     "response_time",
     "status"
 ]
@@ -15,8 +16,8 @@ FEATURES = [
     "memory_usage",
     "bandwidth_inbound",
     "bandwidth_outbound",
-    "response_time",
-    "tps"
+    "tps",
+    "response_time"
 ]
 
-LABEL = "status"
+LABEL = ["status"]
