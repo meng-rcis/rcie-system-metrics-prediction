@@ -49,6 +49,9 @@ class SetupManager():
             # Increment meta_total_rows by the number of added rows
             meta_total_rows += self.prediction_step
             count += 1
+
+            # Print the increase result
+            print(f"[In Progress Loop - {count}] number of rows in meta dataset: ", meta_total_rows)
         
         # Print the result
         print("[Complete] number of rows in meta dataset: ", meta_total_rows)
