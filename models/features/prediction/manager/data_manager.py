@@ -1,10 +1,7 @@
 import os
-import sys
 import csv
 
-# Add path to the root folder
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-import utils.load as load
+import pickle
 import pandas as pd
 
 class DataManager:
@@ -12,7 +9,7 @@ class DataManager:
         pass
     
     def LoadDataset(self, filename: str):
-        return load(filename)
+        return pickle.load(open(filename, 'rb'))
     
     def WriteCSV(self, filename: str, header: list[str], rows: list[list[str]]):
         # Check if file exists and has content

@@ -1,24 +1,24 @@
 import os
 import sys
-import math
 
 # Add path to the root folder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 from manager.data_manager import DataManager
+from constant_csv.models_header import BASE_HEADERS
 import pandas as pd
 
 class SetupManager():
     def __init__(
             self,
-            meta_source: str,
-            data_source: pd.DataFrame,
+            meta_training_path: str,
+            base_training_dataset: pd.DataFrame,
             initial_base_training_size: int = 100,
             initial_meta_training_size: int = 10,
             prediction_step: int = 1,
         ):
-        self.data_source = data_source
-        self.meta_source = meta_source
-        self.data_manager = DataManager(csv_file=meta_source)
+        self.meta_training_path = meta_training_path
+        self.base_training_dataset = base_training_dataset
+        self.data_manager = DataManager()
         self.initial_base_training_size = initial_base_training_size
         self.initial_meta_training_size = initial_meta_training_size
         self.prediction_step = prediction_step
@@ -40,23 +40,26 @@ class SetupManager():
 
             # Write the prediction result into CSV file
             print(f"[In Progress Loop - {count}] Writing the prediction result into CSV file...")
-
+            self.data_manager.WriteCSV(
+                filename=self.meta_training_path,
+                header=BASE_HEADERS,
+                rows=[[1,2,3,4,5]] # TODO: Replace with the actual prediction result
+            )
+            
             # Increment meta_total_rows by the number of added rows
-
-            # Print the number of rows in the meta dataset
-            print("[In Progress Loop - {count}] Total number of rows in meta dataset: ", meta_total_rows)
-
+            meta_total_rows += self.prediction_step
             count += 1
         
         # Print the result
         print("[Complete] number of rows in meta dataset: ", meta_total_rows)
-        print("[Complete] Meta dataset located at ", self.meta_source," is ready for training")
+        print("[Complete] Meta dataset located at ", self.meta_training_path," is ready for training")
 
         return
 
     def isDatasetValid(self): 
+        print("Checking dataset...")
         # Count number of rows in dataset
-        dataset_size = self.data_source.count()
+        dataset_size = self.base_training_dataset.count()[0]
 
         # Count number of rows required for training
         dataset_size_required = self.initial_base_training_size + self.initial_meta_training_size

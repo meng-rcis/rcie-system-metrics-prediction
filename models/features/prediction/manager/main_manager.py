@@ -1,6 +1,6 @@
 class MainManager():
-    def __init__():
+    def __init__(self):
         pass
 
-    def Run():
+    def Run(self):
         pass

@@ -9,13 +9,13 @@ from manager.main_manager import MainManager
 
 def main():
     # Trigger Model Setup if Required
-    isSetupMetaModelDatasetRequired = False
+    isSetupMetaModelDatasetRequired = True
     if isSetupMetaModelDatasetRequired:
         print("Preparing meta model dataset...")
         DataManagerInstance = DataManager()
         SetupManagerInstance = SetupManager(
-            meta_source='../source/training/meta.csv',
-            data_source=DataManagerInstance.LoadDataset('../../../dump/df.p'),
+            meta_training_path='../source/training/meta.csv',
+            base_training_dataset=DataManagerInstance.LoadDataset('../../../dump/df.p'),
             )
         SetupManagerInstance.PrepareMetaModelDataset()
 
@@ -23,3 +23,5 @@ def main():
     print("Starting main process...")
     MainManagerInstance = MainManager()
     MainManagerInstance.Run()
+
+main()
