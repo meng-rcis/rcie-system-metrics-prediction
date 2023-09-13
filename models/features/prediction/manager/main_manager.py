@@ -4,8 +4,8 @@ import sys
 # Add path to the root folder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 from manager.data_manager import DataManager
-from utils.predictor import Predictor
-from utils.calculator import Calculator
+from putils.predictor import Predictor
+from putils.calculator import Calculator
 
 class MainManager():
     def __init__(self, prediction_step, is_update_csv_required=False):

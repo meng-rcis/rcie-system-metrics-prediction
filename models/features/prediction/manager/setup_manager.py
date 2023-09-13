@@ -4,7 +4,7 @@ import sys
 # Add path to the root folder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 from manager.data_manager import DataManager
-from constant_csv.models_header import BASE_HEADERS
+from pconstant.models_header import BASE_HEADERS
 import pandas as pd
 
 class SetupManager():
