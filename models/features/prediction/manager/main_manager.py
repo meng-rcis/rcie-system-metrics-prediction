@@ -20,48 +20,48 @@ class MainManager():
     def Run(self):
         # Write latest actual data (row: previous+step) if required
         if self.is_update_csv_required:
-            self.UpdateCSVToLatest()
+            self.updateCSVToLatest()
 
         # Train base models with the latest data in based CSV
-        self.TrainBaseModels()
+        self.trainBaseModels()
 
         # Train meta models with the latest data in CSV-1
-        self.TrainMetaModels()
+        self.trainMetaModels()
 
         # Calculate weight of each meta model with the data in CSV-2
-        weights = self.CalculateWeight()
+        weights = self.calculateWeight()
 
         # Predict the next step using prediction_step based on the base models
-        base_results = self.PredictBaseModels()
+        base_results = self.predictBaseModels()
 
         # Predict the next step using prediction_step based on the meta models
-        meta_results = self.PredictMetaModels(base_results)
+        meta_results = self.predictMetaModels(base_results)
 
         # Find final result by weight averaging of the prediction result from meta models
-        self.PredictFinalResultWithWeightAverage(meta_results, weights)
+        self.predictFinalResultWithWeightAverage(meta_results, weights)
 
         # Update the flag to indicate that the CSV is updated
         self.is_update_csv_required = True
 
-    def UpdateCSVToLatest(self):
+    def updateCSVToLatest(self):
         print("Updating CSV to latest...")
         pass
 
-    def CalculateWeight(self):
+    def calculateWeight(self):
         print("Calculating weight...")
         meta_prediction = self.data_manager.ReadCSV('')
         weights = self.calculator.CalculateWeight(meta_prediction)
         return weights
     
-    def TrainBaseModels(self):
+    def trainBaseModels(self):
         print("Training base models...")
         pass
 
-    def TrainMetaModels(self):
+    def trainMetaModels(self):
         print("Training meta models...")
         pass
     
-    def PredictBaseModels(self):
+    def predictBaseModels(self):
         print("Predicting base models...")
 
         NO_OF_BASE_MODELS = 5
@@ -72,7 +72,7 @@ class MainManager():
             # Write the prediction result into CSV-1 file
             self.data_manager.WriteCSV('', [], [[]])
     
-    def PredictMetaModels(self, base_results):
+    def predictMetaModels(self, base_results):
         print("Predicting meta models...")
 
         NO_OF_META_MODELS = 3
@@ -83,6 +83,6 @@ class MainManager():
             # Write the prediction result into CSV-2 file
             self.data_manager.WriteCSV('', [], [[]])
 
-    def PredictFinalResultWithWeightAverage(self, meta_results, weights):
+    def predictFinalResultWithWeightAverage(self, meta_results, weights):
         print("Predicting final result...")
         pass
