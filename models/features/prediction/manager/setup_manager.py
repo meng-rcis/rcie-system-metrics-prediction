@@ -4,6 +4,7 @@ import sys
 # Add path to the root folder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 from manager.data_manager import DataManager
+from gateway.L1_gateway import GatewayL1
 from pconstant.models_header import BASE_HEADERS
 import pandas as pd
 
@@ -12,6 +13,7 @@ class SetupManager():
             self,
             meta_training_path: str,
             base_training_dataset: pd.DataFrame,
+            base_model_ids: list[str],
             initial_base_training_size: int = 100,
             initial_meta_training_size: int = 10,
             prediction_step: int = 1,
@@ -19,6 +21,7 @@ class SetupManager():
         self.meta_training_path = meta_training_path
         self.base_training_dataset = base_training_dataset
         self.data_manager = DataManager()
+        self.base_gateway = GatewayL1(base_model_ids)
         self.initial_base_training_size = initial_base_training_size
         self.initial_meta_training_size = initial_meta_training_size
         self.prediction_step = prediction_step
@@ -34,17 +37,20 @@ class SetupManager():
         while meta_total_rows < self.initial_meta_training_size:
             # Train base models 
             print(f"[In Progress Loop - {count}] Training base models...")
+            self.base_gateway.TrainModels(
+                self.base_training_dataset.iloc[meta_total_rows:meta_total_rows+self.initial_base_training_size])
 
             # Predict the next step using prediction_step based on the base models
             print(f"[In Progress Loop - {count}] Predicting the next step...")
+            prediction_result = self.base_gateway.Predict(self.prediction_step)
 
             # Write the prediction result into CSV file
             print(f"[In Progress Loop - {count}] Writing the prediction result into CSV file...")
             self.data_manager.WriteCSV(
-                filename=self.meta_training_path,
-                header=BASE_HEADERS,
-                rows=[[1,2,3,4,5]] # TODO: Replace with the actual prediction result
-            )
+                self.meta_training_path,
+                prediction_result,
+                self.base_model_ids,
+                )
             
             # Increment meta_total_rows by the number of added rows
             meta_total_rows += self.prediction_step

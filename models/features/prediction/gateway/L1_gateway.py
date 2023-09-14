@@ -7,6 +7,7 @@ from interface.model import IModel
 from infrastructure.L1_base_models.arima import ARIMA
 from infrastructure.L1_base_models.ets import ETS
 from infrastructure.L1_base_models.prophet import Prophet
+from config.model import SETUP_ARIMA_CONFIG, SETUP_ETS_CONFIG, SETUP_PROPHET_CONFIG, PREDICTION_ARIMA_CONFIG, PREDICTION_ETS_CONFIG, PREDICTION_PROPHET_CONFIG
 import pconstant.models_id as models_id
 import pandas as pd
 
@@ -27,7 +28,7 @@ class GatewayL1:
             })
         return models
     
-    # NOTE: We can define the model here
+    # NOTE: A function to get the model instance based on the model id
     def getModel(self, model_id: str) -> IModel:
         if model_id == models_id.ARIMA:
             return ARIMA()
@@ -38,25 +39,25 @@ class GatewayL1:
         
         raise Exception('Model ID not found: ', model_id)
     
-    # TODO: Define the default setup configuration (hyperparameter) of each model here
+    # NOTE: A function to get the default setup configuration of each model
     def getSetupConfig(self, model_id: str) -> dict:
         if model_id == models_id.ARIMA:
-            return { 'order': (1,1,1) }
+            return SETUP_ARIMA_CONFIG
         elif model_id == models_id.ETS:
-            return {}
+            return SETUP_ETS_CONFIG
         elif model_id == models_id.PROPHET:
-            return {}
+            return SETUP_PROPHET_CONFIG
 
         raise Exception('Model ID not found: ', model_id)
     
-    # TODO: Define the default prediction configuration of each model here
+    # NOTE: A function to get the default prediction configuration of each model
     def getPredictionConfig(self, model_id: str) -> dict:
         if model_id == models_id.ARIMA:
-            return {}
+            return PREDICTION_ARIMA_CONFIG
         elif model_id == models_id.ETS:
-            return {}
+            return PREDICTION_ETS_CONFIG
         elif model_id == models_id.PROPHET:
-            return {}
+            return PREDICTION_PROPHET_CONFIG
             
         raise Exception('Model ID not found: ', model_id)
 
