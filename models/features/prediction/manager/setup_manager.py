@@ -4,8 +4,7 @@ import sys
 # Add path to the root folder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 from manager.data_manager import DataManager
-from gateway.L1_gateway import GatewayL1
-from pconstant.models_header import BASE_HEADERS
+from gateway.layer_1 import GatewayL1
 import pandas as pd
 
 class SetupManager():
