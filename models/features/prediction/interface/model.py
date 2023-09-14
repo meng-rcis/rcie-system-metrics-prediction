@@ -7,15 +7,15 @@ class IModel( abc.ABC ):
         pass
 
     @abc.abstractmethod
-    def TrainModel(self, input: any) -> any:
+    def TrainModel(self, config: dict):
         pass
 
     @abc.abstractmethod
-    def TuneModel(self, input: any) -> any:
+    def TuneModel(self, config: dict):
         pass 
 
     @abc.abstractmethod
-    def Predict(self, input: any) -> pd.DataFrame:
+    def Predict(self, config: dict) -> pd.DataFrame:
         pass
 
 
