@@ -9,7 +9,12 @@ class DataManager:
         pass
     
     def LoadDataset(self, filename: str):
-        return pickle.load(open(filename, 'rb'))
+        try:
+            with open(filename, 'rb') as file:
+                return pickle.load(open(filename, 'rb'))
+        except Exception as e:
+            print(f"Error loading dataset from {filename}: {e}")
+            raise
     
     def WriteCSV(self, filename: str, header: list[str], rows: list[list[str]]):
         # Check if file exists and has content
