@@ -14,7 +14,7 @@ class ARIMA( IModel ):
     def AssignDataset(self, dataset: pd.DataFrame):
         self.dataset = dataset
 
-    def TrainModel(self, input: any):
+    def TrainModel(self, config: dict):
         def train_arima(series, order=(1,1,1)):
             """
             Train an ARIMA model on a given time series.
@@ -28,10 +28,10 @@ class ARIMA( IModel ):
             model_fit = model.fit()
             return model_fit
         
-        return train_arima(self.dataset, input.order)
+        self.model = train_arima(self.dataset, config.order)
 
-    def TuneModel(self, input):
+    def TuneModel(self, config: dict):
         pass
 
-    def Predict(self, input) -> pd.DataFrame:
-        pass
+    def Predict(self, config: dict) -> pd.DataFrame:
+        return self.model.forecast(config.steps)
