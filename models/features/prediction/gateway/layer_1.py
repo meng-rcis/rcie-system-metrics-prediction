@@ -72,7 +72,7 @@ class GatewayL1:
         predictions = pd.DataFrame()
 
         for model in self.models:
-            config = model['prediction_config']
-            predictions[model['id']] = model['instance'].Predict({ **config, 'steps': steps })
+            prediction = model['instance'].Predict({ **model['prediction_config'], 'steps': steps })
+            predictions[model['id']] = prediction
         
         return predictions
