@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
 from pconstant.models_id import ARIMA
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
-SETUP_ARIMA_CONFIG = { 'order': (5, 0, 0) }
+SETUP_ARIMA_CONFIG = { 'order': (1, 1, 1) }
 SETUP_ETS_CONFIG = {}
 SETUP_PROPHET_CONFIG = {}
 
