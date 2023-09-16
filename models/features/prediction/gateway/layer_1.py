@@ -62,9 +62,9 @@ class GatewayL1:
         raise Exception('Model ID not found: ', model_id)
 
     # NOTE: A function to execute the training process of all models
-    def TrainModels(self, dataset: pd.DataFrame):
+    def TrainModels(self, dataset: pd.DataFrame, feature: str):
         for model in self.models:
-            model['instance'].AssignDataset(dataset)
+            model['instance'].AssignDataset(dataset, feature)
             model['instance'].TrainModel(model['setup_config'])
     
     # NOTE: A function to execute the prediction process of all models

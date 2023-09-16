@@ -11,8 +11,8 @@ class ARIMA( IModel ):
         self.dataset = None
         self.model = None
     
-    def AssignDataset(self, dataset: pd.DataFrame):
-        self.dataset = dataset
+    def AssignDataset(self, dataset: pd.DataFrame, feature: str):
+        self.dataset = dataset[feature]
 
     def TrainModel(self, config: dict):
         def train_arima(series, order=(1,1,1)):
@@ -24,15 +24,16 @@ class ARIMA( IModel ):
             Returns:
             - model_fit: The trained ARIMA model.
             """
+
             model = ARIMA(series, order=order)
             model_fit = model.fit()
             return model_fit
         
-        self.model = train_arima(self.dataset, config.order)
+        self.model = train_arima(self.dataset, config['order'])
 
     def TuneModel(self, config: dict):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
-        prediction = self.model.forecast(config.steps)
+        prediction = self.model.forecast(config['steps'])
         return pd.DataFrame(prediction)

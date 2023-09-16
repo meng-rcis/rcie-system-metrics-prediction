@@ -10,6 +10,7 @@ import pandas as pd
 class SetupManager():
     def __init__(
             self,
+            selected_feature: str,
             meta_training_path: str,
             base_training_dataset: pd.DataFrame,
             base_model_ids: list[str],
@@ -17,6 +18,7 @@ class SetupManager():
             initial_meta_training_size: int = 10,
             prediction_step: int = 1,
         ):
+        self.selected_feature = selected_feature
         self.meta_training_path = meta_training_path
         self.base_training_dataset = base_training_dataset
         self.data_manager = DataManager()
@@ -37,7 +39,7 @@ class SetupManager():
             # Train base models 
             print(f"[In Progress Loop - {count}] Training base models...")
             self.base_gateway.TrainModels(
-                self.base_training_dataset.iloc[meta_total_rows:meta_total_rows+self.initial_base_training_size])
+                self.base_training_dataset.iloc[meta_total_rows:meta_total_rows+self.initial_base_training_size], self.selected_feature)
 
             # Predict the next step using prediction_step based on the base models
             print(f"[In Progress Loop - {count}] Predicting the next step...")
