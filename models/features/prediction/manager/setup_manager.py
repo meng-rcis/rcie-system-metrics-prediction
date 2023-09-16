@@ -26,6 +26,7 @@ class SetupManager():
         self.initial_base_training_size = initial_base_training_size
         self.initial_meta_training_size = initial_meta_training_size
         self.prediction_steps = prediction_steps
+        self.base_model_ids = base_model_ids
 
     def PrepareMetaModelDataset(self):
         # Check dataset has enough rows for training
@@ -38,22 +39,27 @@ class SetupManager():
         while meta_total_rows < self.initial_meta_training_size:
             # Train base models 
             print(f"[In Progress Loop - {count}] Training base models...")
+            first_training_index = meta_total_rows
+            last_training_index = meta_total_rows+self.initial_base_training_size
             self.base_gateway.TrainModels(
-                self.base_training_dataset.iloc[meta_total_rows:meta_total_rows+self.initial_base_training_size], self.selected_feature)
+                self.base_training_dataset.iloc[first_training_index:last_training_index], self.selected_feature)
 
             # Predict the next step using prediction_steps based on the base models
             print(f"[In Progress Loop - {count}] Predicting the next step...")
-            prediction_result = self.base_gateway.Predict(self.prediction_steps)
-            print('prediction_result', prediction_result)
-            return
-
-            # Write the prediction result into CSV file
-            print(f"[In Progress Loop - {count}] Writing the prediction result into CSV file...")
-            self.data_manager.WriteCSV(
-                self.meta_training_path,
+            prediction_result = self.base_gateway.Predict(steps=self.prediction_steps)
+            actual_result = self.base_training_dataset[self.selected_feature].iloc[last_training_index:last_training_index+self.prediction_steps]
+            
+            # Extract the prediction result into CSV format
+            print(f"[In Progress Loop - {count}] Extracting the prediction result into CSV format...")
+            rows, header = self.data_manager.ExtractPredictionToCSV(
                 prediction_result,
+                actual_result,
                 self.base_model_ids,
                 )
+            
+            # Write the prediction result into CSV file
+            print(f"[In Progress Loop - {count}] Writing the prediction result into CSV file...")
+            self.data_manager.WriteCSV(path=self.meta_training_path, header=header, rows=rows)
             
             # Increment meta_total_rows by the number of added rows
             meta_total_rows += self.prediction_steps
@@ -64,9 +70,7 @@ class SetupManager():
         
         # Print the result
         print("[Complete] number of rows in meta dataset: ", meta_total_rows)
-        print("[Complete] Meta dataset located at ", self.meta_training_path," is ready for training")
-
-        return
+        print("[Complete] Meta dataset located at", self.meta_training_path,"is ready for training")
 
     def isDatasetValid(self): 
         print("Checking dataset...")

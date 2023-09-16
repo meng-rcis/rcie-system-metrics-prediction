@@ -25,4 +25,4 @@ META_MODELS_IDS = []
 SELECTED_FEATURE = 'tps'
 
 # NOTE: Define the number of steps to be predicted here
-PREDICTION_STEPS = 1
+PREDICTION_STEPS = 2
