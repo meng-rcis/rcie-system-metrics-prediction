@@ -7,8 +7,8 @@ from manager.data_manager import DataManager
 from putils.calculator import Calculator
 
 class MainManager():
-    def __init__(self, prediction_step, is_update_csv_required=False):
-        self.prediction_step = prediction_step
+    def __init__(self, prediction_steps: int = 1, is_update_csv_required: bool =False):
+        self.prediction_steps = prediction_steps
         self.is_update_csv_required = is_update_csv_required
         self.base_models = []
         self.meta_models = []
@@ -29,10 +29,10 @@ class MainManager():
         # Calculate weight of each meta model with the data in CSV-2
         weights = self.calculateWeight()
 
-        # Predict the next step using prediction_step based on the base models
+        # Predict the next step using prediction_steps based on the base models
         base_results = self.predictBaseModels()
 
-        # Predict the next step using prediction_step based on the meta models
+        # Predict the next step using prediction_steps based on the meta models
         meta_results = self.predictMetaModels(base_results)
 
         # Find final result by weight averaging of the prediction result from meta models
@@ -64,7 +64,7 @@ class MainManager():
 
         NO_OF_BASE_MODELS = 5
         for i in range(NO_OF_BASE_MODELS):
-            # Predict the next step using prediction_step based on the base models (parallel?)
+            # Predict the next step using prediction_steps based on the base models (parallel?)
             # base_model.Predict()
 
             # Write the prediction result into CSV-1 file
@@ -75,7 +75,7 @@ class MainManager():
 
         NO_OF_META_MODELS = 3
         for i in range(NO_OF_META_MODELS):
-            # Predict the next step using prediction_step based on the meta models
+            # Predict the next step using prediction_steps based on the meta models
             # meta_model.Predict()
 
             # Write the prediction result into CSV-2 file

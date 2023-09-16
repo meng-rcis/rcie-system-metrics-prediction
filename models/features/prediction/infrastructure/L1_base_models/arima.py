@@ -28,7 +28,6 @@ class ARIMA( IModel ):
             model = ARIMA_MODEL(series, order=order)
             model_fit = model.fit()
             return model_fit
-        
         self.model = train_arima(self.dataset, config['order'])
 
     def TuneModel(self, config: dict):

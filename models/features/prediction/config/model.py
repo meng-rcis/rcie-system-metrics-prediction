@@ -23,3 +23,6 @@ META_MODELS_IDS = []
 
 # NOTE: Define the selected feature to be predicted here
 SELECTED_FEATURE = 'tps'
+
+# NOTE: Define the number of steps to be predicted here
+PREDICTION_STEPS = 1

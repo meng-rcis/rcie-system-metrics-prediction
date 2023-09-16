@@ -16,7 +16,7 @@ class SetupManager():
             base_model_ids: list[str],
             initial_base_training_size: int = 100,
             initial_meta_training_size: int = 10,
-            prediction_step: int = 1,
+            prediction_steps: int = 1,
         ):
         self.selected_feature = selected_feature
         self.meta_training_path = meta_training_path
@@ -25,7 +25,7 @@ class SetupManager():
         self.base_gateway = GatewayL1(base_model_ids)
         self.initial_base_training_size = initial_base_training_size
         self.initial_meta_training_size = initial_meta_training_size
-        self.prediction_step = prediction_step
+        self.prediction_steps = prediction_steps
 
     def PrepareMetaModelDataset(self):
         # Check dataset has enough rows for training
@@ -41,9 +41,11 @@ class SetupManager():
             self.base_gateway.TrainModels(
                 self.base_training_dataset.iloc[meta_total_rows:meta_total_rows+self.initial_base_training_size], self.selected_feature)
 
-            # Predict the next step using prediction_step based on the base models
+            # Predict the next step using prediction_steps based on the base models
             print(f"[In Progress Loop - {count}] Predicting the next step...")
-            prediction_result = self.base_gateway.Predict(self.prediction_step)
+            prediction_result = self.base_gateway.Predict(self.prediction_steps)
+            print('prediction_result', prediction_result)
+            return
 
             # Write the prediction result into CSV file
             print(f"[In Progress Loop - {count}] Writing the prediction result into CSV file...")
@@ -54,7 +56,7 @@ class SetupManager():
                 )
             
             # Increment meta_total_rows by the number of added rows
-            meta_total_rows += self.prediction_step
+            meta_total_rows += self.prediction_steps
             count += 1
 
             # Print the increase result
