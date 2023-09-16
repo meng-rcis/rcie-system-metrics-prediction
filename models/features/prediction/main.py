@@ -29,6 +29,6 @@ def main():
     MainManagerInstance = MainManager(
         prediction_steps=PREDICTION_STEPS
         )
-    MainManagerInstance.Run()
+    # MainManagerInstance.Run()
 
 main()

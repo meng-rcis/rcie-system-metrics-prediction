@@ -5,4 +5,6 @@ class Calculator:
         self.initial_weight = initial_weight
 
     def CalculateWeight(self, data: pd.DataFrame):
-        raise NotImplementedError
+        print("Calculating weight...")
+        return None
+        # raise NotImplementedError
