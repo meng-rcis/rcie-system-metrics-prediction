@@ -44,4 +44,4 @@ VAR is specifically designed for multivariate time series. It uses a set number 
 
 ### Project Directory
 
-Main file located at ...
+Main file located at `models/predictions/features/main.py`
