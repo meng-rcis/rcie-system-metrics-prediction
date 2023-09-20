@@ -10,17 +10,17 @@ import pandas as pd
 class SetupManager():
     def __init__(
             self,
+            dataset: pd.DataFrame,
             selected_feature: str,
             meta_training_path: str,
-            base_training_dataset: pd.DataFrame,
             base_model_ids: list[str],
             initial_base_training_size: int = 100,
             initial_meta_training_size: int = 10,
             prediction_steps: int = 1,
         ):
+        self.dataset = dataset
         self.selected_feature = selected_feature
         self.meta_training_path = meta_training_path
-        self.base_training_dataset = base_training_dataset
         self.data_manager = DataManager()
         self.base_gateway = GatewayL1(base_model_ids)
         self.initial_base_training_size = initial_base_training_size
@@ -42,12 +42,12 @@ class SetupManager():
             first_training_index = meta_total_rows
             last_training_index = meta_total_rows+self.initial_base_training_size
             self.base_gateway.TrainModels(
-                self.base_training_dataset.iloc[first_training_index:last_training_index], self.selected_feature)
+                self.dataset.iloc[first_training_index:last_training_index], self.selected_feature)
 
             # Predict the next step using prediction_steps based on the base models
             print(f"[In Progress Loop - {count}] Predicting the next step...")
             prediction_result = self.base_gateway.Predict(steps=self.prediction_steps)
-            actual_result = self.base_training_dataset[self.selected_feature].iloc[last_training_index:last_training_index+self.prediction_steps]
+            actual_result = self.dataset[self.selected_feature].iloc[last_training_index:last_training_index+self.prediction_steps]
             
             # Extract the prediction result into CSV format
             print(f"[In Progress Loop - {count}] Extracting the prediction result into CSV format...")
@@ -75,7 +75,7 @@ class SetupManager():
     def isDatasetValid(self): 
         print("Checking dataset...")
         # Count number of rows in dataset
-        dataset_size = self.base_training_dataset.count()[0]
+        dataset_size = self.dataset.count()[0]
 
         # Count number of rows required for training
         dataset_size_required = self.initial_base_training_size + self.initial_meta_training_size

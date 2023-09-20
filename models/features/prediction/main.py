@@ -16,11 +16,11 @@ def main():
         print("Preparing meta model dataset...")
         DataManagerInstance = DataManager()
         SetupManagerInstance = SetupManager(
+            dataset=DataManagerInstance.LoadDataset(DATASET_PATH),
             selected_feature=SELECTED_FEATURE,
             meta_training_path=META_TRAINING_PATH,
             base_model_ids=BASE_MODELS_IDS,
             prediction_steps=PREDICTION_STEPS,
-            base_training_dataset=DataManagerInstance.LoadDataset(DATASET_PATH),
             )
         SetupManagerInstance.PrepareMetaModelDataset()
 
