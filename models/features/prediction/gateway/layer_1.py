@@ -14,10 +14,10 @@ import pandas as pd
 # NOTE: Purpose of the GatewayL1 is to let the user to define the base models and its configurations in a single place
 class GatewayL1:
     def __init__(self, model_ids: list[str]):
-        self.models = self.prepareModels(model_ids)
+        self.models = self.InitiateModels(model_ids)
 
     # NOTE: A function to prepare all models
-    def prepareModels(self, model_ids: list[str]) -> list[dict]:
+    def InitiateModels(self, model_ids: list[str]) -> list[dict]:
         models = []
         for model_id in model_ids:
             models.append({ 
@@ -62,9 +62,22 @@ class GatewayL1:
         raise Exception('Model ID not found: ', model_id)
 
     # NOTE: A function to execute the training process of all models
-    def TrainModels(self, dataset: pd.DataFrame, feature: str):
+    def TrainModels(
+            self, 
+            dataset: pd.DataFrame, 
+            feature: str,
+            start_index: int = 0, 
+            end_index: int = -1,
+            prediction_steps: int = 1,
+        ):
         for model in self.models:
-            model['instance'].AssignDataset(dataset, feature)
+            model['instance'].ConfigModel(
+                dataset=dataset, 
+                feature=feature, 
+                start_index=start_index, 
+                end_index=end_index,
+                prediction_steps=prediction_steps,
+            )
             model['instance'].TrainModel(model['setup_config'])
     
     # NOTE: A function to execute the prediction process of all models

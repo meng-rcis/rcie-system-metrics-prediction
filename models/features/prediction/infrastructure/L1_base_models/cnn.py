@@ -11,7 +11,14 @@ class CNN( IModel ):
         self.dataset = None
         self.model = None
     
-    def AssignDataset(self, dataset: pd.DataFrame, feature: str):
+    def ConfigModel(
+            self, 
+            dataset: pd.DataFrame, 
+            feature: str, 
+            start_index: int, 
+            end_index: int,
+            prediction_steps: int,
+        ):
         self.dataset = dataset[feature]
 
     def TrainModel(self, config):

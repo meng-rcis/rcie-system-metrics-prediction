@@ -42,7 +42,12 @@ class SetupManager():
             first_training_index = meta_total_rows
             last_training_index = meta_total_rows+self.initial_base_training_size
             self.base_gateway.TrainModels(
-                self.dataset.iloc[first_training_index:last_training_index], self.selected_feature)
+                dataset=self.dataset, 
+                feature=self.selected_feature, 
+                start_index=first_training_index, 
+                end_index=last_training_index,
+                prediction_steps=self.prediction_steps,
+            )
 
             # Predict the next step using prediction_steps based on the base models
             print(f"[In Progress Loop - {count}] Predicting the next step...")

@@ -10,10 +10,19 @@ import pandas as pd
 class ARIMA( IModel ):
     def __init__(self):
         self.dataset = None
+        self.training_dataset = None
         self.model = None
     
-    def AssignDataset(self, dataset: pd.DataFrame, feature: str):
+    def ConfigModel(
+            self, 
+            dataset: pd.DataFrame, 
+            feature: str, 
+            start_index: int, 
+            end_index: int,
+            prediction_steps: int,
+        ):
         self.dataset = dataset[feature]
+        self.training_dataset = self.dataset.iloc[start_index:end_index]
 
     def TrainModel(self, config: dict):
         def train_arima(series, order=(1,1,1)):
@@ -28,11 +37,14 @@ class ARIMA( IModel ):
             model = ARIMA_MODEL(series, order=order)
             model_fit = model.fit()
             return model_fit
-        self.model = train_arima(self.dataset, config['order'])
+        
+        self.model = train_arima(
+            series=self.training_dataset,
+            order=config['order']
+        )
 
     def TuneModel(self, config: dict):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
-        prediction = self.model.forecast(steps=config['steps'])
-        return prediction
+        return self.model.forecast(steps=config['steps'])
