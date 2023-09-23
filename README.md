@@ -8,7 +8,7 @@
 cd D:\nuttchai\dev\Projects\rcie\repo\rcie-system-metrics-prediction; jupyter notebook
 ```
 
-## Note - v1
+## Note - v1 (Archive)
 
 1. Single input, single output (Univariate time series forecasting): Here, you're using past values of a single time series to predict future values of the same time series.
 
@@ -40,7 +40,7 @@ For Prophet, it is typically used for univariate time series forecasting, but ad
 
 VAR is specifically designed for multivariate time series. It uses a set number of previous time steps from all variables in the system to predict the next time step.
 
-## Note - v2
+## Note - v2 (current)
 
 ### Project Directory
 
