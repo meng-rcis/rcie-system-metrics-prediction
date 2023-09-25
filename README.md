@@ -10,11 +10,11 @@ cd D:\nuttchai\dev\Projects\rcie\repo\rcie-system-metrics-prediction; jupyter no
 
 ## Note - v1 (Archive)
 
-1. Single input, single output (Univariate time series forecasting): Here, you're using past values of a single time series to predict future values of the same time series.
+1. Single input, single output - SISO (Univariate time series forecasting): Here, you're using past values of a single time series to predict future values of the same time series.
 
-2. Multiple inputs, single output (Multivariate time series forecasting): In this case, you're using past values from multiple time series to predict future values of a single target time series.
+2. Multiple inputs, single output - MISO (Multivariate time series forecasting): In this case, you're using past values from multiple time series to predict future values of a single target time series.
 
-3. Multiple inputs, multiple outputs (Multi-step and multivariate time series forecasting): You're using past values from multiple time series to predict multiple future time steps of all those time series. Note that this setup is quite complex and might be challenging to manage and interpret.
+3. Multiple inputs, multiple outputs - MIMO (Multi-step and multivariate time series forecasting): You're using past values from multiple time series to predict multiple future time steps of all those time series. Note that this setup is quite complex and might be challenging to manage and interpret.
 
 There are several models that can handle multivariate input for single output prediction, especially in the context of time series forecasting. Here are a few examples:
 
