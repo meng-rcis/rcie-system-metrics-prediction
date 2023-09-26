@@ -62,13 +62,13 @@ class CNN( IModel ):
         return y_pred
 
 
-    def series_to_supervised(data, n_in, n_out):
+    def series_to_supervised(self, data, n_in, n_out):
             agg = []
             for i in range(len(data) - n_in - n_out + 1):
                 agg.append(data[i: i + n_in + n_out])
             return np.array(agg)
 
-    def define_model(n_in: int, n_out: int):
+    def define_model(self, n_in: int, n_out: int):
         model = keras.models.Sequential()
         model.add(keras.layers.Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(n_in, 1)))
         model.add(keras.layers.MaxPooling1D(pool_size=2))

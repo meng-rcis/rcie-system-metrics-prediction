@@ -36,7 +36,7 @@ class ARIMA( IModel ):
     def Predict(self, config: dict) -> pd.DataFrame:
         return self.model.forecast(steps=config['steps'])
     
-    def train_arima(series, order=(1,1,1)):
+    def train_arima(self, series, order=(1,1,1)):
         """
         Train an ARIMA model on a given time series.
         Parameters:
