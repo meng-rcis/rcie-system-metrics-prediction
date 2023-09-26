@@ -28,4 +28,4 @@ SELECTED_FEATURE = 'tps'
 PREDICTION_STEPS = 2
 
 # NOTE: Define the number of recreation model steps here (not used yet)
-RECREATION_MODEL_STEPS = 2
+RECREATION_MODEL_STEPS = 2  # Should be time interval
