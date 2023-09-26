@@ -3,10 +3,9 @@ import sys
 
 # Add path to the root folder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-from interface.model import IModel
 import pandas as pd
+from interface.model import IModel
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
-import matplotlib.pyplot as plt
 
 class ETS( IModel ):
     def __init__(self):

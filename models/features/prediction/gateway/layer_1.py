@@ -7,7 +7,7 @@ from interface.model import IModel
 from infrastructure.L1_base_models.arima import ARIMA
 from infrastructure.L1_base_models.ets import ETS
 from infrastructure.L1_base_models.prophet import Prophet
-from config.model import SETUP_ARIMA_CONFIG, SETUP_ETS_CONFIG, SETUP_PROPHET_CONFIG, PREDICTION_ARIMA_CONFIG, PREDICTION_ETS_CONFIG, PREDICTION_PROPHET_CONFIG
+from config.control import SETUP_ARIMA_CONFIG, SETUP_ETS_CONFIG, SETUP_PROPHET_CONFIG, PREDICTION_ARIMA_CONFIG, PREDICTION_ETS_CONFIG, PREDICTION_PROPHET_CONFIG
 import pconstant.models_id as models_id
 import pandas as pd
 
