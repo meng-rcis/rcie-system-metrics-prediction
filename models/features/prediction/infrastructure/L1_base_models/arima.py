@@ -24,27 +24,17 @@ class ARIMA( IModel ):
         self.dataset = dataset[feature]
         self.training_dataset = self.dataset.iloc[start_index:end_index]
 
-    def TrainModel(self, config: dict):        
-        self.model = self.train_arima(
-            series=self.training_dataset,
-            order=config['order']
-        )
+    def TrainModel(self, config: dict):
+        """
+        Train an ARIMA model on a given time series.
+        - series: Pandas Series object representing the time series data.
+        - order: A tuple representing the (p,d,q) parameters for ARIMA.
+        """
+        model = ARIMA_MODEL(self.training_dataset, order=config['order'])
+        self.model = model.fit()  
 
     def TuneModel(self, config: dict):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
         return self.model.forecast(steps=config['steps'])
-    
-    def train_arima(self, series, order=(1,1,1)):
-        """
-        Train an ARIMA model on a given time series.
-        Parameters:
-        - series: Pandas Series object representing the time series data.
-        - order: A tuple representing the (p,d,q) parameters for ARIMA.
-        Returns:
-        - model_fit: The trained ARIMA model.
-        """
-        model = ARIMA_MODEL(series, order=order)
-        model_fit = model.fit()
-        return model_fit
