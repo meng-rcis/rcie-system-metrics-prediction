@@ -7,7 +7,7 @@ from pconstant.models_id import ARIMA, ETS
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = { 'order': (1, 1, 1) }
-SETUP_ETS_CONFIG = { 'trend': 'add', 'seasonal': 'add' }
+SETUP_ETS_CONFIG = {}
 SETUP_PROPHET_CONFIG = {}
 
 # NOTE: Define the default prediction configuration of each model here
