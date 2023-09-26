@@ -27,7 +27,7 @@ class DataManager:
             extracted_data.append(current_row)
         
         # Creating the header
-        header = ['index'] + model_ids + ['actual']
+        header = ['Index'] + model_ids + ['Actual']
         return extracted_data, header
 
     

@@ -35,4 +35,4 @@ RECREATION_MODEL_STEPS = 2  # Should be time interval
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 10
+INITIAL_META_TRAINING_SIZE = 100
