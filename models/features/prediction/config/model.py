@@ -26,3 +26,6 @@ SELECTED_FEATURE = 'tps'
 
 # NOTE: Define the number of steps to be predicted here
 PREDICTION_STEPS = 2
+
+# NOTE: Define the number of recreation model steps here (not used yet)
+RECREATION_MODEL_STEPS = 2
