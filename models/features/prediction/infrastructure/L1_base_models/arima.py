@@ -30,7 +30,8 @@ class ARIMA( IModel ):
         - series: Pandas Series object representing the time series data.
         - order: A tuple representing the (p,d,q) parameters for ARIMA.
         """
-        model = ARIMA_MODEL(self.training_dataset, order=config['order'])
+        order = config.get('order', None)
+        model = ARIMA_MODEL(self.training_dataset, order=order)
         self.model = model.fit()  
 
     def TuneModel(self, config: dict):

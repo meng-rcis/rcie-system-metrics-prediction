@@ -4,16 +4,48 @@ import sys
 # Add path to the root folder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 from interface.model import IModel
+import pandas as pd
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+import matplotlib.pyplot as plt
 
 class ETS( IModel ):
     def __init__(self):
+        self.dataset = None
+        self.training_dataset = None
+        self.model = None
+
+    def ConfigModel(
+            self, 
+            dataset: pd.DataFrame, 
+            feature: str, 
+            start_index: int, 
+            end_index: int,
+            prediction_steps: int,
+        ):
+        self.dataset = dataset[feature]
+        self.training_dataset = self.dataset.iloc[start_index:end_index]
+
+    def TrainModel(self, config: dict):
+        """
+        Train an ETS model on a given time series.
+        - series: Pandas Series object representing the time series data.
+        - trend: Type of trend component.
+        - seasonal: Type of seasonal component.
+        - seasonal_periods: The number of periods in a complete seasonal cycle.
+        """
+        trend = config.get('trend', None)
+        seasonal = config.get('seasonal', None)
+        seasonal_periods = config.get('seasonal_periods', None)
+        model = ExponentialSmoothing(
+            self.training_dataset, 
+            trend=trend,
+            seasonal=seasonal,
+            seasonal_periods=seasonal_periods,
+            )
+        self.model = model.fit()
+    
+    def TuneModel(self, config: dict):
         pass
 
-    def TrainModel(self, input):
-        pass
-
-    def TuneModel(self, input):
-        pass
-
-    def Predict(self, input):
-        pass
+    def Predict(self, config: dict) -> pd.DataFrame:
+        return self.model.forecast(steps=config['steps'])
