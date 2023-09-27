@@ -1,4 +1,4 @@
 import pickle
 
-def save_dataset(df):
-    pickle.dump(df, open('../dump/df.p', 'wb'))
+def save_dataset(df, path='../dump/df.p'):
+    pickle.dump(df, open(path, 'wb'))
