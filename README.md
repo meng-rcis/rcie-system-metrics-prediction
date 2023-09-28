@@ -58,4 +58,4 @@ Main Manager
   
 ( training data - to train meta : predict_l1n1, predict_l1n2, predict_l1n3, predict_l2n1, predict_l2n2, predict_l2n3, predict_l3n1, ... )
 
-( training data - to collect after meta predict - to display dashboard : predict_l1n1, predict_l2n1, predict_l3n1, predict_l3n2, predict_l3n3 [latest] )
+( training data - to collect after meta predict - only used to display dashboard : predict_l1n1, predict_l2n1, predict_l3n1, predict_l3n2, predict_l3n3 [latest] )
