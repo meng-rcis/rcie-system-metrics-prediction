@@ -2,10 +2,15 @@ import os
 import sys
 
 # Add path to the root folder
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    )
+)
 from interface.model import IModel
 
-class TreeStack( IModel ):
+
+class TreeStack(IModel):
     def __init__(self):
         pass
 

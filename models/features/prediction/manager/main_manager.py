@@ -2,12 +2,17 @@ import os
 import sys
 
 # Add path to the root folder
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    )
+)
 from manager.data_manager import DataManager
 from putils.calculator import Calculator
 
-class MainManager():
-    def __init__(self, prediction_steps: int = 1, is_update_csv_required: bool =False):
+
+class MainManager:
+    def __init__(self, prediction_steps: int = 1, is_update_csv_required: bool = False):
         self.prediction_steps = prediction_steps
         self.is_update_csv_required = is_update_csv_required
         self.base_models = []
@@ -47,10 +52,10 @@ class MainManager():
 
     def calculateWeight(self):
         print("Calculating weight...")
-        meta_prediction = self.data_manager.ReadCSV('')
+        meta_prediction = self.data_manager.ReadCSV("")
         weights = self.calculator.CalculateWeight(meta_prediction)
         return weights
-    
+
     def trainBaseModels(self):
         print("Training base models...")
         pass
@@ -58,7 +63,7 @@ class MainManager():
     def trainMetaModels(self):
         print("Training meta models...")
         pass
-    
+
     def predictBaseModels(self):
         print("Predicting base models...")
 
@@ -68,8 +73,8 @@ class MainManager():
             # base_model.Predict()
 
             # Write the prediction result into CSV-1 file
-            self.data_manager.WriteCSV('', [], [[]])
-    
+            self.data_manager.WriteCSV("", [], [[]])
+
     def predictMetaModels(self, base_results):
         print("Predicting meta models...")
 
@@ -79,7 +84,7 @@ class MainManager():
             # meta_model.Predict()
 
             # Write the prediction result into CSV-2 file
-            self.data_manager.WriteCSV('', [], [[]])
+            self.data_manager.WriteCSV("", [], [[]])
 
     def predictFinalResultWithWeightAverage(self, meta_results, weights):
         print("Predicting final result...")

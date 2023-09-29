@@ -5,19 +5,22 @@ from typing import Any, List, Dict, Tuple
 import pickle
 import pandas as pd
 
+
 class DataManager:
     def __init__(self):
         pass
-    
+
     @staticmethod
     def ExtractPredictionToCSV(
-        prediction_result: Dict[str, pd.Series], 
-        actual_result: Dict[str, pd.Series], 
-        model_ids: List[str]
-        ) -> Tuple[List[List[Any]], List[str]]:
+        prediction_result: Dict[str, pd.Series],
+        actual_result: Dict[str, pd.Series],
+        model_ids: List[str],
+    ) -> Tuple[List[List[Any]], List[str]]:
         # Get the union of all indices from all Series to ensure we capture all unique indices
-        all_indices = sorted(set().union(*(prediction_result[model_id].index for model_id in model_ids)))
-        
+        all_indices = sorted(
+            set().union(*(prediction_result[model_id].index for model_id in model_ids))
+        )
+
         extracted_data = []
         for idx in all_indices:
             current_row = [idx]  # Start with the index itself
@@ -25,27 +28,26 @@ class DataManager:
                 current_row.append(prediction_result[model_id].get(idx, None))
             current_row.append(actual_result.get(idx, None))
             extracted_data.append(current_row)
-        
+
         # Creating the header
-        header = ['Index'] + model_ids + ['Actual']
+        header = ["Time"] + model_ids + ["Actual"]
         return extracted_data, header
 
-    
     @staticmethod
     def LoadDataset(path: str):
         try:
-            with open(path, 'rb') as file:
-                return pickle.load(open(path, 'rb'))
+            with open(path, "rb") as file:
+                return pickle.load(open(path, "rb"))
         except Exception as e:
             print(f"Error loading dataset from {path}: {e}")
             raise
-    
+
     @staticmethod
     def WriteCSV(path: str, header: List[str], rows: List[List[Any]]):
         # Check if file exists and has content
         file_exists = os.path.exists(path)
-        
-        with open(path, 'a', newline='') as csvfile:
+
+        with open(path, "a", newline="") as csvfile:
             writer = csv.writer(csvfile)
 
             # If file doesn't exist or is empty, write the header
@@ -58,5 +60,3 @@ class DataManager:
     @staticmethod
     def ReadCSV(path: str):
         return pd.read_csv(path)
-    
-    

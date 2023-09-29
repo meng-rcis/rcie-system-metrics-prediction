@@ -1,15 +1,16 @@
 import abc
 import pandas as pd
 
-class IModel( abc.ABC ):
+
+class IModel(abc.ABC):
     @abc.abstractmethod
     def ConfigModel(
-        self, 
-        dataset: pd.DataFrame, 
-        feature: str, 
-        start_index: int, 
-        end_index: int, 
-        prediction_steps: int
+        self,
+        dataset: pd.DataFrame,
+        feature: str,
+        start_index: int,
+        end_index: int,
+        prediction_steps: int,
     ):
         pass
 
@@ -19,10 +20,8 @@ class IModel( abc.ABC ):
 
     @abc.abstractmethod
     def TuneModel(self, config: dict):
-        pass 
+        pass
 
     @abc.abstractmethod
     def Predict(self, config: dict) -> pd.DataFrame:
         pass
-
-

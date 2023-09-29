@@ -2,10 +2,15 @@ import os
 import sys
 
 # Add path to the root folder
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    )
+)
 from interface.model import IModel
 
-class RegressionStack( IModel ):
+
+class RegressionStack(IModel):
     def __init__(self):
         pass
 
