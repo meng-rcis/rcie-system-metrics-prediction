@@ -7,7 +7,7 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from pconstant.models_id import ARIMA, ETS
+from pconstant.models_id import ARIMA, ETS, PROPHET
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
@@ -24,7 +24,7 @@ PREDICTION_ETS_CONFIG = {}
 PREDICTION_PROPHET_CONFIG = {}
 
 # NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [ARIMA, ETS]
+BASE_MODELS_IDS = [PROPHET]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = []
