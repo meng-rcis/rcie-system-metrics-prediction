@@ -26,7 +26,10 @@ class ARIMA(IModel):
         end_index: int,
         prediction_steps: int,
     ):
-        self.dataset = dataset[feature]
+        # Copy dataset to avoid changing the original dataset
+        cp_dataset = dataset.copy()
+        # Set up configuration
+        self.dataset = cp_dataset[feature]
         self.training_dataset = self.dataset.iloc[start_index:end_index]
 
     def TrainModel(self, config: dict):

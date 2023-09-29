@@ -26,7 +26,10 @@ class ETS(IModel):
         end_index: int,
         prediction_steps: int,
     ):
-        self.dataset = dataset[feature]
+        # Copy dataset to avoid changing the original dataset
+        cp_dataset = dataset.copy()
+        # Set up configuration
+        self.dataset = cp_dataset[feature]
         self.training_dataset = self.dataset.iloc[start_index:end_index]
 
     def TrainModel(self, config: dict):
@@ -52,4 +55,6 @@ class ETS(IModel):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
-        return self.model.forecast(steps=config["steps"])
+        prediction = self.model.forecast(steps=config["steps"])
+        print("ETS prediction: ", prediction)
+        return prediction
