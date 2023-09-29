@@ -13,7 +13,7 @@ from config.control import IS_FILTERED
 META_FILE = "meta_df_filtered.csv" if IS_FILTERED else "meta_df.csv"
 
 # Define meta training dataset path
-META_TRAINING_PATH = "models/features/source/training/" + META_FILE
+META_TRAINING_PATH = "models/features/source/meta_training_dataset/" + META_FILE
 
 # Define base training dataset path
 DATASET_PATH = "dump/"
