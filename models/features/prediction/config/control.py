@@ -44,3 +44,6 @@ INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
 INITIAL_META_TRAINING_SIZE = 100
+
+# NOTE: Use filter (reduce noise) or not
+IS_FILTERED = True

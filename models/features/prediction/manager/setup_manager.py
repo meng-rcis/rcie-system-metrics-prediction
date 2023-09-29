@@ -11,6 +11,8 @@ from manager.data_manager import DataManager
 from gateway.layer_1 import GatewayL1
 import pandas as pd
 
+from config.path import DATASET_PATH
+
 
 class SetupManager:
     def __init__(
@@ -22,6 +24,7 @@ class SetupManager:
         initial_base_training_size: int = 100,
         initial_meta_training_size: int = 10,
         prediction_steps: int = 1,
+        is_filtered: bool = False,
     ):
         self.dataset = dataset
         self.selected_feature = selected_feature
@@ -32,6 +35,12 @@ class SetupManager:
         self.initial_meta_training_size = initial_meta_training_size
         self.prediction_steps = prediction_steps
         self.base_model_ids = base_model_ids
+        self.is_filtered = is_filtered
+        self.before_filter_dataset = (
+            self.data_manager.LoadDataset(DATASET_PATH + "df.p")
+            if is_filtered
+            else None
+        )
 
     def PrepareMetaModelDataset(self):
         # Check dataset has enough rows for training
@@ -62,15 +71,23 @@ class SetupManager:
             actual_result = self.dataset[self.selected_feature].iloc[
                 last_training_index : last_training_index + self.prediction_steps
             ]
+            before_filter_result = None
+            if self.is_filtered:
+                before_filter_result = self.before_filter_dataset[
+                    self.selected_feature
+                ].iloc[
+                    last_training_index : last_training_index + self.prediction_steps
+                ]
 
             # Extract the prediction result into CSV format
             print(
                 f"[In Progress Loop - {count}] Extracting the prediction result into CSV format..."
             )
             rows, header = self.data_manager.ExtractPredictionToCSV(
-                prediction_result,
-                actual_result,
-                self.base_model_ids,
+                prediction_result=prediction_result,
+                actual_result=actual_result,
+                model_ids=self.base_model_ids,
+                before_filter_dataset=before_filter_result,
             )
 
             # Write the prediction result into CSV file

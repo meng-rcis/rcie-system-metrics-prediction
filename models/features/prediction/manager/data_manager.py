@@ -2,7 +2,6 @@ import os
 import csv
 
 from typing import Any, List, Dict, Tuple
-from datetime import datetime
 import pickle
 import pandas as pd
 
@@ -16,6 +15,7 @@ class DataManager:
         prediction_result: Dict[str, pd.Series],
         actual_result: Dict[str, pd.Series],
         model_ids: List[str],
+        before_filter_dataset: Dict[str, pd.Series] = None,
     ) -> Tuple[List[List[Any]], List[str]]:
         # Get the union of all indices from all Series to ensure we capture all unique indices
         all_indices = sorted(
@@ -30,8 +30,12 @@ class DataManager:
             current_row.append(actual_result.get(str(idx), None))
             extracted_data.append(current_row)
 
+            if before_filter_dataset is not None:
+                current_row.append(before_filter_dataset.get(str(idx), None))
+
         # Creating the header
         header = ["Time"] + model_ids + ["Actual"]
+        header = header + ["Raw"] if before_filter_dataset is not None else header
         return extracted_data, header
 
     @staticmethod
