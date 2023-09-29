@@ -2,6 +2,7 @@ import os
 import csv
 
 from typing import Any, List, Dict, Tuple
+from datetime import datetime
 import pickle
 import pandas as pd
 
@@ -26,7 +27,7 @@ class DataManager:
             current_row = [idx]  # Start with the index itself
             for model_id in model_ids:
                 current_row.append(prediction_result[model_id].get(idx, None))
-            current_row.append(actual_result.get(idx, None))
+            current_row.append(actual_result.get(str(idx), None))
             extracted_data.append(current_row)
 
         # Creating the header
