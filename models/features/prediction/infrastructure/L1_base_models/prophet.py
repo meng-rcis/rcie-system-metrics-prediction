@@ -7,10 +7,11 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from constant.columns import INDEX_COL
+from constant.columns import INDEX_COL, FREQUENCY
 from interface.model import IModel
 from prophet import Prophet as Prophet_MODEL
 import pandas as pd
+import logging
 
 
 class Prophet(IModel):
@@ -29,11 +30,17 @@ class Prophet(IModel):
         end_index: int,
         prediction_steps: int,
     ):
-        dataset.reset_index(inplace=True)
+        # Suppress cmdstanpy INFO log messages
+        logging.getLogger("cmdstanpy").setLevel(logging.WARNING)
+        # Copy dataset to avoid changing the original dataset
+        cp_dataset = dataset.copy()
+        cp_dataset.reset_index(inplace=True)
+        # Set up configuration
         self.feature = feature
-        self.dataset = dataset[[INDEX_COL, feature]]
+        self.dataset = cp_dataset[[INDEX_COL, feature]]
         df_prophet = self.dataset.rename(columns={INDEX_COL: "ds", feature: "y"})
         self.training_dataset = df_prophet[start_index:end_index]
+        self.prediction_steps = prediction_steps
 
     def TrainModel(self, config: dict):
         self.model = Prophet_MODEL()
@@ -43,11 +50,13 @@ class Prophet(IModel):
         pass
 
     def Predict(self, config: dict):
-        future = self.model.make_future_dataframe(periods=config["steps"])
+        future = self.model.make_future_dataframe(
+            periods=config["steps"], freq=FREQUENCY
+        )
         forecast = self.model.predict(future)
         forecast.rename(columns={"yhat": self.feature, "ds": INDEX_COL}, inplace=True)
         forecast.set_index(INDEX_COL, inplace=True)
-        # Only select the last 'config["steps"]' rows for prediction
-        prediction = forecast.iloc[-config["steps"] :][[self.feature]]
-        print("prophet prediction: ", prediction)
+        prediction = forecast.iloc[-config["steps"] :][
+            [self.feature]
+        ]  # Only select the last prediction steps
         return prediction

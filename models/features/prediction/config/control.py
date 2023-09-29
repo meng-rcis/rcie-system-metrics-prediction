@@ -24,7 +24,7 @@ PREDICTION_ETS_CONFIG = {}
 PREDICTION_PROPHET_CONFIG = {}
 
 # NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [PROPHET]
+BASE_MODELS_IDS = [ARIMA, ETS, PROPHET]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = []
@@ -46,4 +46,4 @@ INITIAL_BASE_TRAINING_SIZE = 1000
 INITIAL_META_TRAINING_SIZE = 100
 
 # NOTE: Use filter (reduce noise) or not
-IS_FILTERED = True
+IS_FILTERED = False
