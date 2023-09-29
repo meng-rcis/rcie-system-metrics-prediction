@@ -8,7 +8,7 @@ COLS = [
     "tps",
     "tps_error",
     "response_time",
-    "status"
+    "status",
 ]
 
 FEATURES = [
@@ -17,7 +17,11 @@ FEATURES = [
     "bandwidth_inbound",
     "bandwidth_outbound",
     "tps",
-    "response_time"
+    "response_time",
 ]
 
 LABEL = ["status"]
+
+INDEX_COL = "time"
+
+FREQUENCY = "5S"
