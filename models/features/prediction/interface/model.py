@@ -3,7 +3,14 @@ import pandas as pd
 
 class IModel( abc.ABC ):
     @abc.abstractmethod
-    def ConfigModel(self, dataset: pd.DataFrame, feature: str, start_index: int, end_index: int, prediction_steps: int):
+    def ConfigModel(
+        self, 
+        dataset: pd.DataFrame, 
+        feature: str, 
+        start_index: int, 
+        end_index: int, 
+        prediction_steps: int
+    ):
         pass
 
     @abc.abstractmethod
