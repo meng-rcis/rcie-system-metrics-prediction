@@ -56,5 +56,4 @@ class ETS(IModel):
 
     def Predict(self, config: dict) -> pd.DataFrame:
         prediction = self.model.forecast(steps=config["steps"])
-        print("ETS prediction: ", prediction)
         return prediction
