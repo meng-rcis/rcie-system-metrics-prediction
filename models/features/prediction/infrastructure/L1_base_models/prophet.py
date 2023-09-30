@@ -50,13 +50,12 @@ class Prophet(IModel):
         pass
 
     def Predict(self, config: dict):
-        future = self.model.make_future_dataframe(
-            periods=config["steps"], freq=FREQUENCY
-        )
+        steps = config.get("steps", 1)
+        future = self.model.make_future_dataframe(periods=steps, freq=FREQUENCY)
         forecast = self.model.predict(future)
         forecast.rename(columns={"yhat": self.feature, "ds": INDEX_COL}, inplace=True)
         forecast.set_index(INDEX_COL, inplace=True)
-        prediction = forecast.iloc[-config["steps"] :][
+        prediction = forecast.iloc[-steps:][
             [self.feature]
         ]  # Only select the last prediction steps
         return prediction
