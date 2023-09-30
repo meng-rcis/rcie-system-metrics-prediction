@@ -15,9 +15,11 @@ from config.control import (
     SETUP_ARIMA_CONFIG,
     SETUP_ETS_CONFIG,
     SETUP_PROPHET_CONFIG,
+    SETUP_LSTM_CONFIG,
     PREDICTION_ARIMA_CONFIG,
     PREDICTION_ETS_CONFIG,
     PREDICTION_PROPHET_CONFIG,
+    PREDICTION_LSTM_CONFIG,
 )
 import pconstant.models_id as models_id
 import pandas as pd
@@ -61,6 +63,8 @@ class GatewayL1:
             return SETUP_ETS_CONFIG
         elif model_id == models_id.PROPHET:
             return SETUP_PROPHET_CONFIG
+        elif model_id == models_id.LSTM:
+            return SETUP_LSTM_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
 
@@ -72,6 +76,8 @@ class GatewayL1:
             return PREDICTION_ETS_CONFIG
         elif model_id == models_id.PROPHET:
             return PREDICTION_PROPHET_CONFIG
+        elif model_id == models_id.LSTM:
+            return PREDICTION_LSTM_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
 
