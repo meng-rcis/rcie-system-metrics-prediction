@@ -55,5 +55,6 @@ class ETS(IModel):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
-        prediction = self.model.forecast(steps=config["steps"])
+        steps = config.get("steps", 1)
+        prediction = self.model.forecast(steps=steps)
         return prediction

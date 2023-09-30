@@ -46,4 +46,5 @@ class ARIMA(IModel):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
-        return self.model.forecast(steps=config["steps"])
+        steps = config.get("steps", 1)
+        return self.model.forecast(steps=steps)
