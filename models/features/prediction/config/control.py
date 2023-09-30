@@ -7,27 +7,7 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from pconstant.models_id import ARIMA, ETS, PROPHET
-
-# NOTE: Define the default setup configuration (hyperparameter) of each model here
-SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
-SETUP_ETS_CONFIG = {
-    "trend": "add",
-    "seasonal": "add",
-    "seasonal_periods": 12,
-}  # 12 -> 12 * 5 seconds = 1 minute
-SETUP_PROPHET_CONFIG = {}
-
-# NOTE: Define the default prediction configuration of each model here
-PREDICTION_ARIMA_CONFIG = {}
-PREDICTION_ETS_CONFIG = {}
-PREDICTION_PROPHET_CONFIG = {}
-
-# NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [ARIMA, ETS, PROPHET]
-
-# NOTE: Define the list of meta model ids here
-META_MODELS_IDS = []
+from pconstant.models_id import ARIMA, ETS, LSTM
 
 # NOTE: Define the selected feature to be predicted here
 # FEATURES = ["cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"]
@@ -47,3 +27,35 @@ INITIAL_META_TRAINING_SIZE = 100
 
 # NOTE: Use filter (reduce noise) or not
 IS_FILTERED = False
+
+# NOTE: Define the default setup configuration (hyperparameter) of each model here
+SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
+SETUP_ETS_CONFIG = {
+    "trend": "add",
+    "seasonal": "add",
+    "seasonal_periods": 12,
+}  # 12 -> 12 * 5 seconds = 1 minute
+SETUP_PROPHET_CONFIG = {}
+SETUP_LSTM_CONFIG = {
+    "seq_length": 10,
+    "steps": PREDICTION_STEPS,
+    "epochs": 300,
+    "verbose": 1,
+}
+
+# NOTE: Define the default prediction configuration of each model here
+PREDICTION_ARIMA_CONFIG = {}
+PREDICTION_ETS_CONFIG = {}
+PREDICTION_PROPHET_CONFIG = {}
+PREDICTION_LSTM_CONFIG = {
+    "seq_length": SETUP_LSTM_CONFIG.get("seq_length", 10),
+    "steps": SETUP_LSTM_CONFIG.get("steps", PREDICTION_STEPS),
+    "verbose": 0,
+}
+
+
+# NOTE: Define the list of base model ids here
+BASE_MODELS_IDS = [ARIMA, ETS, LSTM]
+
+# NOTE: Define the list of meta model ids here
+META_MODELS_IDS = []
