@@ -15,7 +15,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 
 
-class ETS(IModel):
+class LSTM(IModel):
     def __init__(self):
         self.dataset = None
         self.training_dataset = None
@@ -73,7 +73,8 @@ class ETS(IModel):
         yhat = self.model.predict(x_input, verbose=verbose)
         # Invert scaling
         yhat_original = self.scaler.inverse_transform(yhat)
-        return yhat_original[0, 0]
+        prediction = yhat_original[0, 0]
+        return prediction
 
     # Preprocess data for LSTM
     def create_sequences(data, seq_length, steps_ahead):
