@@ -11,6 +11,7 @@ from interface.model import IModel
 from infrastructure.L1_base_models.arima import ARIMA
 from infrastructure.L1_base_models.ets import ETS
 from infrastructure.L1_base_models.prophet import Prophet
+from infrastructure.L1_base_models.lstm import LSTM
 from config.control import (
     SETUP_ARIMA_CONFIG,
     SETUP_ETS_CONFIG,
@@ -52,6 +53,8 @@ class GatewayL1:
             return ETS()
         elif model_id == models_id.PROPHET:
             return Prophet()
+        elif model_id == models_id.LSTM:
+            return LSTM()
 
         raise Exception("Model ID not found: ", model_id)
 
