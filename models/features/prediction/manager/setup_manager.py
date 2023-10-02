@@ -55,8 +55,8 @@ class SetupManager:
         while meta_total_rows < self.initial_meta_training_size:
             # Train base models
             print(f"[In Progress Loop - {count}] Training base models...")
-            first_training_index = 0  # Training the model with cumulative dataset 
-            last_training_index = meta_total_rows + self.initial_base_training_size
+            first_training_index = 0  # Training the model with cumulative dataset (To-do: update first_training_index as constant)  
+            last_training_index = first_training_index + meta_total_rows + self.initial_base_training_size
             self.base_gateway.TrainModels(
                 dataset=self.dataset,
                 feature=self.selected_feature,
