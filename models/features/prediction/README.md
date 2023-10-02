@@ -1,4 +1,4 @@
-### Folder Structure
+### Folder Structure (To-do: update folder structure)
 
 ```
 ├── README.md          <- The top-level README for developers using this project.
