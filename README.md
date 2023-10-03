@@ -42,6 +42,10 @@ VAR is specifically designed for multivariate time series. It uses a set number 
 
 ## Note - v2 (current)
 
+### Project Structure
+
+- To-do: Add later on
+
 ### Project Directory
 
 Main file located at `models/predictions/features/main.py`
