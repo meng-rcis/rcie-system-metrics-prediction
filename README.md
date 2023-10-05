@@ -8,7 +8,7 @@
 cd D:\nuttchai\dev\Projects\rcie\repo\rcie-system-metrics-prediction; jupyter notebook
 ```
 
-## Note - v1 (Archive)
+## Note - v1 (Archived)
 
 1. Single input, single output - SISO (Univariate time series forecasting): Here, you're using past values of a single time series to predict future values of the same time series.
 
