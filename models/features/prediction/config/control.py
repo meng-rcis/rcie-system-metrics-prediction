@@ -26,7 +26,7 @@ INITIAL_BASE_TRAINING_SIZE = 1000
 INITIAL_META_TRAINING_SIZE = 100
 
 # NOTE: Use filter (reduce noise) or not
-IS_FILTERED = False
+IS_FILTERED = True
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
@@ -39,8 +39,8 @@ SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
     "seq_length": 10,
     "steps": PREDICTION_STEPS,
-    "epochs": 300,
-    "verbose": 1,
+    "epochs": 3,
+    "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
 }
 
 # NOTE: Define the default prediction configuration of each model here
@@ -50,7 +50,7 @@ PREDICTION_PROPHET_CONFIG = {}
 PREDICTION_LSTM_CONFIG = {
     "seq_length": SETUP_LSTM_CONFIG.get("seq_length", 10),
     "steps": SETUP_LSTM_CONFIG.get("steps", PREDICTION_STEPS),
-    "verbose": 0,
+    "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
 }
 
 
