@@ -54,12 +54,13 @@ class LSTM(IModel):
         model.add(keras.layers.LSTM(50, activation="relu", input_shape=(X.shape[1], 1)))
         model.add(keras.layers.Dense(1))
         model.compile(optimizer="adam", loss="mse")
+        self.model = model
         # Reshape input for LSTM
         X = X.reshape((X.shape[0], X.shape[1], 1))
         # Train the model
         epochs = config.get("epochs", 1)
         verbose = config.get("verbose", "auto")
-        self.model = model.fit(X, y, epochs=epochs, verbose=verbose)
+        model.fit(X, y, epochs=epochs, verbose=verbose)
 
     def TuneModel(self, config: dict):
         pass
@@ -68,16 +69,15 @@ class LSTM(IModel):
         seq_length = config.get("seq_length", self.default_seq_length)
         verbose = config.get("verbose", "auto")
         # Forecast
-        x_input = self.training_dataset.values[-seq_length:]  # Last sequence in data
+        x_input = self.training_dataset[-seq_length:]  # Last sequence in data
         x_input = x_input.reshape((1, seq_length, 1))  # Reshape for LSTM
         yhat = self.model.predict(x_input, verbose=verbose)
         # Invert scaling
         yhat_original = self.scaler.inverse_transform(yhat)
-        prediction = yhat_original[0, 0]
-        return prediction
+        return yhat_original[0, 0]
 
     # Preprocess data for LSTM
-    def create_sequences(data, seq_length, steps_ahead):
+    def create_sequences(self, data, seq_length, steps_ahead):
         sequences, target = [], []
         for i in range(len(data) - seq_length - steps_ahead + 1):
             sequences.append(data[i : (i + seq_length)])
