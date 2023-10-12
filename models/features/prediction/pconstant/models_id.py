@@ -1,10 +1,10 @@
 # Base Models
-ARIMA = "ARIMA"
+ARIMA = "ARIMA"  # done
 SARIMA = "SARIMA"
 SARIMAX = "SARIMAX"
-ETS = "ETS"
-PROPHET = "PROPHET"
-LSTM = "LSTM"
+ETS = "ETS"  # done
+PROPHET = "PROPHET"  # done
+LSTM = "LSTM"  # done
 CNN = "CNN"
 RNN = "RNN"
 GRU = "GRU"
