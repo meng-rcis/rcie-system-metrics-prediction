@@ -1,6 +1,6 @@
 # rcie-system-metrics-prediction
 
-## Command to run jupyter notebook.
+## Command to run jupyter notebook
 
 ### Windows
 
