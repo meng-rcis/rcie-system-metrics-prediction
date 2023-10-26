@@ -20,6 +20,7 @@ class SetupManager:
         dataset: pd.DataFrame,
         selected_feature: str,
         meta_training_path: str,
+        meta_archive_directory: str,
         base_model_ids: list[str],
         initial_base_training_size: int = 100,
         initial_meta_training_size: int = 10,
@@ -29,6 +30,7 @@ class SetupManager:
         self.dataset = dataset
         self.selected_feature = selected_feature
         self.meta_training_path = meta_training_path
+        self.meta_archive_directory = meta_archive_directory
         self.data_manager = DataManager()
         self.base_gateway = GatewayL1(base_model_ids)
         self.initial_base_training_size = initial_base_training_size
@@ -49,14 +51,21 @@ class SetupManager:
                 "Dataset does not have enough rows for training. Please check the dataset."
             )
 
+        # Remove files in meta_training_path
+        self.data_manager.RemoveCSV(
+            self.meta_training_path, self.meta_archive_directory
+        )
+
         # Loop to split dataset with given number of rows
         meta_total_rows = 0
         count = 0
         while meta_total_rows < self.initial_meta_training_size:
             # Train base models
             print(f"[In Progress Loop - {count}] Training base models...")
-            first_training_index = 0  # Training the model with cumulative dataset (To-do: update first_training_index as constant)  
-            last_training_index = first_training_index + meta_total_rows + self.initial_base_training_size
+            first_training_index = 0  # Training the model with cumulative dataset (To-do: update first_training_index as constant)
+            last_training_index = (
+                first_training_index + meta_total_rows + self.initial_base_training_size
+            )
             self.base_gateway.TrainModels(
                 dataset=self.dataset,
                 feature=self.selected_feature,

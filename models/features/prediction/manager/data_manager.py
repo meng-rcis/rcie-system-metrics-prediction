@@ -1,9 +1,10 @@
 import os
 import csv
+import pandas as pd
+import pickle
+import shutil
 
 from typing import Any, List, Dict, Tuple
-import pickle
-import pandas as pd
 
 
 class DataManager:
@@ -65,3 +66,38 @@ class DataManager:
     @staticmethod
     def ReadCSV(path: str):
         return pd.read_csv(path)
+
+    @staticmethod
+    def RemoveCSV(file_path: str, dest_directory: str):
+        # Extract the file name from the path
+        file_name = os.path.basename(file_path)
+        dest_path = os.path.join(dest_directory, file_name)
+
+        # Ensure the destination directory exists
+        if not os.path.exists(dest_directory):
+            os.makedirs(dest_directory)
+
+        # Copy the file to the new directory
+        try:
+            shutil.copy(file_path, dest_path)
+            print(f"File '{file_path}' copied to '{dest_path}'!")
+        except FileNotFoundError:
+            print(f"File '{file_path}' not found!")
+            return
+        except PermissionError:
+            print(f"Permission denied to copy file '{file_path}' to '{dest_path}'!")
+            return
+        except Exception as e:
+            print(f"An error occurred while copying: {e}")
+            return
+
+        # Remove the original file
+        try:
+            os.remove(file_path)
+            print(f"File '{file_path}' removed successfully!")
+        except FileNotFoundError:
+            print(f"File '{file_path}' not found!")
+        except PermissionError:
+            print(f"Permission denied to remove file '{file_path}'!")
+        except Exception as e:
+            print(f"An error occurred while removing: {e}")

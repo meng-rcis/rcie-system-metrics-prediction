@@ -18,7 +18,7 @@ from config.control import (
     INITIAL_META_TRAINING_SIZE,
     IS_FILTERED,
 )
-from config.path import META_TRAINING_PATH, DATASET_PATH
+from config.path import META_TRAINING_PATH, META_ARCHIVE_DIRECTORY, DATASET_PATH
 
 
 def main():
@@ -33,6 +33,7 @@ def main():
             dataset=DataManagerInstance.LoadDataset(datasetPath),
             selected_feature=SELECTED_FEATURE,
             meta_training_path=META_TRAINING_PATH,
+            meta_archive_directory=META_ARCHIVE_DIRECTORY,
             base_model_ids=BASE_MODELS_IDS,
             prediction_steps=PREDICTION_STEPS,
             initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
