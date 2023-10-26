@@ -52,9 +52,7 @@ class SetupManager:
             )
 
         # Remove files in meta_training_path
-        self.data_manager.RemoveCSV(
-            self.meta_training_path, self.meta_archive_directory
-        )
+        self.data_manager.MoveCSV(self.meta_training_path, self.meta_archive_directory)
 
         # Loop to split dataset with given number of rows
         meta_total_rows = 0

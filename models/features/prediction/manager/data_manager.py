@@ -68,7 +68,12 @@ class DataManager:
         return pd.read_csv(path)
 
     @staticmethod
-    def RemoveCSV(file_path: str, dest_directory: str):
+    def MoveCSV(file_path: str, dest_directory: str):
+        # Check if the file exists
+        if not os.path.exists(file_path):
+            print(f"File '{file_path}' not found!")
+            return
+
         # Extract the file name from the path
         file_name = os.path.basename(file_path)
         dest_path = os.path.join(dest_directory, file_name)
@@ -77,27 +82,11 @@ class DataManager:
         if not os.path.exists(dest_directory):
             os.makedirs(dest_directory)
 
-        # Copy the file to the new directory
+        # Move the file to the new directory
         try:
-            shutil.copy(file_path, dest_path)
-            print(f"File '{file_path}' copied to '{dest_path}'!")
-        except FileNotFoundError:
-            print(f"File '{file_path}' not found!")
-            return
+            shutil.move(file_path, dest_path)
+            print(f"File '{file_path}' moved to '{dest_path}'!")
         except PermissionError:
-            print(f"Permission denied to copy file '{file_path}' to '{dest_path}'!")
-            return
+            print(f"Permission denied to move file '{file_path}' to '{dest_path}'!")
         except Exception as e:
-            print(f"An error occurred while copying: {e}")
-            return
-
-        # Remove the original file
-        try:
-            os.remove(file_path)
-            print(f"File '{file_path}' removed successfully!")
-        except FileNotFoundError:
-            print(f"File '{file_path}' not found!")
-        except PermissionError:
-            print(f"Permission denied to remove file '{file_path}'!")
-        except Exception as e:
-            print(f"An error occurred while removing: {e}")
+            print(f"An error occurred while moving: {e}")
