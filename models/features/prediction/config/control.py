@@ -16,8 +16,13 @@ SELECTED_FEATURE = "cpu_usage"
 # NOTE: Define the number of steps to be predicted here
 PREDICTION_STEPS = 2
 
-# NOTE: Define the number of recreation model steps here (not used yet)
-RECREATION_MODEL_STEPS = 2  # Should be time interval
+# NOTE: Define the time (units -> milliseconds) that the model will predict again (not used yet)
+# STEP:
+# - Update actual + raw (filtered case) data in source meta training data (from k to t points)
+# - Train meta models (from 0 to t points)
+# - Predict new data with PREDICTION_STEPS by meta models (from t to t + PREDICTION_STEPS points)
+# - Update predicted data in source meta training data (from t to t + PREDICTION_STEPS points)
+PREDICTION_TIME = 2  # Should be time interval
 
 # NOTE: Define the number of initial base training size here
 INITIAL_BASE_TRAINING_SIZE = 1000
@@ -37,7 +42,7 @@ SETUP_ETS_CONFIG = {
 }  # 12 -> 12 * 5 seconds = 1 minute
 SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
-    "seq_length": 10,
+    "n_past": 10,
     "steps": PREDICTION_STEPS,
     "epochs": 3,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
@@ -48,7 +53,7 @@ PREDICTION_ARIMA_CONFIG = {}
 PREDICTION_ETS_CONFIG = {}
 PREDICTION_PROPHET_CONFIG = {}
 PREDICTION_LSTM_CONFIG = {
-    "seq_length": SETUP_LSTM_CONFIG.get("seq_length", 10),
+    "n_past": SETUP_LSTM_CONFIG.get("n_past", 10),
     "steps": SETUP_LSTM_CONFIG.get("steps", PREDICTION_STEPS),
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
 }
