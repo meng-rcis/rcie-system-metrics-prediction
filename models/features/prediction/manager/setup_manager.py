@@ -51,7 +51,7 @@ class SetupManager:
                 "Dataset does not have enough rows for training. Please check the dataset."
             )
 
-        # Remove files in meta_training_path
+        # Move the outdated training file to archive directory
         self.data_manager.MoveCSV(self.meta_training_path, self.meta_archive_directory)
 
         # Loop to split dataset with given number of rows
@@ -114,6 +114,7 @@ class SetupManager:
                 f"[In Progress Loop - {count}] number of rows in meta dataset: ",
                 meta_total_rows,
             )
+            return
 
         # Print the result
         print("[Complete] number of rows in meta dataset: ", meta_total_rows)
