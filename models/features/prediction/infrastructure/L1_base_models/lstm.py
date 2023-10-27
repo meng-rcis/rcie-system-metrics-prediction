@@ -9,21 +9,26 @@ sys.path.append(
 )
 import pandas as pd
 import numpy as np
+from constant.columns import FREQUENCY
+from pconstant.models_id import LSTM as LSTM_ID
 from interface.model import IModel
 
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
+from keras.models import Sequential
+from keras.layers import Dense, LSTM as Layer_LSTM
 
 
 class LSTM(IModel):
     def __init__(self):
         self.dataset = None
         self.training_dataset = None
+        self.scaled_training_dataset = None
         self.model = None
         self.feature = None
         self.default_prediction_steps = 1
-        self.default_seq_length = 5
-        self.scaler = MinMaxScaler()
+        self.default_n_past = 5
+        self.scaler = MinMaxScaler(feature_range=(0, 1))
 
     def ConfigModel(
         self,
@@ -42,44 +47,73 @@ class LSTM(IModel):
 
     def TrainModel(self, config: dict):
         # Normalize data
-        self.training_dataset = self.scaler.fit_transform(
+        self.scaled_training_dataset = self.scaler.fit_transform(
             self.training_dataset.values.reshape(-1, 1)
         )
         # Group data for LSTM
-        steps_ahead = config.get("steps", self.default_prediction_steps)
-        seq_length = config.get("seq_length", self.default_seq_length)
-        X, y = self.create_sequences(self.training_dataset, seq_length, steps_ahead)
+        X, y = self.create_sequences(
+            self.scaled_training_dataset,
+            config.get("n_past", self.default_n_past),
+            config.get("steps", self.default_prediction_steps),
+        )
+        # print("Data:", self.scaled_training_dataset[0:20])
+        # print("X:", X[0])
+        # print("Y:", y[0])
+        # print("INVERTED Y:", self.scaler.inverse_transform([y[0]]))
         # LSTM Model
-        model = keras.models.Sequential()
-        model.add(keras.layers.LSTM(50, activation="relu", input_shape=(X.shape[1], 1)))
-        model.add(keras.layers.Dense(1))
+        model = Sequential()
+        model.add(
+            Layer_LSTM(
+                64,
+                activation="relu",
+                input_shape=(X.shape[1], X.shape[2]),
+                return_sequences=True,
+            )
+        )
+        model.add(Layer_LSTM(32, activation="relu", return_sequences=False))
+        model.add(Dense(y.shape[1]))
         model.compile(optimizer="adam", loss="mse")
         self.model = model
-        # Reshape input for LSTM
-        X = X.reshape((X.shape[0], X.shape[1], 1))
         # Train the model
-        epochs = config.get("epochs", 1)
-        verbose = config.get("verbose", "auto")
-        model.fit(X, y, epochs=epochs, verbose=verbose)
+        model.fit(
+            X,
+            y,
+            epochs=config.get("epochs", 1),
+            verbose=config.get("verbose", "auto"),
+            batch_size=config.get("batch_size", 32),
+            validation_split=config.get("validation_split", 0.2),
+        )
 
     def TuneModel(self, config: dict):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
-        seq_length = config.get("seq_length", self.default_seq_length)
+        n_past = config.get("n_past", self.default_n_past)
         verbose = config.get("verbose", "auto")
         # Forecast
-        x_input = self.training_dataset[-seq_length:]  # Last sequence in data
-        x_input = x_input.reshape((1, seq_length, 1))  # Reshape for LSTM
-        yhat = self.model.predict(x_input, verbose=verbose)
+        x_input = self.training_dataset[-n_past:]  # Last sequence in data
+        x_input_values = x_input.values.reshape((1, n_past, 1))  # Reshape for LSTM
+        yhat = self.model.predict(x_input_values, verbose=verbose)
         # Invert scaling
         yhat_original = self.scaler.inverse_transform(yhat)
-        return yhat_original[0, 0]
+        # Get the last datetime from the training dataset
+        last_datetime = x_input.index[-1]
+        # Calculate the datetime values for the predicted results
+        # Assuming your data has a frequency of 5 seconds (as per your previous example)
+        prediction_datetimes = pd.date_range(
+            start=last_datetime, periods=len(yhat_original[0]) + 1, freq=FREQUENCY
+        )[1:]
+        # Convert the prediction results to a DataFrame with the calculated datetime index
+        prediction_df = pd.DataFrame(
+            yhat_original[0], columns=[LSTM_ID], index=prediction_datetimes
+        )
+        return prediction_df
 
     # Preprocess data for LSTM
-    def create_sequences(self, data, seq_length, steps_ahead):
-        sequences, target = [], []
-        for i in range(len(data) - seq_length - steps_ahead + 1):
-            sequences.append(data[i : (i + seq_length)])
-            target.append(data[i + seq_length + steps_ahead - 1])
-        return np.array(sequences), np.array(target)
+    def create_sequences(self, input, n_past, n_future):
+        X, y = [], []
+        # For each time step
+        for i in range(n_past, len(input) - n_future + 1):
+            X.append(input[i - n_past : i, :])
+            y.append(input[i : i + n_future, 0])
+        return np.array(X), np.array(y)
