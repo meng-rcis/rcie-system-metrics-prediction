@@ -48,7 +48,7 @@ class SetupManager:
     def PrepareMetaModelDataset(self):
         # Check dataset has enough rows for training
         if self.isDatasetValid() == False:
-            error_message = "Dataset does not have enough rows for training"
+            error_message = "Not Enough Rows for Training Base Models"
             raise Exception(error_message)
 
         # Move the outdated training file to archive directory
@@ -60,7 +60,7 @@ class SetupManager:
 
         while meta_total_rows < self.initial_meta_training_size:
             # Train base models
-            print_loop_message(count, "Training base models...")
+            print_loop_message(count, "Training Base Models...")
             first_training_index = 0  # Training the model with cumulative dataset (To-do: update first_training_index as constant)
             last_training_index = (
                 first_training_index + meta_total_rows + self.initial_base_training_size
@@ -74,7 +74,7 @@ class SetupManager:
             )
 
             # Predict the next step using prediction_steps based on the base models
-            print_loop_message(count, "Predicting the result...")
+            print_loop_message(count, "Predicting Result...")
             prediction_result = self.base_gateway.Predict(steps=self.prediction_steps)
             actual_result = self.dataset[self.selected_feature].iloc[
                 last_training_index : last_training_index + self.prediction_steps
@@ -88,7 +88,7 @@ class SetupManager:
                 ]
 
             # Extract the prediction result into CSV format
-            print_loop_message(count, "Extracting data into CSV format...")
+            print_loop_message(count, "Extracting Result into CSV Format...")
             print("prediction_result: ", prediction_result)
             print("actual_result: ", actual_result)
             rows, header = self.data_manager.ExtractPredictionToCSV(
@@ -99,7 +99,7 @@ class SetupManager:
             )
 
             # Write the prediction result into CSV file
-            print_loop_message(count, "Writing data into CSV...")
+            print_loop_message(count, "Writing Result into CSV...")
             self.data_manager.WriteCSV(
                 path=self.meta_training_path, header=header, rows=rows
             )
@@ -109,7 +109,7 @@ class SetupManager:
             count += 1
 
             # Print the increase result
-            print_loop_message(count, "Number of meta dataset rows...", meta_total_rows)
+            print_loop_message(count, "Number of Meta Rows:", meta_total_rows, "\n")
 
         # Print the result
         print(
