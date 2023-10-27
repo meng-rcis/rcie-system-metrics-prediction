@@ -110,8 +110,9 @@ class SetupManager:
 
             # Increment meta_total_rows by the number of added rows
             meta_total_rows += self.prediction_steps
-            count += 1
             print_loop_message(count, "Number of Meta Rows:", meta_total_rows, "\n")
+
+            count += 1
 
         print("[Complete] Meta Dataset Located At:", self.meta_training_path)
 
