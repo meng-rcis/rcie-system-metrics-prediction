@@ -56,10 +56,6 @@ class LSTM(IModel):
             config.get("n_past", self.default_n_past),
             config.get("steps", self.default_prediction_steps),
         )
-        # print("Data:", self.scaled_training_dataset[0:20])
-        # print("X:", X[0])
-        # print("Y:", y[0])
-        # print("INVERTED Y:", self.scaler.inverse_transform([y[0]]))
         # LSTM Model
         model = Sequential()
         model.add(
