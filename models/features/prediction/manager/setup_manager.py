@@ -11,6 +11,7 @@ from manager.data_manager import DataManager
 from gateway.layer_1 import GatewayL1
 import pandas as pd
 
+from config.control import START_TRAINING_INDEX
 from config.path import DATASET_PATH
 from putils.printer import print_loop_message
 
@@ -23,6 +24,7 @@ class SetupManager:
         meta_training_path: str,
         meta_archive_directory: str,
         base_model_ids: list[str],
+        start_training_index: int = START_TRAINING_INDEX,
         initial_base_training_size: int = 100,
         initial_meta_training_size: int = 10,
         prediction_steps: int = 1,
@@ -34,6 +36,7 @@ class SetupManager:
         self.meta_archive_directory = meta_archive_directory
         self.data_manager = DataManager()
         self.base_gateway = GatewayL1(base_model_ids)
+        self.start_training_index = start_training_index
         self.initial_base_training_size = initial_base_training_size
         self.initial_meta_training_size = initial_meta_training_size
         self.prediction_steps = prediction_steps
@@ -61,14 +64,15 @@ class SetupManager:
         while meta_total_rows < self.initial_meta_training_size:
             # Train base models
             print_loop_message(count, "Training Base Models...")
-            first_training_index = 0  # Training the model with cumulative dataset (To-do: update first_training_index as constant)
             last_training_index = (
-                first_training_index + meta_total_rows + self.initial_base_training_size
+                self.start_training_index
+                + meta_total_rows
+                + self.initial_base_training_size
             )
             self.base_gateway.TrainModels(
                 dataset=self.dataset,
                 feature=self.selected_feature,
-                start_index=first_training_index,
+                start_index=self.start_training_index,
                 end_index=last_training_index,
                 prediction_steps=self.prediction_steps,
             )
@@ -107,16 +111,9 @@ class SetupManager:
             # Increment meta_total_rows by the number of added rows
             meta_total_rows += self.prediction_steps
             count += 1
-
-            # Print the increase result
             print_loop_message(count, "Number of Meta Rows:", meta_total_rows, "\n")
 
-        # Print the result
-        print(
-            "[Complete] Meta dataset located at",
-            self.meta_training_path,
-            "is ready for training",
-        )
+        print("[Complete] Meta Dataset Located At:", self.meta_training_path)
 
     def isDatasetValid(self):
         # Count number of rows in dataset

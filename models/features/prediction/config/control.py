@@ -45,6 +45,8 @@ SETUP_LSTM_CONFIG = {
     "n_past": 10,
     "steps": PREDICTION_STEPS,
     "epochs": 3,
+    "batch_size": 32,
+    "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
 }
 
@@ -60,7 +62,11 @@ PREDICTION_LSTM_CONFIG = {
 
 
 # NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [ARIMA, ETS, LSTM]
+# BASE_MODELS_IDS = [ARIMA, ETS, LSTM]
+BASE_MODELS_IDS = [LSTM]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = []
+
+# NOTE: Define the starting of training index of dataset
+START_TRAINING_INDEX = 0
