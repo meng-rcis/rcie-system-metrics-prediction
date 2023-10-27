@@ -114,7 +114,6 @@ class SetupManager:
                 f"[In Progress Loop - {count}] number of rows in meta dataset: ",
                 meta_total_rows,
             )
-            return
 
         # Print the result
         print("[Complete] number of rows in meta dataset: ", meta_total_rows)
