@@ -12,6 +12,7 @@ from gateway.layer_1 import GatewayL1
 import pandas as pd
 
 from config.path import DATASET_PATH
+from putils.printer import print_loop_message
 
 
 class SetupManager:
@@ -47,9 +48,8 @@ class SetupManager:
     def PrepareMetaModelDataset(self):
         # Check dataset has enough rows for training
         if self.isDatasetValid() == False:
-            raise Exception(
-                "Dataset does not have enough rows for training. Please check the dataset."
-            )
+            error_message = "Dataset does not have enough rows for training"
+            raise Exception(error_message)
 
         # Move the outdated training file to archive directory
         self.data_manager.MoveCSV(self.meta_training_path, self.meta_archive_directory)
@@ -57,9 +57,10 @@ class SetupManager:
         # Loop to split dataset with given number of rows
         meta_total_rows = 0
         count = 0
+
         while meta_total_rows < self.initial_meta_training_size:
             # Train base models
-            print(f"[In Progress Loop - {count}] Training base models...")
+            print_loop_message(count, "Training base models...")
             first_training_index = 0  # Training the model with cumulative dataset (To-do: update first_training_index as constant)
             last_training_index = (
                 first_training_index + meta_total_rows + self.initial_base_training_size
@@ -73,7 +74,7 @@ class SetupManager:
             )
 
             # Predict the next step using prediction_steps based on the base models
-            print(f"[In Progress Loop - {count}] Predicting the next step...")
+            print_loop_message(count, "Predicting the result...")
             prediction_result = self.base_gateway.Predict(steps=self.prediction_steps)
             actual_result = self.dataset[self.selected_feature].iloc[
                 last_training_index : last_training_index + self.prediction_steps
@@ -87,9 +88,9 @@ class SetupManager:
                 ]
 
             # Extract the prediction result into CSV format
-            print(
-                f"[In Progress Loop - {count}] Extracting the prediction result into CSV format..."
-            )
+            print_loop_message(count, "Extracting data into CSV format...")
+            print("prediction_result: ", prediction_result)
+            print("actual_result: ", actual_result)
             rows, header = self.data_manager.ExtractPredictionToCSV(
                 prediction_result=prediction_result,
                 actual_result=actual_result,
@@ -98,9 +99,7 @@ class SetupManager:
             )
 
             # Write the prediction result into CSV file
-            print(
-                f"[In Progress Loop - {count}] Writing the prediction result into CSV file..."
-            )
+            print_loop_message(count, "Writing data into CSV...")
             self.data_manager.WriteCSV(
                 path=self.meta_training_path, header=header, rows=rows
             )
@@ -110,13 +109,9 @@ class SetupManager:
             count += 1
 
             # Print the increase result
-            print(
-                f"[In Progress Loop - {count}] number of rows in meta dataset: ",
-                meta_total_rows,
-            )
+            print_loop_message(count, "Number of meta dataset rows...", meta_total_rows)
 
         # Print the result
-        print("[Complete] number of rows in meta dataset: ", meta_total_rows)
         print(
             "[Complete] Meta dataset located at",
             self.meta_training_path,
@@ -124,14 +119,11 @@ class SetupManager:
         )
 
     def isDatasetValid(self):
-        print("Checking dataset...")
         # Count number of rows in dataset
         dataset_size = self.dataset.count()[0]
 
         # Count number of rows required for training
-        dataset_size_required = (
-            self.initial_base_training_size + self.initial_meta_training_size
-        )
+        required = self.initial_base_training_size + self.initial_meta_training_size
 
         # Return True if dataset has enough rows for training, otherwise return False
-        return dataset_size >= dataset_size_required
+        return dataset_size >= required
