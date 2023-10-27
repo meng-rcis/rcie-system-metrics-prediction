@@ -93,8 +93,6 @@ class SetupManager:
 
             # Extract the prediction result into CSV format
             print_loop_message(count, "Extracting Result into CSV Format...")
-            print("prediction_result: ", prediction_result)
-            print("actual_result: ", actual_result)
             rows, header = self.data_manager.ExtractPredictionToCSV(
                 prediction_result=prediction_result,
                 actual_result=actual_result,
