@@ -29,7 +29,7 @@ PREDICTION_STEPS = 2
 # - Train meta models (from 0 to t points)
 # - Predict new data with PREDICTION_STEPS by meta models (from t to t + PREDICTION_STEPS points)
 # - Update predicted data in source meta training data (from t to t + PREDICTION_STEPS points)
-PREDICTION_TIME = 2  # Should be time interval
+PREDICTION_TIME = 1  # Should be time interval
 
 # NOTE: Define the number of initial base training size here
 INITIAL_BASE_TRAINING_SIZE = 1000
@@ -49,7 +49,7 @@ SETUP_ETS_CONFIG = {
 }  # 12 -> 12 * 5 seconds = 1 minute
 SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
-    "n_past": 10,
+    "n_past": 5,
     "steps": PREDICTION_STEPS,
     "epochs": 3,
     "batch_size": 32,
