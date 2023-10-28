@@ -9,6 +9,7 @@ sys.path.append(
 )
 import pandas as pd
 import numpy as np
+from config.control import FEATURES
 from constant.columns import FREQUENCY
 from pconstant.models_id import LSTM as LSTM_ID
 from interface.model import IModel
@@ -29,6 +30,7 @@ class LSTM(IModel):
         self.default_prediction_steps = 1
         self.default_n_past = 5
         self.scaler = MinMaxScaler(feature_range=(0, 1))
+        self.use_all_features = False
 
     def ConfigModel(
         self,
@@ -42,7 +44,9 @@ class LSTM(IModel):
         cp_dataset = dataset.copy()
         # Set up configuration
         self.feature = feature
-        self.dataset = cp_dataset[self.feature]
+        self.dataset = (
+            cp_dataset[FEATURES] if self.use_all_features else cp_dataset[feature]
+        )  # TO-DO: Fix cp_dataset[FEATURES]
         self.training_dataset = self.dataset.iloc[start_index:end_index]
 
     def TrainModel(self, config: dict):
@@ -87,13 +91,17 @@ class LSTM(IModel):
         n_past = config.get("n_past", self.default_n_past)
         verbose = config.get("verbose", "auto")
         # Forecast
-        x_input = self.training_dataset[-n_past:]  # Last sequence in data
-        x_input_values = x_input.values.reshape((1, n_past, 1))  # Reshape for LSTM
+        x_input = self.scaled_training_dataset[-n_past:]  # Last sequence in data
+        batch_size = 1
+        features = 1
+        x_input_values = x_input.reshape(
+            (batch_size, n_past, features)
+        )  # Reshape for LSTM
         yhat = self.model.predict(x_input_values, verbose=verbose)
         # Invert scaling
         yhat_original = self.scaler.inverse_transform(yhat)
         # Get the last datetime from the training dataset
-        last_datetime = x_input.index[-1]
+        last_datetime = self.training_dataset.index[-1]
         # Calculate the datetime values for the predicted results
         # Assuming your data has a frequency of 5 seconds (as per your previous example)
         prediction_datetimes = pd.date_range(
