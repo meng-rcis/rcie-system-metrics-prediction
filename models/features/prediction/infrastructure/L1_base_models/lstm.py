@@ -88,7 +88,9 @@ class LSTM(IModel):
             y,
             epochs=config.get("epochs", self.default_values.get("epochs")),
             verbose=config.get("verbose", self.default_values.get("verbose")),
-            batch_size=config.get("batch_size", self.default_values.get("model_batch_size")),
+            batch_size=config.get(
+                "batch_size", self.default_values.get("model_batch_size")
+            ),
             validation_split=config.get(
                 "validation_split", self.default_values.get("validation_split")
             ),
@@ -99,7 +101,9 @@ class LSTM(IModel):
 
     def Predict(self, config: dict) -> pd.DataFrame:
         n_past = config.get("n_past", self.default_values.get("n_past"))
-        batch_size = config.get("batch_size", self.default_values.get("reshape_batch_size"))
+        batch_size = config.get(
+            "batch_size", self.default_values.get("reshape_batch_size")
+        )
         features = config.get("features", self.default_values.get("features"))
         verbose = config.get("verbose", self.default_values.get("verbose"))
         # Forecast
