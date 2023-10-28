@@ -49,9 +49,9 @@ SETUP_ETS_CONFIG = {
 }  # 12 -> 12 * 5 seconds = 1 minute
 SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
-    "n_past": 5,
+    "n_past": 10,
     "steps": PREDICTION_STEPS,
-    "epochs": 3,
+    "epochs": 65,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
