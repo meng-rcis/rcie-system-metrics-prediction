@@ -65,6 +65,8 @@ PREDICTION_LSTM_CONFIG = {
     "n_past": SETUP_LSTM_CONFIG.get("n_past", 10),
     "steps": SETUP_LSTM_CONFIG.get("steps", PREDICTION_STEPS),
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
+    "batch_size": 1,
+    "features": 1,
 }
 
 

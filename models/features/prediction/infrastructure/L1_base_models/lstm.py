@@ -27,8 +27,15 @@ class LSTM(IModel):
         self.scaled_training_dataset = None
         self.model = None
         self.feature = None
-        self.default_prediction_steps = 1
-        self.default_n_past = 5
+        self.default_values = {
+            "prediction_steps": 1,
+            "n_past": 5,
+            "batch_size": 32,
+            "features": 1,
+            "epochs": 1,
+            "validation_split": 0.2,
+            "verbose": "auto",
+        }
         self.scaler = MinMaxScaler(feature_range=(0, 1))
         self.use_all_features = False
 
@@ -57,8 +64,8 @@ class LSTM(IModel):
         # Group data for LSTM
         X, y = self.create_sequences(
             self.scaled_training_dataset,
-            config.get("n_past", self.default_n_past),
-            config.get("steps", self.default_prediction_steps),
+            config.get("n_past", self.default_values.get("n_past")),
+            config.get("steps", self.default_values.get("prediction_steps")),
         )
         # LSTM Model
         model = Sequential()
@@ -78,21 +85,27 @@ class LSTM(IModel):
         model.fit(
             X,
             y,
-            epochs=config.get("epochs", 1),
-            verbose=config.get("verbose", "auto"),
-            batch_size=config.get("batch_size", 32),
-            validation_split=config.get("validation_split", 0.2),
+            epochs=config.get("epochs", self.default_values.get("epochs")),
+            verbose=config.get("verbose", self.default_values.get("verbose")),
+            batch_size=config.get("batch_size", self.default_values.get("batch_size")),
+            validation_split=config.get(
+                "validation_split", self.default_values.get("validation_split")
+            ),
         )
 
     def TuneModel(self, config: dict):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
-        n_past = config.get("n_past", self.default_n_past)
-        verbose = config.get("verbose", "auto")
+        n_past = config.get("n_past", self.default_values.get("n_past"))
+        batch_size = config.get("batch_size", self.default_values.get("batch_size"))
+        features = config.get("features", self.default_values.get("features"))
+        verbose = config.get("verbose", self.default_values.get("verbose"))
         # Forecast
         x_input = self.scaled_training_dataset[-n_past:]  # Last sequence in data
-        x_input_values = x_input.reshape((1, n_past, 1))  # Reshape for LSTM
+        x_input_values = x_input.reshape(
+            (batch_size, n_past, features)
+        )  # Reshape for LSTM
         yhat = self.model.predict(x_input_values, verbose=verbose)
         # Invert scaling
         yhat_original = self.scaler.inverse_transform(yhat)
