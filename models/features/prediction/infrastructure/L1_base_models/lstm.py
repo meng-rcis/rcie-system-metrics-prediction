@@ -92,11 +92,7 @@ class LSTM(IModel):
         verbose = config.get("verbose", "auto")
         # Forecast
         x_input = self.scaled_training_dataset[-n_past:]  # Last sequence in data
-        batch_size = 1
-        features = 1
-        x_input_values = x_input.reshape(
-            (batch_size, n_past, features)
-        )  # Reshape for LSTM
+        x_input_values = x_input.reshape((1, n_past, 1))  # Reshape for LSTM
         yhat = self.model.predict(x_input_values, verbose=verbose)
         # Invert scaling
         yhat_original = self.scaler.inverse_transform(yhat)
