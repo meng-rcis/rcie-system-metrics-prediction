@@ -90,3 +90,7 @@ class DataManager:
             print(f"Permission denied to move file '{file_path}' to '{dest_path}'!")
         except Exception as e:
             print(f"An error occurred while moving: {e}")
+
+    @staticmethod
+    def IsFileExist(path: str) -> bool:
+        return os.path.exists(path)
