@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 
 # Add path to the root folder
 sys.path.append(
@@ -16,10 +17,16 @@ from config.control import (
     PREDICTION_STEPS,
     INITIAL_BASE_TRAINING_SIZE,
     INITIAL_META_TRAINING_SIZE,
+    INITIAL_BASE_TRAINING_SIZE_META,
     IS_FILTERED,
     IS_SETUP_META_MODEL_DATASET_REQUIRED,
 )
-from config.path import META_DATASET_PATH, META_ARCHIVE_DIRECTORY, BASE_DATASET_PATH
+from config.path import (
+    L1_META_DATASET_PATH,
+    L2_META_DATASET_PATH,
+    META_ARCHIVE_DIRECTORY,
+    BASE_DATASET_PATH,
+)
 
 
 def main():
@@ -30,7 +37,7 @@ def main():
         SetupManagerInstance = SetupManager(
             dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
             selected_feature=SELECTED_FEATURE,
-            meta_training_path=META_DATASET_PATH,
+            meta_training_path=L1_META_DATASET_PATH,
             meta_archive_directory=META_ARCHIVE_DIRECTORY,
             base_model_ids=BASE_MODELS_IDS,
             prediction_steps=PREDICTION_STEPS,
@@ -43,7 +50,9 @@ def main():
     # Start Main Process
     print("Starting main process...")
     MainManagerInstance = MainManager(
-        initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
+        l1_meta_training_path=L1_META_DATASET_PATH,
+        l2_meta_training_path=L2_META_DATASET_PATH,
+        initial_base_training_size=INITIAL_BASE_TRAINING_SIZE_META,
         prediction_steps=PREDICTION_STEPS,
     )
     MainManagerInstance.Run()

@@ -12,11 +12,19 @@ from putils.calculator import Calculator
 
 
 class MainManager:
-    def __init__(self, prediction_steps: int = 1, is_update_csv_required: bool = False):
+    def __init__(
+        self,
+        l1_meta_training_path: str,
+        l2_meta_training_path: str,
+        initial_base_training_size: int,
+        prediction_steps: int = 1,
+        is_update_csv_required: bool = False,
+    ):
+        self.l1_meta_training_path = l1_meta_training_path
+        self.l2_meta_training_path = l2_meta_training_path
         self.prediction_steps = prediction_steps
+        self.initial_base_training_size = initial_base_training_size
         self.is_update_csv_required = is_update_csv_required
-        self.base_models = []
-        self.meta_models = []
         self.data_manager = DataManager()
         self.calculator = Calculator()
 

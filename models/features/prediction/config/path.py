@@ -11,13 +11,14 @@ sys.path.append(
 from config.control import IS_FILTERED
 
 # Define meta training dataset archive path
-META_ARCHIVE_DIRECTORY = "models/features/source/meta_training_dataset/archive/" + str(
-    round(time.time() * 1000)
+META_ARCHIVE_DIRECTORY = (
+    "models/features/source/l1_meta_training_dataset/archive/"
+    + str(round(time.time() * 1000))
 )
 
 """
 This is the path for the base training dataset
-Models in layer 1 will be trained with this dataset
+Base models will be trained with this dataset
 """
 
 DUMP_BASE_DIRECTORY = "dump/"
@@ -32,13 +33,37 @@ BASE_DATASET_PATH = DUMP_BASE_DIRECTORY + BASE_FILE
 BEFORE_FILTER_FILE = DUMP_BASE_DIRECTORY + "df.p"
 
 """
-This is the path for the meta training dataset
-Models in layer 1 will store their prediction results in this dataset
-Models in layer 2 will be trained with this dataset
+This is base meta configuration data
 """
+
+# Define meta source folder
+META_SOURCE_DIRECTORY = "models/features/source/"
 
 # Define meta training dataset file
 META_FILE = "meta_df_filtered.csv" if IS_FILTERED else "meta_df.csv"
 
-# Define meta training dataset path
-META_DATASET_PATH = "models/features/source/meta_training_dataset/" + META_FILE
+"""
+This is the path for the meta training dataset
+Base models will store their prediction results in this dataset
+L1 meta models will be trained with this dataset
+"""
+
+# Define L1 meta training dataset path
+L1_META_DATASET_PATH = META_SOURCE_DIRECTORY + "l1_meta_training_dataset/" + META_FILE
+
+"""
+This is the path for the meta training dataset
+L1 meta models will store their prediction results in this dataset
+L2 meta models will be trained with this dataset
+"""
+
+# Define L2 meta training dataset path
+L2_META_DATASET_PATH = META_SOURCE_DIRECTORY + "l2_meta_training_dataset/" + META_FILE
+
+"""
+This is the path for the meta training dataset
+L3 meta models will store their prediction results in this dataset
+"""
+
+# Define L3 meta training dataset path
+L3_META_DATASET_PATH = META_SOURCE_DIRECTORY + "l3_meta_training_dataset/" + META_FILE

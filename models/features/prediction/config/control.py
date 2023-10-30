@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 
 # Add path to the root folder
 sys.path.append(
@@ -21,7 +22,7 @@ FEATURES = [
 SELECTED_FEATURE = "cpu_usage"
 
 # NOTE: Define the number of steps to be predicted here
-PREDICTION_STEPS = 2
+PREDICTION_STEPS = 3
 
 # NOTE: Define the time (units -> milliseconds) that the model will predict again (not used yet)
 # STEP:
@@ -37,8 +38,14 @@ INITIAL_BASE_TRAINING_SIZE = 1000
 # NOTE: Define the number of initial meta training size here
 INITIAL_META_TRAINING_SIZE = 50
 
+# NOTE: Define the number of initial base training size here for meta models
+BATCH_SIZE = math.ceil(INITIAL_META_TRAINING_SIZE / PREDICTION_STEPS)
+INITIAL_BASE_TRAINING_SIZE_META = (
+    BATCH_SIZE * PREDICTION_STEPS + INITIAL_BASE_TRAINING_SIZE
+)
+
 # NOTE: Use filter (reduce noise) or not
-IS_FILTERED = False
+IS_FILTERED = True
 
 # NOTE: Setup meta model dataset or not
 IS_SETUP_META_MODEL_DATASET_REQUIRED = True
