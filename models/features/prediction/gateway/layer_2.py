@@ -8,6 +8,9 @@ sys.path.append(
     )
 )
 from interface.model import IModel
+from infrastructure.l2_meta_model.regression_stack import RidgeRegression
+from infrastructure.l2_meta_model.tree_stack import RandomForest
+from infrastructure.l2_meta_model.neural_stack import LinearLayerNeuralNetwork
 from config.control import (
     SETUP_RIDGE_REGRESSION_CONFIG,
     SETUP_RANDOM_FOREST_CONFIG,
@@ -42,11 +45,11 @@ class GatewayL2:
     # NOTE: A function to get the model instance based on the model id
     def getModel(self, model_id: str) -> IModel:
         if model_id == models_id.REGRESSION_STACK:
-            return {}
+            return RidgeRegression()
         elif model_id == models_id.TREE_STACK:
-            return {}
+            return RandomForest()
         elif model_id == models_id.NEURAL_STACK:
-            return {}
+            return LinearLayerNeuralNetwork()
 
         raise Exception("Model ID not found: ", model_id)
 
