@@ -34,30 +34,33 @@ This is base meta configuration data
 META_SOURCE_DIRECTORY = "models/features/source/"
 
 # Define meta training dataset file
-META_FILE = "meta_df_filtered.csv" if IS_FILTERED else "meta_df.csv"
+META_FILE = "prediction_result_filtered.csv" if IS_FILTERED else "prediction_result.csv"
 
 """
-This is the path for the meta training dataset
+This is the path for the L1 prediction dataset
 Base models will store their prediction results in this dataset
 L1 meta models will be trained with this dataset
 """
 
-# Define L1 meta training dataset path
-L1_META_DATASET_PATH = META_SOURCE_DIRECTORY + "l1_meta_training_dataset/" + META_FILE
+L1_PREDICTION_DATASET_PATH = (
+    META_SOURCE_DIRECTORY + "l1_prediction_dataset/" + META_FILE
+)
 
 """
-This is the path for the meta training dataset
+This is the path for the L2 prediction dataset
 L1 meta models will store their prediction results in this dataset
 L2 meta models will be trained with this dataset
 """
 
-# Define L2 meta training dataset path
-L2_META_DATASET_PATH = META_SOURCE_DIRECTORY + "l2_meta_training_dataset/" + META_FILE
+L2_PREDICTION_DATASET_PATH = (
+    META_SOURCE_DIRECTORY + "l2_prediction_dataset/" + META_FILE
+)
 
 """
-This is the path for the meta training dataset
+This is the path for the L3 prediction dataset
 L3 meta models will store their prediction results in this dataset
 """
 
-# Define L3 meta training prediction result dataset path
-FINAL_PREDICTION_PATH = META_SOURCE_DIRECTORY + "final_prediction_dataset/" + META_FILE
+L3_PREDICTION_DATASET_PATH = (
+    META_SOURCE_DIRECTORY + "l3_prediction_dataset/" + META_FILE
+)

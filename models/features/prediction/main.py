@@ -23,9 +23,9 @@ from config.control import (
     IS_SETUP_META_MODEL_DATASET_REQUIRED,
 )
 from config.path import (
-    L1_META_DATASET_PATH,
-    L2_META_DATASET_PATH,
-    FINAL_PREDICTION_PATH,
+    L1_PREDICTION_DATASET_PATH,
+    L2_PREDICTION_DATASET_PATH,
+    L3_PREDICTION_DATASET_PATH,
     BASE_DATASET_PATH,
 )
 
@@ -38,7 +38,7 @@ def main():
         SetupManagerInstance = SetupManager(
             dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
             selected_feature=SELECTED_FEATURE,
-            meta_training_path=L1_META_DATASET_PATH,
+            meta_training_path=L1_PREDICTION_DATASET_PATH,
             base_model_ids=BASE_MODELS_IDS,
             prediction_steps=PREDICTION_STEPS,
             initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
@@ -52,9 +52,9 @@ def main():
     MainManagerInstance = MainManager(
         base_dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
         selected_feature=SELECTED_FEATURE,
-        l1_meta_training_path=L1_META_DATASET_PATH,
-        l2_meta_training_path=L2_META_DATASET_PATH,
-        final_prediction_path=FINAL_PREDICTION_PATH,
+        l1_prediction_path=L1_PREDICTION_DATASET_PATH,
+        l2_prediction_path=L2_PREDICTION_DATASET_PATH,
+        l3_prediction_path=L3_PREDICTION_DATASET_PATH,
         base_model_ids=BASE_MODELS_IDS,
         meta_model_ids=META_MODELS_IDS,
         initial_base_training_size=INITIAL_BASE_TRAINING_SIZE_IN_MAIN,

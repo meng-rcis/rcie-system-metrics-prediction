@@ -20,9 +20,9 @@ class MainManager:
         self,
         base_dataset: pd.DataFrame,
         selected_feature: str,
-        l1_meta_training_path: str,
-        l2_meta_training_path: str,
-        final_prediction_path: str,
+        l1_prediction_path: str,
+        l2_prediction_path: str,
+        l3_prediction_path: str,
         base_model_ids: list[str],
         meta_model_ids: list[str],
         initial_base_training_size: int,
@@ -34,9 +34,9 @@ class MainManager:
     ):
         self.base_dataset = base_dataset
         self.selected_feature = selected_feature
-        self.l1_meta_training_path = l1_meta_training_path
-        self.l2_meta_training_path = l2_meta_training_path
-        self.final_prediction_path = final_prediction_path
+        self.l1_prediction_path = l1_prediction_path
+        self.l2_prediction_path = l2_prediction_path
+        self.l3_prediction_path = l3_prediction_path
         self.meta_model_ids = meta_model_ids
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
@@ -89,10 +89,10 @@ class MainManager:
 
     def validateProcess(self):
         print("Validating file...")
-        isL1MetaFileExist = self.data_manager.IsFileExist(self.l1_meta_training_path)
+        isL1MetaFileExist = self.data_manager.IsFileExist(self.l1_prediction_path)
 
         if isL1MetaFileExist == False:
-            message = f"File {self.l1_meta_training_path} is not found. Please run setup first."
+            message = f"File {self.l1_prediction_path} is not found. Please run setup first."
             raise Exception(message)
 
     def updateCSVToLatest(self):
@@ -101,10 +101,10 @@ class MainManager:
 
     def calculateWeight(self):
         print("Calculating weight...")
-        if self.data_manager.IsFileExist(self.l2_meta_training_path) == False:
+        if self.data_manager.IsFileExist(self.l2_prediction_path) == False:
             return {item: 1 for item in self.meta_model_ids}
 
-        meta_prediction = self.data_manager.ReadCSV(self.l2_meta_training_path)
+        meta_prediction = self.data_manager.ReadCSV(self.l2_prediction_path)
         weights = self.calculator.CalculateWeight(meta_prediction)
         return weights
 

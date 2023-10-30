@@ -46,7 +46,7 @@ INITIAL_BASE_TRAINING_SIZE_IN_MAIN = (
 )
 
 # NOTE: Use filter (reduce noise) or not
-IS_FILTERED = True
+IS_FILTERED = False
 
 # NOTE: Setup meta model dataset or not
 IS_SETUP_META_MODEL_DATASET_REQUIRED = True
