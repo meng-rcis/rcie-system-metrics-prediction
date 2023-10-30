@@ -10,12 +10,6 @@ sys.path.append(
 )
 from config.control import IS_FILTERED
 
-# Define meta training dataset archive path
-META_ARCHIVE_DIRECTORY = (
-    "models/features/source/l1_meta_training_dataset/archive/"
-    + str(round(time.time() * 1000))
-)
-
 """
 This is the path for the base training dataset
 Base models will be trained with this dataset
@@ -65,5 +59,5 @@ This is the path for the meta training dataset
 L3 meta models will store their prediction results in this dataset
 """
 
-# Define L3 meta training dataset path
-L3_META_DATASET_PATH = META_SOURCE_DIRECTORY + "l3_meta_training_dataset/" + META_FILE
+# Define L3 meta training prediction result dataset path
+FINAL_PREDICTION_PATH = META_SOURCE_DIRECTORY + "final_prediction_dataset/" + META_FILE
