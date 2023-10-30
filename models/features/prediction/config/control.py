@@ -8,7 +8,7 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from pconstant.models_id import ARIMA, ETS, LSTM
+import pconstant.models_id as models_id
 
 # NOTE: Define the selected feature to be predicted here
 FEATURES = [
@@ -22,7 +22,7 @@ FEATURES = [
 SELECTED_FEATURE = "cpu_usage"
 
 # NOTE: Define the number of steps to be predicted here
-PREDICTION_STEPS = 3
+PREDICTION_STEPS = 2
 
 # NOTE: Define the time (units -> milliseconds) that the model will predict again (not used yet)
 # STEP:
@@ -36,12 +36,13 @@ PREDICTION_TIME = 1  # Should be time interval
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 50
+INITIAL_META_TRAINING_SIZE = 20
 
-# NOTE: Define the number of initial base training size here for meta models
+# NOTE: Define the number of initial training size here for meta models
 BATCH_SIZE = math.ceil(INITIAL_META_TRAINING_SIZE / PREDICTION_STEPS)
-INITIAL_BASE_TRAINING_SIZE_META = (
-    BATCH_SIZE * PREDICTION_STEPS + INITIAL_BASE_TRAINING_SIZE
+INITIAL_META_TRAINING_SIZE_IN_MAIN = BATCH_SIZE * PREDICTION_STEPS
+INITIAL_BASE_TRAINING_SIZE_IN_MAIN = (
+    INITIAL_META_TRAINING_SIZE_IN_MAIN + INITIAL_BASE_TRAINING_SIZE
 )
 
 # NOTE: Use filter (reduce noise) or not
@@ -81,11 +82,15 @@ PREDICTION_LSTM_CONFIG = {
 
 
 # NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [ARIMA, ETS]
+BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS]
 # BASE_MODELS_IDS = [LSTM]
 
 # NOTE: Define the list of meta model ids here
-META_MODELS_IDS = []
+META_MODELS_IDS = [
+    models_id.REGRESSION_STACK,
+    models_id.TREE_STACK,
+    models_id.NEURAL_STACK,
+]
 
 # NOTE: Define the starting of training index of dataset
 START_TRAINING_INDEX = 0
