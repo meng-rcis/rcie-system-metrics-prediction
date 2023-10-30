@@ -35,10 +35,10 @@ PREDICTION_TIME = 1  # Should be time interval
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 100
+INITIAL_META_TRAINING_SIZE = 50
 
 # NOTE: Use filter (reduce noise) or not
-IS_FILTERED = True
+IS_FILTERED = False
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
@@ -71,8 +71,8 @@ PREDICTION_LSTM_CONFIG = {
 
 
 # NOTE: Define the list of base model ids here
-# BASE_MODELS_IDS = [ARIMA, ETS, LSTM]
-BASE_MODELS_IDS = [LSTM]
+BASE_MODELS_IDS = [ARIMA, ETS]
+# BASE_MODELS_IDS = [LSTM]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = []

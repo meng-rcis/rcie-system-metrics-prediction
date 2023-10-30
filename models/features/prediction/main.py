@@ -18,7 +18,7 @@ from config.control import (
     INITIAL_META_TRAINING_SIZE,
     IS_FILTERED,
 )
-from config.path import META_TRAINING_PATH, META_ARCHIVE_DIRECTORY, DATASET_PATH
+from config.path import META_DATASET_PATH, META_ARCHIVE_DIRECTORY, BASE_DATASET_PATH
 
 
 def main():
@@ -26,13 +26,11 @@ def main():
     isSetupMetaModelDatasetRequired = True
     if isSetupMetaModelDatasetRequired:
         print("Preparing meta model dataset...")
-        datasetPath = DATASET_PATH
-        datasetPath += "filtered_df.p" if IS_FILTERED else "df.p"
         DataManagerInstance = DataManager()
         SetupManagerInstance = SetupManager(
-            dataset=DataManagerInstance.LoadDataset(datasetPath),
+            dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
             selected_feature=SELECTED_FEATURE,
-            meta_training_path=META_TRAINING_PATH,
+            meta_training_path=META_DATASET_PATH,
             meta_archive_directory=META_ARCHIVE_DIRECTORY,
             base_model_ids=BASE_MODELS_IDS,
             prediction_steps=PREDICTION_STEPS,
@@ -44,7 +42,10 @@ def main():
 
     # Start Main Process
     print("Starting main process...")
-    MainManagerInstance = MainManager(prediction_steps=PREDICTION_STEPS)
+    # MainManagerInstance = MainManager(
+    #     initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
+    #     prediction_steps=PREDICTION_STEPS,
+    # )
     # MainManagerInstance.Run()
 
 

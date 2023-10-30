@@ -12,7 +12,7 @@ from gateway.layer_1 import GatewayL1
 import pandas as pd
 
 from config.control import START_TRAINING_INDEX
-from config.path import DATASET_PATH
+from config.path import BEFORE_FILTER_FILE
 from putils.printer import print_loop_message
 
 
@@ -43,9 +43,7 @@ class SetupManager:
         self.base_model_ids = base_model_ids
         self.is_filtered = is_filtered
         self.before_filter_dataset = (
-            self.data_manager.LoadDataset(DATASET_PATH + "df.p")
-            if is_filtered
-            else None
+            self.data_manager.LoadDataset(BEFORE_FILTER_FILE) if is_filtered else None
         )
 
     def PrepareMetaModelDataset(self):
