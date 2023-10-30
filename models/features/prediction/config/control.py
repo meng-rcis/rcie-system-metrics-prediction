@@ -80,6 +80,15 @@ PREDICTION_LSTM_CONFIG = {
     "features": 1,
 }
 
+# NOTE: Define the default setup configuration (hyperparameter) of each model here (for meta models)
+SETUP_RIDGE_REGRESSION_CONFIG = {}
+SETUP_RANDOM_FOREST_CONFIG = {}
+SETUP_LINEAR_LAYER_NEURAL_NETWORK_CONFIG = {}
+
+# NOTE: Define the default prediction configuration of each model here (for meta models)
+PREDICTION_RIDGE_REGRESSION_CONFIG = {}
+PREDICTION_RANDOM_FOREST_CONFIG = {}
+PREDICTION_LINEAR_LAYER_NEURAL_NETWORK_CONFIG = {}
 
 # NOTE: Define the list of base model ids here
 BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS]
