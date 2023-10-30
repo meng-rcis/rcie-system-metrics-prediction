@@ -8,10 +8,6 @@ sys.path.append(
     )
 )
 from interface.model import IModel
-from infrastructure.L1_base_models.arima import ARIMA
-from infrastructure.L1_base_models.ets import ETS
-from infrastructure.L1_base_models.prophet import Prophet
-from infrastructure.L1_base_models.lstm import LSTM
 from config.control import (
     SETUP_RIDGE_REGRESSION_CONFIG,
     SETUP_RANDOM_FOREST_CONFIG,

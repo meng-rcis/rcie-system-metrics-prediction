@@ -10,7 +10,7 @@ sys.path.append(
 from interface.model import IModel
 
 
-class RegressionStack(IModel):
+class RandomForest(IModel):
     def __init__(self):
         pass
 

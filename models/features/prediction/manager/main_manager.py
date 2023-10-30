@@ -53,13 +53,6 @@ class MainManager:
     def Run(self):
         # Validate file if it is the first run
         if self.is_first_run:
-            print("self.l1_meta_training_path", self.l1_meta_training_path)
-            print("self.l2_meta_training_path", self.l2_meta_training_path)
-            print("self.final_prediction_path", self.final_prediction_path)
-            print("self.meta_model_ids", self.meta_model_ids)
-            print("self.prediction_steps", self.prediction_steps)
-            print("self.initial_base_training_size", self.initial_base_training_size)
-            print("self.initial_meta_training_size", self.initial_meta_training_size)
             self.validateProcess()
             self.is_first_run = False
 
@@ -97,7 +90,7 @@ class MainManager:
     def validateProcess(self):
         print("Validating file...")
         isL1MetaFileExist = self.data_manager.IsFileExist(self.l1_meta_training_path)
-        
+
         if isL1MetaFileExist == False:
             message = f"File {self.l1_meta_training_path} is not found. Please run setup first."
             raise Exception(message)

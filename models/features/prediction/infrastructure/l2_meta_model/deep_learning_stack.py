@@ -10,7 +10,7 @@ sys.path.append(
 from interface.model import IModel
 
 
-class DeepLearningStack(IModel):
+class LinearLayerNeuralNetwork(IModel):
     def __init__(self):
         pass
 

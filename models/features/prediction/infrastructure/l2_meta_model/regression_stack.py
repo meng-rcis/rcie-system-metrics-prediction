@@ -10,7 +10,7 @@ sys.path.append(
 from interface.model import IModel
 
 
-class TreeStack(IModel):
+class RidgeRegression(IModel):
     def __init__(self):
         pass
 

@@ -8,10 +8,10 @@ sys.path.append(
     )
 )
 from interface.model import IModel
-from infrastructure.L1_base_models.arima import ARIMA
-from infrastructure.L1_base_models.ets import ETS
-from infrastructure.L1_base_models.prophet import Prophet
-from infrastructure.L1_base_models.lstm import LSTM
+from infrastructure.l1_base_model.arima import ARIMA
+from infrastructure.l1_base_model.ets import ETS
+from infrastructure.l1_base_model.prophet import Prophet
+from infrastructure.l1_base_model.lstm import LSTM
 from config.control import (
     SETUP_ARIMA_CONFIG,
     SETUP_ETS_CONFIG,
