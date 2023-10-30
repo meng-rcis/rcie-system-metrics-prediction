@@ -25,7 +25,7 @@ class DataManager:
 
         extracted_data = []
         for idx in all_indices:
-            current_row = [idx]  # Start with the index itself
+            current_row = [idx]  # Start with the index (datetime) itself
             for model_id in model_ids:
                 current_row.append(prediction_result[model_id].get(idx, None))
             current_row.append(actual_result.get(str(idx), None))
