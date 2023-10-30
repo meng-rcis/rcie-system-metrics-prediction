@@ -22,7 +22,7 @@ class SetupManager:
         self,
         dataset: pd.DataFrame,
         selected_feature: str,
-        meta_training_path: str,
+        l1_prediction_path: str,
         base_model_ids: list[str],
         start_training_index: int = START_TRAINING_INDEX,
         initial_base_training_size: int = 100,
@@ -32,7 +32,7 @@ class SetupManager:
     ):
         self.dataset = dataset
         self.selected_feature = selected_feature
-        self.meta_training_path = meta_training_path
+        self.l1_prediction_path = l1_prediction_path
         self.data_manager = DataManager()
         self.base_gateway = GatewayL1(base_model_ids)
         self.start_training_index = start_training_index
@@ -53,7 +53,7 @@ class SetupManager:
 
         # Move the outdated training file to archive directory
         meta_archive_directory = generate_meta_archive_directory("l1")
-        self.data_manager.MoveCSV(self.meta_training_path, meta_archive_directory)
+        self.data_manager.MoveCSV(self.l1_prediction_path, meta_archive_directory)
 
         # Loop to split dataset with given number of rows
         meta_total_rows = 0
@@ -101,7 +101,7 @@ class SetupManager:
             # Write the prediction result into CSV file
             print_loop_message(count, "Writing Result into CSV...")
             self.data_manager.WriteCSV(
-                path=self.meta_training_path, header=header, rows=rows
+                path=self.l1_prediction_path, header=header, rows=rows
             )
 
             # Increment meta_total_rows by the number of added rows
@@ -110,7 +110,7 @@ class SetupManager:
 
             count += 1
 
-        print("[Complete] Meta Dataset Located At:", self.meta_training_path)
+        print("[Complete] Meta Dataset Located At:", self.l1_prediction_path)
 
     def isDatasetValid(self):
         # Count number of rows in dataset

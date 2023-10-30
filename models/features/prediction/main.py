@@ -38,7 +38,7 @@ def main():
         SetupManagerInstance = SetupManager(
             dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
             selected_feature=SELECTED_FEATURE,
-            meta_training_path=L1_PREDICTION_DATASET_PATH,
+            l1_prediction_path=L1_PREDICTION_DATASET_PATH,
             base_model_ids=BASE_MODELS_IDS,
             prediction_steps=PREDICTION_STEPS,
             initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
