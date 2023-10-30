@@ -50,7 +50,7 @@ def main():
     # Start Main Process
     print("Starting main process...")
     MainManagerInstance = MainManager(
-        base_dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
+        dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
         selected_feature=SELECTED_FEATURE,
         l1_prediction_path=L1_PREDICTION_DATASET_PATH,
         l2_prediction_path=L2_PREDICTION_DATASET_PATH,

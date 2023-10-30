@@ -18,7 +18,7 @@ from putils.calculator import Calculator
 class MainManager:
     def __init__(
         self,
-        base_dataset: pd.DataFrame,
+        dataset: pd.DataFrame,
         selected_feature: str,
         l1_prediction_path: str,
         l2_prediction_path: str,
@@ -32,7 +32,7 @@ class MainManager:
         is_filtered: bool = False,
         is_update_csv_required: bool = False,
     ):
-        self.base_dataset = base_dataset
+        self.dataset = dataset
         self.selected_feature = selected_feature
         self.l1_prediction_path = l1_prediction_path
         self.l2_prediction_path = l2_prediction_path
@@ -45,8 +45,8 @@ class MainManager:
         self.is_first_run = True
         self.is_filtered = is_filtered
         self.is_update_csv_required = is_update_csv_required
-        self.base_gateway = GatewayL1(base_model_ids)
-        self.meta_gateway = GatewayL2(meta_model_ids)
+        self.l1_gateway = GatewayL1(base_model_ids)
+        self.l2_gateway = GatewayL2(meta_model_ids)
         self.data_manager = DataManager()
         self.calculator = Calculator()
 
@@ -92,7 +92,7 @@ class MainManager:
         isL1MetaFileExist = self.data_manager.IsFileExist(self.l1_prediction_path)
 
         if isL1MetaFileExist == False:
-            message = f"File {self.l1_prediction_path} is not found. Please run setup first."
+            message = f"File {self.l1_prediction_path} is not found. Run setup first."
             raise Exception(message)
 
     def updateCSVToLatest(self):
@@ -115,8 +115,8 @@ class MainManager:
             + meta_increase_size
             + self.initial_base_training_size
         )
-        self.base_gateway.TrainModels(
-            dataset=self.base_dataset,
+        self.l1_gateway.TrainModels(
+            dataset=self.dataset,
             feature=self.selected_feature,
             start_index=self.start_training_index,
             end_index=last_training_index,
@@ -125,8 +125,14 @@ class MainManager:
 
     def trainMetaModels(self, meta_increase_size: int = 0):
         print("Training meta models...")
+        dataset = self.data_manager.ReadCSV(self.l1_prediction_path)
         last_training_index = meta_increase_size + self.initial_meta_training_size
-        pass
+        self.l2_gateway.TrainModels(
+            dataset=dataset,
+            feature=self.selected_feature,
+            end_index=last_training_index,
+            prediction_steps=self.prediction_steps,
+        )
 
     def predictBaseModels(self):
         print("Predicting base models...")

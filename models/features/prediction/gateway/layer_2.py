@@ -86,14 +86,14 @@ class GatewayL2:
     ):
         for model in self.models:
             print("Training model: ", model["id"])
-            # model["instance"].ConfigModel(
-            #     dataset=dataset,
-            #     feature=feature,
-            #     start_index=start_index,
-            #     end_index=end_index,
-            #     prediction_steps=prediction_steps,
-            # )
-            # model["instance"].TrainModel(model["setup_config"])
+            model["instance"].ConfigModel(
+                dataset=dataset,
+                feature=feature,
+                start_index=start_index,
+                end_index=end_index,
+                prediction_steps=prediction_steps,
+            )
+            model["instance"].TrainModel(model["setup_config"])
 
     # NOTE: A function to execute the prediction process of all models
     def Predict(self, steps: int) -> pd.DataFrame:
