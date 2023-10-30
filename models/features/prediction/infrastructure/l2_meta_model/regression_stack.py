@@ -9,10 +9,10 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from interface.model import IModel
+from models.features.prediction.interface.meta_model import IMetaModel
 
 
-class RidgeRegression(IModel):
+class RidgeRegression(IMetaModel):
     def __init__(self):
         pass
 

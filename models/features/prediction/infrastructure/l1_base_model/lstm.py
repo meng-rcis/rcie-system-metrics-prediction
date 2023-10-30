@@ -12,7 +12,7 @@ import numpy as np
 from config.control import FEATURES
 from constant.columns import FREQUENCY
 from pconstant.models_id import LSTM as LSTM_ID
-from interface.model import IModel
+from models.features.prediction.interface.base_model import IBaseModel
 
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
@@ -20,7 +20,7 @@ from keras.models import Sequential
 from keras.layers import Dense, LSTM as Layer_LSTM
 
 
-class LSTM(IModel):
+class LSTM(IBaseModel):
     def __init__(self):
         self.dataset = None
         self.training_dataset = None

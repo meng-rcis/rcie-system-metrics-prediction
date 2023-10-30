@@ -7,14 +7,14 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from interface.model import IModel
+from models.features.prediction.interface.base_model import IBaseModel
 from tensorflow import keras
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import pandas as pd
 
 
-class CNN(IModel):
+class CNN(IBaseModel):
     def __init__(self, n_in=10):
         self.n_in = n_in
         self.n_out = None

@@ -8,11 +8,11 @@ sys.path.append(
     )
 )
 import pandas as pd
-from interface.model import IModel
+from models.features.prediction.interface.base_model import IBaseModel
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 
-class ETS(IModel):
+class ETS(IBaseModel):
     def __init__(self):
         self.dataset = None
         self.training_dataset = None

@@ -2,7 +2,7 @@ import abc
 import pandas as pd
 
 
-class IModel(abc.ABC):
+class IBaseModel(abc.ABC):
     @abc.abstractmethod
     def ConfigModel(
         self,

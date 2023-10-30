@@ -8,11 +8,11 @@ sys.path.append(
     )
 )
 from statsmodels.tsa.arima.model import ARIMA as ARIMA_MODEL
-from interface.model import IModel
+from models.features.prediction.interface.base_model import IBaseModel
 import pandas as pd
 
 
-class ARIMA(IModel):
+class ARIMA(IBaseModel):
     def __init__(self):
         self.dataset = None
         self.training_dataset = None

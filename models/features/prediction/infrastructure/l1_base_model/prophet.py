@@ -8,13 +8,13 @@ sys.path.append(
     )
 )
 from constant.columns import INDEX_COL, FREQUENCY
-from interface.model import IModel
+from models.features.prediction.interface.base_model import IBaseModel
 from prophet import Prophet as Prophet_MODEL
 import pandas as pd
 import logging
 
 
-class Prophet(IModel):
+class Prophet(IBaseModel):
     def __init__(self):
         self.dataset = None
         self.training_dataset = None

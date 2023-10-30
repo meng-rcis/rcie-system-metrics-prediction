@@ -37,7 +37,9 @@ class MainManager:
         self.l1_prediction_path = l1_prediction_path
         self.l2_prediction_path = l2_prediction_path
         self.l3_prediction_path = l3_prediction_path
+        self.base_model_ids = base_model_ids
         self.meta_model_ids = meta_model_ids
+        self.meta_target = "Raw" if is_filtered else "Actual"
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
         self.initial_meta_training_size = initial_meta_training_size
@@ -129,7 +131,8 @@ class MainManager:
         last_training_index = meta_increase_size + self.initial_meta_training_size
         self.l2_gateway.TrainModels(
             dataset=dataset,
-            feature=self.selected_feature,
+            feature=self.base_model_ids,
+            target=self.meta_target,
             end_index=last_training_index,
             prediction_steps=self.prediction_steps,
         )
