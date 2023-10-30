@@ -14,6 +14,7 @@ import pandas as pd
 from config.control import START_TRAINING_INDEX
 from config.path import BEFORE_FILTER_FILE
 from putils.printer import print_loop_message
+from putils.path import generate_meta_archive_directory
 
 
 class SetupManager:
@@ -22,7 +23,6 @@ class SetupManager:
         dataset: pd.DataFrame,
         selected_feature: str,
         meta_training_path: str,
-        meta_archive_directory: str,
         base_model_ids: list[str],
         start_training_index: int = START_TRAINING_INDEX,
         initial_base_training_size: int = 100,
@@ -33,7 +33,6 @@ class SetupManager:
         self.dataset = dataset
         self.selected_feature = selected_feature
         self.meta_training_path = meta_training_path
-        self.meta_archive_directory = meta_archive_directory
         self.data_manager = DataManager()
         self.base_gateway = GatewayL1(base_model_ids)
         self.start_training_index = start_training_index
@@ -53,7 +52,8 @@ class SetupManager:
             raise Exception(error_message)
 
         # Move the outdated training file to archive directory
-        self.data_manager.MoveCSV(self.meta_training_path, self.meta_archive_directory)
+        meta_archive_directory = generate_meta_archive_directory("l1")
+        self.data_manager.MoveCSV(self.meta_training_path, meta_archive_directory)
 
         # Loop to split dataset with given number of rows
         meta_total_rows = 0
