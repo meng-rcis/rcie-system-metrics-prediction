@@ -17,14 +17,14 @@ from config.control import (
     INITIAL_BASE_TRAINING_SIZE,
     INITIAL_META_TRAINING_SIZE,
     IS_FILTERED,
+    IS_SETUP_META_MODEL_DATASET_REQUIRED,
 )
 from config.path import META_DATASET_PATH, META_ARCHIVE_DIRECTORY, BASE_DATASET_PATH
 
 
 def main():
     # Trigger Model Setup if Required
-    isSetupMetaModelDatasetRequired = True
-    if isSetupMetaModelDatasetRequired:
+    if IS_SETUP_META_MODEL_DATASET_REQUIRED:
         print("Preparing meta model dataset...")
         DataManagerInstance = DataManager()
         SetupManagerInstance = SetupManager(
@@ -42,11 +42,11 @@ def main():
 
     # Start Main Process
     print("Starting main process...")
-    # MainManagerInstance = MainManager(
-    #     initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
-    #     prediction_steps=PREDICTION_STEPS,
-    # )
-    # MainManagerInstance.Run()
+    MainManagerInstance = MainManager(
+        initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
+        prediction_steps=PREDICTION_STEPS,
+    )
+    MainManagerInstance.Run()
 
 
 main()

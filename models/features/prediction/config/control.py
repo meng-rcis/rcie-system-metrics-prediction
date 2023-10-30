@@ -40,6 +40,9 @@ INITIAL_META_TRAINING_SIZE = 50
 # NOTE: Use filter (reduce noise) or not
 IS_FILTERED = False
 
+# NOTE: Setup meta model dataset or not
+IS_SETUP_META_MODEL_DATASET_REQUIRED = True
+
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
 SETUP_ETS_CONFIG = {
