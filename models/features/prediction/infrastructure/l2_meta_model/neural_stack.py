@@ -24,7 +24,10 @@ class LinearLayerNeuralNetwork(IMetaModel):
         start_index: int,
         end_index: int,
     ):
-        pass
+        cp_dataset = dataset.copy()
+        self.training_dataset = cp_dataset.iloc[start_index:end_index]
+        self.X = self.training_dataset[features]
+        self.y = self.training_dataset[target]
 
     def TrainModel(self, config: dict):
         pass
