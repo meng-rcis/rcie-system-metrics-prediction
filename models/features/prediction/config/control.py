@@ -36,7 +36,7 @@ PREDICTION_TIME = 1  # Should be time interval
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 20
+INITIAL_META_TRAINING_SIZE = 10
 
 # NOTE: Define the number of initial training size here for meta models
 BATCH_SIZE = math.ceil(INITIAL_META_TRAINING_SIZE / PREDICTION_STEPS)
