@@ -12,7 +12,7 @@ from config.control import START_TRAINING_INDEX
 from manager.data_manager import DataManager
 from gateway.layer_1 import GatewayL1
 from gateway.layer_2 import GatewayL2
-from putils.calculator import Calculator
+from gateway.layer_3 import GatewayL3
 from putils.printer import print_loop_message
 
 
@@ -50,8 +50,10 @@ class MainManager:
         self.is_update_csv_required = is_update_csv_required
         self.l1_gateway = GatewayL1(base_model_ids)
         self.l2_gateway = GatewayL2(meta_model_ids)
+        self.l3_gateway = GatewayL3(
+            meta_model_ids=meta_model_ids, meta_prediction_source=l2_prediction_path
+        )
         self.data_manager = DataManager()
-        self.calculator = Calculator()
         self.loop_count = 0
 
     def Run(self):
@@ -79,10 +81,8 @@ class MainManager:
         # Train meta models with the latest data in CSV-1
         self.trainMetaModels()
 
-        # return
-
         # Calculate weight of each meta model with the data in CSV-2
-        # weights = self.calculateWeight()
+        weights = self.calculateWeight()
 
         # Predict the next step using prediction_steps based on the base models
         base_results = self.predictBaseModels()
@@ -93,10 +93,16 @@ class MainManager:
         meta_results = self.predictMetaModels(base_results)
 
         print_loop_message(self.loop_count, "Main", "Meta:", meta_results.head())
-        return
 
         # Find final result by weight averaging of the prediction result from meta models
-        self.predictFinalResultWithWeightAverage(meta_results, weights)
+        final_result = self.predictFinalResultWithWeightAverage(meta_results, weights)
+
+        # Save the prediction result of base and meta models
+        self.savePredictionResult(
+            base_model_results=base_results,
+            meta_model_results=meta_results,
+            final_result=final_result,
+        )
 
         # Update the flag to indicate that the CSV is updated
         self.is_update_csv_required = True
@@ -118,11 +124,7 @@ class MainManager:
 
     def calculateWeight(self):
         print_loop_message(self.loop_count, "Main", "Calculating weight...")
-        if self.data_manager.IsFileExist(self.l2_prediction_path) == False:
-            return {item: 1 for item in self.meta_model_ids}
-
-        meta_prediction = self.data_manager.ReadCSV(self.l2_prediction_path)
-        weights = self.calculator.CalculateWeight(meta_prediction)
+        weights = self.l3_gateway.FindModelWeights()
         return weights
 
     def trainBaseModels(self, meta_increase_size: int = 0):
@@ -161,6 +163,17 @@ class MainManager:
         prediction_result = self.l2_gateway.Predict(input=base_results)
         return prediction_result
 
-    def predictFinalResultWithWeightAverage(self, meta_results, weights):
+    def predictFinalResultWithWeightAverage(
+        self, meta_results: pd.DataFrame, weights: object
+    ) -> pd.DataFrame:
         print_loop_message(self.loop_count, "Main", "Predicting final result...")
+        prediction_result = self.l3_gateway.Predict(input=meta_results, weights=weights)
+        return prediction_result
+
+    def savePredictionResult(
+        self,
+        base_model_results: pd.DataFrame,
+        meta_model_results: pd.DataFrame,
+        final_result: pd.DataFrame,
+    ):
         pass

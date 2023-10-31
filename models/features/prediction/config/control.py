@@ -49,7 +49,7 @@ INITIAL_BASE_TRAINING_SIZE_IN_MAIN = (
 IS_FILTERED = True
 
 # NOTE: Setup meta model dataset or not
-IS_SETUP_META_MODEL_DATASET_REQUIRED = True
+IS_SETUP_META_MODEL_DATASET_REQUIRED = False
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
@@ -89,7 +89,7 @@ SETUP_RANDOM_FOREST_CONFIG = {
     "random_state": 0,
 }
 SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
-    "epochs": 100,
+    "epochs": 50,
     "validation_split": 0.2,
     "verbose": 0,
 }

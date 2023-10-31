@@ -31,10 +31,11 @@ from config.path import (
 
 
 def main():
+    DataManagerInstance = DataManager()
+
     # Trigger Model Setup if Required
     if IS_SETUP_META_MODEL_DATASET_REQUIRED:
         print("Preparing meta model dataset...")
-        DataManagerInstance = DataManager()
         SetupManagerInstance = SetupManager(
             dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
             selected_feature=SELECTED_FEATURE,
