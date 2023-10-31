@@ -27,7 +27,6 @@ class MainManager:
         base_model_ids: list[str],
         meta_model_ids: list[str],
         initial_base_training_size: int,
-        initial_meta_training_size: int,
         start_training_index: int = START_TRAINING_INDEX,
         prediction_steps: int = 1,
         is_filtered: bool = False,
@@ -43,7 +42,6 @@ class MainManager:
         self.meta_target = "Raw" if is_filtered else "Actual"
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
-        self.initial_meta_training_size = initial_meta_training_size
         self.start_training_index = start_training_index
         self.is_first_run = True
         self.is_filtered = is_filtered
@@ -127,14 +125,14 @@ class MainManager:
         weights = self.l3_gateway.FindModelWeights()
         return weights
 
-    # Fix to find last index
-    def trainBaseModels(self, meta_increase_size: int = 0):
+    def trainBaseModels(self):
         print_loop_message(self.loop_count, "Main", "Training base models...")
+        meta_rows_count = self.data_manager.CountWithoutHeader(self.l1_prediction_path)
         last_training_index = (
             self.start_training_index
-            + meta_increase_size
             + self.initial_base_training_size
-        ) # TODO: Fix to find total rows of meta CSV
+            + meta_rows_count
+        )
         self.l1_gateway.TrainModels(
             dataset=self.dataset,
             feature=self.selected_feature,

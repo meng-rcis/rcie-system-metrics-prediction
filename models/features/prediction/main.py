@@ -56,10 +56,9 @@ def main():
         l1_prediction_path=L1_PREDICTION_DATASET_PATH,
         l2_prediction_path=L2_PREDICTION_DATASET_PATH,
         l3_prediction_path=L3_PREDICTION_DATASET_PATH,
+        initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
         base_model_ids=BASE_MODELS_IDS,
         meta_model_ids=META_MODELS_IDS,
-        initial_base_training_size=INITIAL_BASE_TRAINING_SIZE_IN_MAIN,
-        initial_meta_training_size=INITIAL_META_TRAINING_SIZE_IN_MAIN,
         prediction_steps=PREDICTION_STEPS,
         is_filtered=IS_FILTERED,
     )

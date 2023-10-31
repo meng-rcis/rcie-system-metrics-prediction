@@ -38,13 +38,6 @@ INITIAL_BASE_TRAINING_SIZE = 1000
 # NOTE: Define the number of initial meta training size here
 INITIAL_META_TRAINING_SIZE = 200
 
-# NOTE: Define the number of initial training size here for meta models
-BATCH_SIZE = math.ceil(INITIAL_META_TRAINING_SIZE / PREDICTION_STEPS)
-INITIAL_META_TRAINING_SIZE_IN_MAIN = BATCH_SIZE * PREDICTION_STEPS
-INITIAL_BASE_TRAINING_SIZE_IN_MAIN = (
-    INITIAL_META_TRAINING_SIZE_IN_MAIN + INITIAL_BASE_TRAINING_SIZE
-)
-
 # NOTE: Use filter (reduce noise) or not
 IS_FILTERED = True
 

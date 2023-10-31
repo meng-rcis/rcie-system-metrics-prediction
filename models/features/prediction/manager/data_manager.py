@@ -94,3 +94,11 @@ class DataManager:
     @staticmethod
     def IsFileExist(path: str) -> bool:
         return os.path.exists(path)
+
+    @staticmethod
+    def CountWithoutHeader(path: str) -> int:
+        if os.path.exists(path):
+            return 0
+
+        with open(path, "r") as file:
+            return len(file.readlines()) - 1
