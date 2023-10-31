@@ -27,16 +27,6 @@ class LSTM(IBaseModel):
         self.scaled_training_dataset = None
         self.model = None
         self.feature = None
-        self.default_values = {
-            "prediction_steps": 1,
-            "n_past": 5,
-            "model_batch_size": 32,
-            "reshape_batch_size": 1,
-            "features": 1,
-            "epochs": 1,
-            "validation_split": 0.2,
-            "verbose": "auto",
-        }
         self.scaler = MinMaxScaler(feature_range=(0, 1))
         self.use_all_features = False
 
@@ -65,8 +55,8 @@ class LSTM(IBaseModel):
         # Group data for LSTM
         X, y = self.create_sequences(
             self.scaled_training_dataset,
-            config.get("n_past", self.default_values.get("n_past")),
-            config.get("steps", self.default_values.get("prediction_steps")),
+            config.get("n_past", 5),
+            config.get("steps", 1),
         )
         # LSTM Model
         model = Sequential()
@@ -88,26 +78,20 @@ class LSTM(IBaseModel):
         model.fit(
             X,
             y,
-            epochs=config.get("epochs", self.default_values.get("epochs")),
-            verbose=config.get("verbose", self.default_values.get("verbose")),
-            batch_size=config.get(
-                "batch_size", self.default_values.get("model_batch_size")
-            ),
-            validation_split=config.get(
-                "validation_split", self.default_values.get("validation_split")
-            ),
+            epochs=config.get("epochs", 1),
+            verbose=config.get("verbose", "auto"),
+            batch_size=config.get("batch_size", 32),
+            validation_split=config.get("validation_split", 0.2),
         )
 
     def TuneModel(self, config: dict):
         pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
-        n_past = config.get("n_past", self.default_values.get("n_past"))
-        batch_size = config.get(
-            "batch_size", self.default_values.get("reshape_batch_size")
-        )
-        features = config.get("features", self.default_values.get("features"))
-        verbose = config.get("verbose", self.default_values.get("verbose"))
+        n_past = config.get("n_past", 5)
+        batch_size = config.get("batch_size", 1)
+        features = config.get("features", 1)
+        verbose = config.get("verbose", "auto")
         # Forecast
         x_input = self.scaled_training_dataset[-n_past:]  # Last sequence in data
         x_input_values = x_input.reshape(
