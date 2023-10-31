@@ -81,7 +81,9 @@ PREDICTION_LSTM_CONFIG = {
 }
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here (for meta models)
-SETUP_RIDGE_REGRESSION_CONFIG = {}
+SETUP_RIDGE_REGRESSION_CONFIG = {
+    "alpha": 1.0,
+}
 SETUP_RANDOM_FOREST_CONFIG = {}
 SETUP_LINEAR_LAYER_NEURAL_NETWORK_CONFIG = {}
 

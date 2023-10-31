@@ -13,6 +13,7 @@ from manager.data_manager import DataManager
 from gateway.layer_1 import GatewayL1
 from gateway.layer_2 import GatewayL2
 from putils.calculator import Calculator
+from putils.printer import print_loop_message
 
 
 class MainManager:
@@ -51,6 +52,7 @@ class MainManager:
         self.l2_gateway = GatewayL2(meta_model_ids)
         self.data_manager = DataManager()
         self.calculator = Calculator()
+        self.loop_count = 0
 
     def Run(self):
         # Validate file if it is the first run
@@ -58,10 +60,16 @@ class MainManager:
             self.validateProcess()
             self.is_first_run = False
 
-        # Wait for user to press Enter to continue
-        print("Press Enter to continue...")
-        input()
+        while True:
+            # Wait for user to press Enter to continue
+            print_loop_message(self.loop_count, "Main", "Press Enter to continue...")
+            input()
 
+            # Process prediction
+            self.ProcessPrediction()
+            self.loop_count += 1
+
+    def ProcessPrediction(self):
         # Write latest actual data (row: previous+step) if required
         if self.is_update_csv_required:
             self.updateCSVToLatest()
@@ -72,16 +80,21 @@ class MainManager:
         # Train meta models with the latest data in CSV-1
         self.trainMetaModels()
 
-        return
+        # return
 
         # Calculate weight of each meta model with the data in CSV-2
-        weights = self.calculateWeight()
+        # weights = self.calculateWeight()
 
         # Predict the next step using prediction_steps based on the base models
         base_results = self.predictBaseModels()
 
+        print_loop_message(self.loop_count, "Main", "Base:", base_results.head())
+
         # Predict the next step using prediction_steps based on the meta models
         meta_results = self.predictMetaModels(base_results)
+
+        print_loop_message(self.loop_count, "Main", "Meta:", meta_results.head())
+        return
 
         # Find final result by weight averaging of the prediction result from meta models
         self.predictFinalResultWithWeightAverage(meta_results, weights)
@@ -90,7 +103,7 @@ class MainManager:
         self.is_update_csv_required = True
 
     def validateProcess(self):
-        print("Validating file...")
+        print_loop_message(self.loop_count, "Main", "Validating file...")
         isL1MetaFileExist = self.data_manager.IsFileExist(self.l1_prediction_path)
 
         if isL1MetaFileExist == False:
@@ -98,11 +111,11 @@ class MainManager:
             raise Exception(message)
 
     def updateCSVToLatest(self):
-        print("Updating CSV to latest...")
+        print_loop_message(self.loop_count, "Main", "Updating CSV to latest...")
         pass
 
     def calculateWeight(self):
-        print("Calculating weight...")
+        print_loop_message(self.loop_count, "Main", "Calculating weight...")
         if self.data_manager.IsFileExist(self.l2_prediction_path) == False:
             return {item: 1 for item in self.meta_model_ids}
 
@@ -111,7 +124,7 @@ class MainManager:
         return weights
 
     def trainBaseModels(self, meta_increase_size: int = 0):
-        print("Training base models...")
+        print_loop_message(self.loop_count, "Main", "Training base models...")
         last_training_index = (
             self.start_training_index
             + meta_increase_size
@@ -126,7 +139,7 @@ class MainManager:
         )
 
     def trainMetaModels(self, meta_increase_size: int = 0):
-        print("Training meta models...")
+        print_loop_message(self.loop_count, "Main", "Training meta models...")
         dataset = self.data_manager.ReadCSV(self.l1_prediction_path)
         last_training_index = meta_increase_size + self.initial_meta_training_size
         self.l2_gateway.TrainModels(
@@ -134,17 +147,18 @@ class MainManager:
             features=self.base_model_ids,
             target=self.meta_target,
             end_index=last_training_index,
-            prediction_steps=self.prediction_steps,
         )
 
-    def predictBaseModels(self):
-        print("Predicting base models...")
-        pass
+    def predictBaseModels(self) -> pd.DataFrame:
+        print_loop_message(self.loop_count, "Main", "Predicting base models...")
+        prediction_result = self.l1_gateway.Predict(steps=self.prediction_steps)
+        return prediction_result
 
-    def predictMetaModels(self, base_results):
-        print("Predicting meta models...")
-        pass
+    def predictMetaModels(self, base_results: pd.DataFrame) -> pd.DataFrame:
+        print_loop_message(self.loop_count, "Main", "Predicting meta models...")
+        prediction_result = self.l2_gateway.Predict(input=base_results)
+        return prediction_result
 
     def predictFinalResultWithWeightAverage(self, meta_results, weights):
-        print("Predicting final result...")
+        print_loop_message(self.loop_count, "Main", "Predicting final result...")
         pass

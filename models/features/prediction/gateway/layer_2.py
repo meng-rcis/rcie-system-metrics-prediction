@@ -95,12 +95,12 @@ class GatewayL2:
             model["instance"].TrainModel(model["setup_config"])
 
     # NOTE: A function to execute the prediction process of all models
-    def Predict(self, steps: int) -> pd.DataFrame:
+    def Predict(self, input: pd.DataFrame) -> pd.DataFrame:
         predictions = pd.DataFrame()
 
         for model in self.models:
             prediction = model["instance"].Predict(
-                {**model["prediction_config"], "steps": steps}
+                {**model["prediction_config"], "input": input}
             )
             predictions[model["id"]] = prediction
 
