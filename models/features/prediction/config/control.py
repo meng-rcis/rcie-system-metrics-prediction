@@ -88,12 +88,12 @@ SETUP_RANDOM_FOREST_CONFIG = {
     "n_estimators": 100,
     "random_state": 0,
 }
-SETUP_LINEAR_LAYER_NEURAL_NETWORK_CONFIG = {}
+SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {}
 
 # NOTE: Define the default prediction configuration of each model here (for meta models)
 PREDICTION_RIDGE_REGRESSION_CONFIG = {}
 PREDICTION_RANDOM_FOREST_CONFIG = {}
-PREDICTION_LINEAR_LAYER_NEURAL_NETWORK_CONFIG = {}
+PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {}
 
 # NOTE: Define the list of base model ids here
 BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS]

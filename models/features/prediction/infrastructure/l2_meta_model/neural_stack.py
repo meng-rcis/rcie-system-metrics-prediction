@@ -12,7 +12,7 @@ sys.path.append(
 from models.features.prediction.interface.meta_model import IMetaModel
 
 
-class LinearLayerNeuralNetwork(IMetaModel):
+class FeedforwardNeuralNetwork(IMetaModel):
     def __init__(self):
         pass
 

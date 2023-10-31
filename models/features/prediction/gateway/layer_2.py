@@ -10,14 +10,14 @@ sys.path.append(
 from models.features.prediction.interface.meta_model import IMetaModel
 from infrastructure.l2_meta_model.regression_stack import RidgeRegression
 from infrastructure.l2_meta_model.tree_stack import RandomForest
-from infrastructure.l2_meta_model.neural_stack import LinearLayerNeuralNetwork
+from infrastructure.l2_meta_model.neural_stack import FeedforwardNeuralNetwork
 from config.control import (
     SETUP_RIDGE_REGRESSION_CONFIG,
     SETUP_RANDOM_FOREST_CONFIG,
-    SETUP_LINEAR_LAYER_NEURAL_NETWORK_CONFIG,
+    SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG,
     PREDICTION_RIDGE_REGRESSION_CONFIG,
     PREDICTION_RANDOM_FOREST_CONFIG,
-    PREDICTION_LINEAR_LAYER_NEURAL_NETWORK_CONFIG,
+    PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG,
 )
 import pconstant.models_id as models_id
 import pandas as pd
@@ -49,7 +49,7 @@ class GatewayL2:
         elif model_id == models_id.TREE_STACK:
             return RandomForest()
         elif model_id == models_id.NEURAL_STACK:
-            return LinearLayerNeuralNetwork()
+            return FeedforwardNeuralNetwork()
 
         raise Exception("Model ID not found: ", model_id)
 
@@ -60,7 +60,7 @@ class GatewayL2:
         elif model_id == models_id.TREE_STACK:
             return SETUP_RANDOM_FOREST_CONFIG
         elif model_id == models_id.NEURAL_STACK:
-            return SETUP_LINEAR_LAYER_NEURAL_NETWORK_CONFIG
+            return SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
 
@@ -71,7 +71,7 @@ class GatewayL2:
         elif model_id == models_id.TREE_STACK:
             return PREDICTION_RANDOM_FOREST_CONFIG
         elif model_id == models_id.NEURAL_STACK:
-            return PREDICTION_LINEAR_LAYER_NEURAL_NETWORK_CONFIG
+            return PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
 
