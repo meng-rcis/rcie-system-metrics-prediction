@@ -82,7 +82,7 @@ class GatewayL2:
         features: list[str],
         target: str,
         start_index: int = 0,
-        end_index: int = -1,
+        end_index: int = None,
     ):
         for model in self.models:
             model["instance"].ConfigModel(

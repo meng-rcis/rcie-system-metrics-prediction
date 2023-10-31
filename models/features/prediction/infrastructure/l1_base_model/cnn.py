@@ -37,7 +37,11 @@ class CNN(IBaseModel):
     ):
         # Set the dataset and training dataset
         self.dataset = dataset[feature]
-        self.training_dataset = self.dataset.iloc[start_index:end_index]
+        self.training_dataset = (
+            self.dataset.iloc[start_index:]
+            if end_index is None
+            else self.dataset.iloc[start_index:end_index]
+        )
         self.testing_dataset = self.dataset.iloc[
             end_index : end_index + prediction_steps
         ]

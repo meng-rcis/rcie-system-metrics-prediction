@@ -36,7 +36,11 @@ class FeedforwardNeuralNetwork(IMetaModel):
         end_index: int,
     ):
         cp_dataset = dataset.copy()
-        self.training_dataset = cp_dataset.iloc[start_index:end_index]
+        self.training_dataset = (
+            cp_dataset.iloc[start_index:]
+            if end_index is None
+            else cp_dataset.iloc[start_index:end_index]
+        )
         self.X = self.training_dataset[features]
         self.y = self.training_dataset[target]
         self.scaled_X = self.scaler_X.fit_transform(self.X)

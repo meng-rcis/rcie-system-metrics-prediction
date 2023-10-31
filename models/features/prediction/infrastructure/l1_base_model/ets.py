@@ -30,7 +30,11 @@ class ETS(IBaseModel):
         cp_dataset = dataset.copy()
         # Set up configuration
         self.dataset = cp_dataset[feature]
-        self.training_dataset = self.dataset.iloc[start_index:end_index]
+        self.training_dataset = (
+            self.dataset.iloc[start_index:]
+            if end_index is None
+            else self.dataset.iloc[start_index:end_index]
+        )
 
     def TrainModel(self, config: dict):
         """

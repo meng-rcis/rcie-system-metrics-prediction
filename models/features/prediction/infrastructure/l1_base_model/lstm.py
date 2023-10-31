@@ -45,7 +45,11 @@ class LSTM(IBaseModel):
         self.dataset = (
             cp_dataset[FEATURES] if self.use_all_features else cp_dataset[feature]
         )  # TO-DO: Fix cp_dataset[FEATURES]
-        self.training_dataset = self.dataset.iloc[start_index:end_index]
+        self.training_dataset = (
+            self.dataset.iloc[start_index:]
+            if end_index is None
+            else self.dataset.iloc[start_index:end_index]
+        )
 
     def TrainModel(self, config: dict):
         # Normalize data

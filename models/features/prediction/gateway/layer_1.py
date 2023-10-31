@@ -90,7 +90,7 @@ class GatewayL1:
         dataset: pd.DataFrame,
         feature: str,
         start_index: int = 0,
-        end_index: int = -1,
+        end_index: int = None,
         prediction_steps: int = 1,
     ):
         for model in self.models:

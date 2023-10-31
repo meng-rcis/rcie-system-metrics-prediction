@@ -127,13 +127,14 @@ class MainManager:
         weights = self.l3_gateway.FindModelWeights()
         return weights
 
+    # Fix to find last index
     def trainBaseModels(self, meta_increase_size: int = 0):
         print_loop_message(self.loop_count, "Main", "Training base models...")
         last_training_index = (
             self.start_training_index
             + meta_increase_size
             + self.initial_base_training_size
-        )
+        ) # TODO: Fix to find total rows of meta CSV
         self.l1_gateway.TrainModels(
             dataset=self.dataset,
             feature=self.selected_feature,
@@ -142,15 +143,13 @@ class MainManager:
             prediction_steps=self.prediction_steps,
         )
 
-    def trainMetaModels(self, meta_increase_size: int = 0):
+    def trainMetaModels(self):
         print_loop_message(self.loop_count, "Main", "Training meta models...")
         dataset = self.data_manager.ReadCSV(self.l1_prediction_path)
-        last_training_index = meta_increase_size + self.initial_meta_training_size
         self.l2_gateway.TrainModels(
             dataset=dataset,
             features=self.base_model_ids,
             target=self.meta_target,
-            end_index=last_training_index,
         )
 
     def predictBaseModels(self) -> pd.DataFrame:
