@@ -12,28 +12,33 @@ from manager.setup_manager import SetupManager
 from manager.main_manager import MainManager
 from config.control import (
     BASE_MODELS_IDS,
+    META_MODELS_IDS,
     SELECTED_FEATURE,
     PREDICTION_STEPS,
     INITIAL_BASE_TRAINING_SIZE,
     INITIAL_META_TRAINING_SIZE,
+    INITIAL_BASE_TRAINING_SIZE_IN_MAIN,
+    INITIAL_META_TRAINING_SIZE_IN_MAIN,
     IS_FILTERED,
+    IS_SETUP_META_MODEL_DATASET_REQUIRED,
 )
-from config.path import META_TRAINING_PATH, META_ARCHIVE_DIRECTORY, DATASET_PATH
+from config.path import (
+    L1_PREDICTION_DATASET_PATH,
+    L2_PREDICTION_DATASET_PATH,
+    L3_PREDICTION_DATASET_PATH,
+    BASE_DATASET_PATH,
+)
 
 
 def main():
     # Trigger Model Setup if Required
-    isSetupMetaModelDatasetRequired = True
-    if isSetupMetaModelDatasetRequired:
+    if IS_SETUP_META_MODEL_DATASET_REQUIRED:
         print("Preparing meta model dataset...")
-        datasetPath = DATASET_PATH
-        datasetPath += "filtered_df.p" if IS_FILTERED else "df.p"
         DataManagerInstance = DataManager()
         SetupManagerInstance = SetupManager(
-            dataset=DataManagerInstance.LoadDataset(datasetPath),
+            dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
             selected_feature=SELECTED_FEATURE,
-            meta_training_path=META_TRAINING_PATH,
-            meta_archive_directory=META_ARCHIVE_DIRECTORY,
+            l1_prediction_path=L1_PREDICTION_DATASET_PATH,
             base_model_ids=BASE_MODELS_IDS,
             prediction_steps=PREDICTION_STEPS,
             initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
@@ -44,8 +49,20 @@ def main():
 
     # Start Main Process
     print("Starting main process...")
-    MainManagerInstance = MainManager(prediction_steps=PREDICTION_STEPS)
-    # MainManagerInstance.Run()
+    MainManagerInstance = MainManager(
+        dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
+        selected_feature=SELECTED_FEATURE,
+        l1_prediction_path=L1_PREDICTION_DATASET_PATH,
+        l2_prediction_path=L2_PREDICTION_DATASET_PATH,
+        l3_prediction_path=L3_PREDICTION_DATASET_PATH,
+        base_model_ids=BASE_MODELS_IDS,
+        meta_model_ids=META_MODELS_IDS,
+        initial_base_training_size=INITIAL_BASE_TRAINING_SIZE_IN_MAIN,
+        initial_meta_training_size=INITIAL_META_TRAINING_SIZE_IN_MAIN,
+        prediction_steps=PREDICTION_STEPS,
+        is_filtered=IS_FILTERED,
+    )
+    MainManagerInstance.Run()
 
 
 main()

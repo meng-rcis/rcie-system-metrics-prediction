@@ -12,8 +12,9 @@ from gateway.layer_1 import GatewayL1
 import pandas as pd
 
 from config.control import START_TRAINING_INDEX
-from config.path import DATASET_PATH
+from config.path import BEFORE_FILTER_FILE
 from putils.printer import print_loop_message
+from putils.path import generate_meta_archive_directory
 
 
 class SetupManager:
@@ -21,8 +22,7 @@ class SetupManager:
         self,
         dataset: pd.DataFrame,
         selected_feature: str,
-        meta_training_path: str,
-        meta_archive_directory: str,
+        l1_prediction_path: str,
         base_model_ids: list[str],
         start_training_index: int = START_TRAINING_INDEX,
         initial_base_training_size: int = 100,
@@ -32,8 +32,7 @@ class SetupManager:
     ):
         self.dataset = dataset
         self.selected_feature = selected_feature
-        self.meta_training_path = meta_training_path
-        self.meta_archive_directory = meta_archive_directory
+        self.l1_prediction_path = l1_prediction_path
         self.data_manager = DataManager()
         self.base_gateway = GatewayL1(base_model_ids)
         self.start_training_index = start_training_index
@@ -43,9 +42,7 @@ class SetupManager:
         self.base_model_ids = base_model_ids
         self.is_filtered = is_filtered
         self.before_filter_dataset = (
-            self.data_manager.LoadDataset(DATASET_PATH + "df.p")
-            if is_filtered
-            else None
+            self.data_manager.LoadDataset(BEFORE_FILTER_FILE) if is_filtered else None
         )
 
     def PrepareMetaModelDataset(self):
@@ -55,7 +52,8 @@ class SetupManager:
             raise Exception(error_message)
 
         # Move the outdated training file to archive directory
-        self.data_manager.MoveCSV(self.meta_training_path, self.meta_archive_directory)
+        meta_archive_directory = generate_meta_archive_directory("l1")
+        self.data_manager.MoveCSV(self.l1_prediction_path, meta_archive_directory)
 
         # Loop to split dataset with given number of rows
         meta_total_rows = 0
@@ -103,7 +101,7 @@ class SetupManager:
             # Write the prediction result into CSV file
             print_loop_message(count, "Writing Result into CSV...")
             self.data_manager.WriteCSV(
-                path=self.meta_training_path, header=header, rows=rows
+                path=self.l1_prediction_path, header=header, rows=rows
             )
 
             # Increment meta_total_rows by the number of added rows
@@ -112,7 +110,7 @@ class SetupManager:
 
             count += 1
 
-        print("[Complete] Meta Dataset Located At:", self.meta_training_path)
+        print("[Complete] Meta Dataset Located At:", self.l1_prediction_path)
 
     def isDatasetValid(self):
         # Count number of rows in dataset

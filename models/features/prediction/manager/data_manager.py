@@ -25,7 +25,7 @@ class DataManager:
 
         extracted_data = []
         for idx in all_indices:
-            current_row = [idx]  # Start with the index itself
+            current_row = [idx]  # Start with the index (datetime) itself
             for model_id in model_ids:
                 current_row.append(prediction_result[model_id].get(idx, None))
             current_row.append(actual_result.get(str(idx), None))
@@ -90,3 +90,7 @@ class DataManager:
             print(f"Permission denied to move file '{file_path}' to '{dest_path}'!")
         except Exception as e:
             print(f"An error occurred while moving: {e}")
+
+    @staticmethod
+    def IsFileExist(path: str) -> bool:
+        return os.path.exists(path)

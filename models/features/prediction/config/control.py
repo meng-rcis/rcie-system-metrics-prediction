@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 
 # Add path to the root folder
 sys.path.append(
@@ -7,7 +8,7 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from pconstant.models_id import ARIMA, ETS, LSTM
+import pconstant.models_id as models_id
 
 # NOTE: Define the selected feature to be predicted here
 FEATURES = [
@@ -35,10 +36,20 @@ PREDICTION_TIME = 1  # Should be time interval
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 100
+INITIAL_META_TRAINING_SIZE = 20
+
+# NOTE: Define the number of initial training size here for meta models
+BATCH_SIZE = math.ceil(INITIAL_META_TRAINING_SIZE / PREDICTION_STEPS)
+INITIAL_META_TRAINING_SIZE_IN_MAIN = BATCH_SIZE * PREDICTION_STEPS
+INITIAL_BASE_TRAINING_SIZE_IN_MAIN = (
+    INITIAL_META_TRAINING_SIZE_IN_MAIN + INITIAL_BASE_TRAINING_SIZE
+)
 
 # NOTE: Use filter (reduce noise) or not
 IS_FILTERED = True
+
+# NOTE: Setup meta model dataset or not
+IS_SETUP_META_MODEL_DATASET_REQUIRED = True
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
@@ -69,13 +80,26 @@ PREDICTION_LSTM_CONFIG = {
     "features": 1,
 }
 
+# NOTE: Define the default setup configuration (hyperparameter) of each model here (for meta models)
+SETUP_RIDGE_REGRESSION_CONFIG = {}
+SETUP_RANDOM_FOREST_CONFIG = {}
+SETUP_LINEAR_LAYER_NEURAL_NETWORK_CONFIG = {}
+
+# NOTE: Define the default prediction configuration of each model here (for meta models)
+PREDICTION_RIDGE_REGRESSION_CONFIG = {}
+PREDICTION_RANDOM_FOREST_CONFIG = {}
+PREDICTION_LINEAR_LAYER_NEURAL_NETWORK_CONFIG = {}
 
 # NOTE: Define the list of base model ids here
-# BASE_MODELS_IDS = [ARIMA, ETS, LSTM]
-BASE_MODELS_IDS = [LSTM]
+BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS]
+# BASE_MODELS_IDS = [LSTM]
 
 # NOTE: Define the list of meta model ids here
-META_MODELS_IDS = []
+META_MODELS_IDS = [
+    models_id.REGRESSION_STACK,
+    models_id.TREE_STACK,
+    models_id.NEURAL_STACK,
+]
 
 # NOTE: Define the starting of training index of dataset
 START_TRAINING_INDEX = 0
