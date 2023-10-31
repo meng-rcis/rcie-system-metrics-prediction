@@ -39,7 +39,11 @@ class Prophet(IBaseModel):
         self.feature = feature
         self.dataset = cp_dataset[[INDEX_COL, feature]]
         df_prophet = self.dataset.rename(columns={INDEX_COL: "ds", feature: "y"})
-        self.training_dataset = df_prophet[start_index:end_index]
+        self.training_dataset = (
+            df_prophet[start_index:]
+            if end_index is None
+            else df_prophet[start_index:end_index]
+        )
         self.prediction_steps = prediction_steps
 
     def TrainModel(self, config: dict):

@@ -33,8 +33,6 @@ class RandomForest(IMetaModel):
         self.training_dataset = (
             cp_dataset.iloc[start_index:]
             if end_index is None
-            else ncp_dataset.iloc[start_index:]
-            if end_index is None
             else cp_dataset.iloc[start_index:end_index]
         )
         self.X = self.training_dataset[features]
