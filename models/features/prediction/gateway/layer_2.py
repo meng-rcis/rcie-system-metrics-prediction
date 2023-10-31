@@ -7,7 +7,7 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from models.features.prediction.interface.base_model import IBaseModel
+from models.features.prediction.interface.meta_model import IMetaModel
 from infrastructure.l2_meta_model.regression_stack import RidgeRegression
 from infrastructure.l2_meta_model.tree_stack import RandomForest
 from infrastructure.l2_meta_model.neural_stack import LinearLayerNeuralNetwork
@@ -43,7 +43,7 @@ class GatewayL2:
         return models
 
     # NOTE: A function to get the model instance based on the model id
-    def getModel(self, model_id: str) -> IBaseModel:
+    def getModel(self, model_id: str) -> IMetaModel:
         if model_id == models_id.REGRESSION_STACK:
             return RidgeRegression()
         elif model_id == models_id.TREE_STACK:
@@ -79,7 +79,7 @@ class GatewayL2:
     def TrainModels(
         self,
         dataset: pd.DataFrame,
-        feature: list[str],
+        features: list[str],
         target: str,
         start_index: int = 0,
         end_index: int = -1,
@@ -89,7 +89,7 @@ class GatewayL2:
             print("Training model: ", model["id"])
             model["instance"].ConfigModel(
                 dataset=dataset,
-                feature=feature,
+                features=features,
                 target=target,
                 start_index=start_index,
                 end_index=end_index,

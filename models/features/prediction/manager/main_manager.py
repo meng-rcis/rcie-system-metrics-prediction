@@ -131,7 +131,7 @@ class MainManager:
         last_training_index = meta_increase_size + self.initial_meta_training_size
         self.l2_gateway.TrainModels(
             dataset=dataset,
-            feature=self.base_model_ids,
+            features=self.base_model_ids,
             target=self.meta_target,
             end_index=last_training_index,
             prediction_steps=self.prediction_steps,

@@ -19,7 +19,7 @@ class RandomForest(IMetaModel):
     def ConfigModel(
         self,
         dataset: pd.DataFrame,
-        feature: str,
+        features: str,
         start_index: int,
         end_index: int,
         prediction_steps: int,

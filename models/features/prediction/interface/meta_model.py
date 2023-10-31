@@ -7,7 +7,7 @@ class IMetaModel(abc.ABC):
     def ConfigModel(
         self,
         dataset: pd.DataFrame,
-        feature: list[str],
+        features: list[str],
         target: str,
         start_index: int,
         end_index: int,
