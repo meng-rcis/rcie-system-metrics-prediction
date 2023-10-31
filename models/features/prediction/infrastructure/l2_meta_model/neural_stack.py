@@ -45,7 +45,10 @@ class FeedforwardNeuralNetwork(IMetaModel):
     def TrainModel(self, config: dict):
         # Splitting data into train and validation sets
         X_train, X_val, y_train, y_val = train_test_split(
-            self.scaled_X, self.y, test_size=0.2, random_state=0
+            self.scaled_X,
+            self.y,
+            test_size=config.get("validation_split", 0.2),
+            random_state=0,
         )
         # Define the model architecture
         model = tf.keras.models.Sequential(

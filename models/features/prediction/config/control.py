@@ -36,7 +36,7 @@ PREDICTION_TIME = 1  # Should be time interval
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 100
+INITIAL_META_TRAINING_SIZE = 200
 
 # NOTE: Define the number of initial training size here for meta models
 BATCH_SIZE = math.ceil(INITIAL_META_TRAINING_SIZE / PREDICTION_STEPS)
@@ -62,7 +62,7 @@ SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
     "n_past": 10,
     "steps": PREDICTION_STEPS,
-    "epochs": 65,
+    "epochs": 100,
     "batch_size": 16,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
@@ -90,6 +90,7 @@ SETUP_RANDOM_FOREST_CONFIG = {
 }
 SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
     "epochs": 100,
+    "validation_split": 0.2,
     "verbose": 0,
 }
 
