@@ -86,7 +86,6 @@ class GatewayL2:
         prediction_steps: int = 1,
     ):
         for model in self.models:
-            print("Training model: ", model["id"])
             model["instance"].ConfigModel(
                 dataset=dataset,
                 features=features,
