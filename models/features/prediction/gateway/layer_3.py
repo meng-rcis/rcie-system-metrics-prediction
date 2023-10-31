@@ -18,5 +18,12 @@ class GatewayL3:
         weights = {}  # TODO: Calculate the weight
         return weights
 
-    def Predict(self, input: pd.DataFrame, weights: object) -> pd.DataFrame:
-        pass
+    def Predict(self, input_df: pd.DataFrame, weights: object) -> pd.DataFrame:
+        # Calculate weighted predictions
+        weighted_preds = sum(
+            input_df[model] * weight for model, weight in weights.items()
+        )
+
+        # Convert to a DataFrame
+        result_df = pd.DataFrame({"Predicted": weighted_preds})
+        return result_df
