@@ -97,7 +97,7 @@ class DataManager:
 
     @staticmethod
     def CountWithoutHeader(path: str) -> int:
-        if os.path.exists(path):
+        if os.path.exists(path) == False:
             return 0
 
         with open(path, "r") as file:
