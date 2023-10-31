@@ -73,7 +73,6 @@ class LSTM(IBaseModel):
         model.add(Layer_LSTM(32, activation="relu", return_sequences=False))
         model.add(Dense(y.shape[1]))
         model.compile(optimizer="adam", loss="mse")
-        self.model = model
         # Train the model
         model.fit(
             X,
@@ -83,6 +82,7 @@ class LSTM(IBaseModel):
             batch_size=config.get("batch_size", 32),
             validation_split=config.get("validation_split", 0.2),
         )
+        self.model = model
 
     def TuneModel(self, config: dict):
         pass
