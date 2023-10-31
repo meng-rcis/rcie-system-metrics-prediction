@@ -83,7 +83,6 @@ class GatewayL2:
         target: str,
         start_index: int = 0,
         end_index: int = -1,
-        prediction_steps: int = 1,
     ):
         for model in self.models:
             model["instance"].ConfigModel(
@@ -92,7 +91,6 @@ class GatewayL2:
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
-                prediction_steps=prediction_steps,
             )
             model["instance"].TrainModel(model["setup_config"])
 

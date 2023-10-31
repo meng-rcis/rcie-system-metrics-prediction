@@ -23,15 +23,14 @@ class LinearLayerNeuralNetwork(IMetaModel):
         target: str,
         start_index: int,
         end_index: int,
-        prediction_steps: int,
     ):
         pass
 
-    def TrainModel(self, input):
+    def TrainModel(self, config: dict):
         pass
 
-    def TuneModel(self, input):
+    def TuneModel(self, config: dict):
         pass
 
-    def Predict(self, input):
+    def Predict(self, config: dict):
         pass
