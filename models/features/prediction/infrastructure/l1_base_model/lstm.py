@@ -64,8 +64,8 @@ class LSTM(IBaseModel):
             Layer_LSTM(
                 64,
                 activation="relu",
-                dropout=0.2,
-                recurrent_dropout=0.2,
+                # dropout=0.2,
+                # recurrent_dropout=0.2,
                 input_shape=(X.shape[1], X.shape[2]),
                 return_sequences=True,
             )
