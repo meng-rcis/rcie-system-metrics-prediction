@@ -19,7 +19,8 @@ class LinearLayerNeuralNetwork(IMetaModel):
     def ConfigModel(
         self,
         dataset: pd.DataFrame,
-        features: str,
+        features: list[str],
+        target: str,
         start_index: int,
         end_index: int,
         prediction_steps: int,

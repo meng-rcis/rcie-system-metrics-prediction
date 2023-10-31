@@ -10,21 +10,26 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface.meta_model import IMetaModel
+from sklearn.linear_model import Ridge
 
 
 class RidgeRegression(IMetaModel):
     def __init__(self):
-        pass
+        self.dataset = None
+        self.model = None
 
     def ConfigModel(
         self,
         dataset: pd.DataFrame,
-        features: str,
+        features: list[str],
+        target: str,
         start_index: int,
         end_index: int,
         prediction_steps: int,
     ):
-        pass
+        print(dataset.head())
+        # print type of dataset
+        print(type(dataset))
 
     def TrainModel(self, input):
         pass
