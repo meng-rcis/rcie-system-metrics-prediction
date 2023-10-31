@@ -67,7 +67,6 @@ class MainManager:
 
             # Process prediction
             self.ProcessPrediction()
-            self.loop_count += 1
 
     def ProcessPrediction(self):
         # Write latest actual data (row: previous+step) if required
@@ -101,6 +100,9 @@ class MainManager:
 
         # Update the flag to indicate that the CSV is updated
         self.is_update_csv_required = True
+
+        # Increase loop count
+        self.loop_count += 1
 
     def validateProcess(self):
         print_loop_message(self.loop_count, "Main", "Validating file...")
