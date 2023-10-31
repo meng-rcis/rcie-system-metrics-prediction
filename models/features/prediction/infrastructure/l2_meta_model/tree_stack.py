@@ -49,7 +49,8 @@ class RandomForest(IMetaModel):
         model = RandomForestRegressor(
             n_estimators=n_estimators, random_state=random_state
         )
-        self.model = model.fit(self.X, self.y)
+        model.fit(self.X, self.y)
+        self.model = model
 
     def TuneModel(self, config: dict):
         pass

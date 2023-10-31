@@ -45,7 +45,8 @@ class RidgeRegression(IMetaModel):
         """
         alpha = config.get("alpha", 1.0)
         model = Ridge(alpha=alpha)
-        self.model = model.fit(self.X, self.y)
+        model.fit(self.X, self.y)
+        self.model = model
 
     def TuneModel(self, config: dict):
         pass

@@ -42,10 +42,12 @@ INITIAL_META_TRAINING_SIZE = 200
 IS_FILTERED = True
 
 # NOTE: Setup meta model dataset or not
-IS_SETUP_META_MODEL_DATASET_REQUIRED = False
+IS_SETUP_META_MODEL_DATASET_REQUIRED = True
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
-SETUP_ARIMA_CONFIG = {"order": (1, 1, 1)}
+SETUP_ARIMA_CONFIG = {
+    "order": (1, 1, 1),
+}
 SETUP_ETS_CONFIG = {
     "trend": "add",
     "seasonal": "add",
@@ -55,7 +57,7 @@ SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
     "n_past": 10,
     "steps": PREDICTION_STEPS,
-    "epochs": 70,
+    "epochs": 50,
     "batch_size": 16,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
