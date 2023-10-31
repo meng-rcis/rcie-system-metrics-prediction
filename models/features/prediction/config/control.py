@@ -88,7 +88,10 @@ SETUP_RANDOM_FOREST_CONFIG = {
     "n_estimators": 100,
     "random_state": 0,
 }
-SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {}
+SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
+    "epochs": 100,
+    "verbose": 0,
+}
 
 # NOTE: Define the default prediction configuration of each model here (for meta models)
 PREDICTION_RIDGE_REGRESSION_CONFIG = {}
@@ -96,8 +99,8 @@ PREDICTION_RANDOM_FOREST_CONFIG = {}
 PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {}
 
 # NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS]
-# BASE_MODELS_IDS = [LSTM]
+BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS, models_id.LSTM]
+# BASE_MODELS_IDS = [models_id.LSTM]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [
