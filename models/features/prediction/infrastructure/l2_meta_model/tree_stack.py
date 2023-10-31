@@ -15,7 +15,11 @@ from sklearn.ensemble import RandomForestRegressor
 
 class RandomForest(IMetaModel):
     def __init__(self):
-        pass
+        self.dataset = None
+        self.training_dataset = None
+        self.model = None
+        self.X = None
+        self.y = None
 
     def ConfigModel(
         self,
