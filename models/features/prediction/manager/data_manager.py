@@ -5,6 +5,7 @@ import pickle
 import shutil
 
 from typing import Any, List, Dict, Tuple
+from pconstant.feature_header import ACTUAL, RAW, TIME
 
 
 class DataManager:
@@ -35,15 +36,15 @@ class DataManager:
                 current_row.append(before_filter_dataset.get(str(idx), None))
 
         # Creating the headers
-        headers = ["Time"] + model_ids + ["Actual"]
-        headers = headers + ["Raw"] if before_filter_dataset is not None else headers
+        headers = [TIME] + model_ids + [ACTUAL]
+        headers = headers + [RAW] if before_filter_dataset is not None else headers
         return rows, headers
 
     @staticmethod
     def ExtractMainPredictionToCSV(
         df: pd.DataFrame,
     ) -> Tuple[List[List[Any]], List[str]]:
-        headers = ["Time"] + list(df.columns) + ["Actual"]
+        headers = [TIME] + list(df.columns) + [ACTUAL]
         rows = [[index] + row.tolist() for index, row in zip(df.index, df.values)]
         return rows, headers
 

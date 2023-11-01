@@ -15,6 +15,7 @@ from gateway.layer_2 import GatewayL2
 from gateway.layer_3 import GatewayL3
 from putils.printer import print_loop_message
 from putils.path import generate_meta_archive_directory_path
+from pconstant.feature_header import ACTUAL, RAW
 
 
 class MainManager:
@@ -41,7 +42,7 @@ class MainManager:
         self.l3_prediction_path = l3_prediction_path
         self.base_model_ids = base_model_ids
         self.meta_model_ids = meta_model_ids
-        self.meta_target = "Raw" if is_filtered else "Actual"
+        self.meta_target = RAW if is_filtered else ACTUAL
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
         self.start_training_index = start_training_index
