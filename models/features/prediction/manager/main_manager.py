@@ -33,6 +33,7 @@ class MainManager:
         is_filtered: bool = False,
         is_update_csv_required: bool = False,
         is_setup_run: bool = False,
+        is_move_to_archive_required: bool = False,
     ):
         self.dataset = dataset
         self.selected_feature = selected_feature
@@ -55,7 +56,7 @@ class MainManager:
         )
         self.data_manager = DataManager()
         self.loop_count = 0
-        self.is_setup_run = is_setup_run
+        self.is_move_to_archive_required = is_move_to_archive_required
 
     def Run(self, range: int = None):
         # Validate file if it is the first run
@@ -63,10 +64,10 @@ class MainManager:
             self.validateProcess()
             self.is_first_run = False
 
-        if self.is_setup_run:
+        if self.is_move_to_archive_required:
             # Move the L2 outdated file to archive directory
             l2_archive_dir = generate_meta_archive_directory_path(layer="l2")
-            self.data_manager.MoveCSV(self.l1_prediction_path, l2_archive_dir)
+            self.data_manager.MoveCSV(self.l2_prediction_path, l2_archive_dir)
 
             # Move the L3 outdated file to archive directory
             l3_archive_dir = generate_meta_archive_directory_path(layer="l3")
@@ -125,6 +126,8 @@ class MainManager:
 
         # Increase loop count
         self.loop_count += 1
+
+        print_loop_message(self.loop_count, "Main", "Finished", "\n")
 
     def validateProcess(self):
         print_loop_message(self.loop_count, "Main", "Validating file...")
@@ -201,10 +204,22 @@ class MainManager:
         l2_df: pd.DataFrame,
         l3_df: pd.DataFrame,
     ):
+        print_loop_message(self.loop_count, "Main", "Extracting data...")
         l1_rows, l1_headers = self.data_manager.ExtractMainPredictionToCSV(l1_df)
         l2_rows, l2_headers = self.data_manager.ExtractMainPredictionToCSV(l2_df)
         l3_rows, l3_headers = self.data_manager.ExtractMainPredictionToCSV(l3_df)
 
+        # Add Raw header to l1_headers if self.is_filtered = True
+        if self.is_filtered:
+            l1_headers.append("Raw")
+
+        print_loop_message(self.loop_count, "Main", "Saving data into CSV...")
+        self.data_manager.WriteCSV(
+            path=self.l1_prediction_path, headers=l1_headers, rows=l1_rows
+        )
         self.data_manager.WriteCSV(
             path=self.l2_prediction_path, headers=l2_headers, rows=l2_rows
+        )
+        self.data_manager.WriteCSV(
+            path=self.l3_prediction_path, headers=l3_headers, rows=l3_rows
         )
