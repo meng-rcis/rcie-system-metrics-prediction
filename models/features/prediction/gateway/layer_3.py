@@ -11,7 +11,7 @@ class GatewayL3:
     def FindModelWeights(self) -> object:
         # Define all models with equal weight if the file is not found
         if self.data_manager.IsFileExist(self.meta_prediction_source) == False:
-            return {item: 1 for item in self.model_ids}
+            return {item: 1 / len(self.model_ids) for item in self.model_ids}
 
         # Otherwise, calculate the weight
         meta_prediction = self.data_manager.ReadCSV(self.meta_prediction_source)
