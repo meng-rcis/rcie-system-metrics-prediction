@@ -38,6 +38,19 @@ INITIAL_BASE_TRAINING_SIZE = 1000
 # NOTE: Define the number of initial meta training size here
 INITIAL_META_TRAINING_SIZE = 200
 
+# NOTE: Optional - Define the number of initial L3 size here
+"""
+The system will automatically run the main process with the given loop range (RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE)
+Therefore, we don't require to manually run the main process one by one
+Expected Result - we would automatically have the final prediction (L3 prediction) with the given data size (INITIAL_FINAL_RESULT_SIZE) saved in the L3 prediction dataset (L3_PREDICTION_DATASET_PATH)
+"""
+INITIAL_FINAL_RESULT_SIZE = None
+RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
+    math.ceil(INITIAL_FINAL_RESULT_SIZE / PREDICTION_STEPS)
+    if INITIAL_FINAL_RESULT_SIZE is not None
+    else None
+)
+
 # NOTE: Use filter (reduce noise) or not
 IS_FILTERED = True
 

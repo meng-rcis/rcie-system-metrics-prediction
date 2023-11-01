@@ -19,6 +19,7 @@ from config.control import (
     INITIAL_META_TRAINING_SIZE,
     IS_FILTERED,
     IS_SETUP_META_MODEL_DATASET_REQUIRED,
+    RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE,
 )
 from config.path import (
     L1_PREDICTION_DATASET_PATH,
@@ -59,8 +60,9 @@ def main():
         meta_model_ids=META_MODELS_IDS,
         prediction_steps=PREDICTION_STEPS,
         is_filtered=IS_FILTERED,
+        is_setup_run=IS_SETUP_META_MODEL_DATASET_REQUIRED,
     )
-    MainManagerInstance.Run()
+    MainManagerInstance.Run(range=RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE)
 
 
 main()
