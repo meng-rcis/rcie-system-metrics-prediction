@@ -12,7 +12,7 @@ class DataManager:
         pass
 
     @staticmethod
-    def ExtractPredictionToCSV(
+    def ExtractSetupPredictionToCSV(
         prediction_result: Dict[str, pd.Series],
         actual_result: Dict[str, pd.Series],
         model_ids: List[str],
@@ -23,21 +23,29 @@ class DataManager:
             set().union(*(prediction_result[model_id].index for model_id in model_ids))
         )
 
-        extracted_data = []
+        rows = []
         for idx in all_indices:
             current_row = [idx]  # Start with the index (datetime) itself
             for model_id in model_ids:
                 current_row.append(prediction_result[model_id].get(idx, None))
             current_row.append(actual_result.get(str(idx), None))
-            extracted_data.append(current_row)
+            rows.append(current_row)
 
             if before_filter_dataset is not None:
                 current_row.append(before_filter_dataset.get(str(idx), None))
 
-        # Creating the header
-        header = ["Time"] + model_ids + ["Actual"]
-        header = header + ["Raw"] if before_filter_dataset is not None else header
-        return extracted_data, header
+        # Creating the headers
+        headers = ["Time"] + model_ids + ["Actual"]
+        headers = headers + ["Raw"] if before_filter_dataset is not None else headers
+        return rows, headers
+
+    @staticmethod
+    def ExtractMainPredictionToCSV(
+        df: pd.DataFrame,
+    ) -> Tuple[List[List[Any]], List[str]]:
+        headers = ["Time"] + list(df.columns) + ["Actual"]
+        rows = [[index] + row.tolist() for index, row in zip(df.index, df.values)]
+        return rows, headers
 
     @staticmethod
     def LoadDataset(path: str):
@@ -49,16 +57,16 @@ class DataManager:
             raise
 
     @staticmethod
-    def WriteCSV(path: str, header: List[str], rows: List[List[Any]]):
+    def WriteCSV(path: str, headers: List[str], rows: List[List[Any]]):
         # Check if file exists and has content
         file_exists = os.path.exists(path)
 
         with open(path, "a", newline="") as csvfile:
             writer = csv.writer(csvfile)
 
-            # If file doesn't exist or is empty, write the header
+            # If file doesn't exist or is empty, write the headers
             if not file_exists or os.path.getsize(path) == 0:
-                writer.writerow(header)
+                writer.writerow(headers)
 
             # Write the data rows
             writer.writerows(rows)
