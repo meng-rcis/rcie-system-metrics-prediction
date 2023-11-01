@@ -14,6 +14,7 @@ from gateway.layer_1 import GatewayL1
 from gateway.layer_2 import GatewayL2
 from gateway.layer_3 import GatewayL3
 from putils.printer import print_loop_message
+from putils.path import generate_meta_archive_directory_path
 
 
 class MainManager:
@@ -31,6 +32,7 @@ class MainManager:
         prediction_steps: int = 1,
         is_filtered: bool = False,
         is_update_csv_required: bool = False,
+        is_setup_run: bool = False,
     ):
         self.dataset = dataset
         self.selected_feature = selected_feature
@@ -53,12 +55,29 @@ class MainManager:
         )
         self.data_manager = DataManager()
         self.loop_count = 0
+        self.is_setup_run = is_setup_run
 
-    def Run(self):
+    def Run(self, range: int = None):
         # Validate file if it is the first run
         if self.is_first_run:
             self.validateProcess()
             self.is_first_run = False
+
+        if self.is_setup_run:
+            # Move the L2 outdated file to archive directory
+            l2_archive_dir = generate_meta_archive_directory_path(layer="l2")
+            self.data_manager.MoveCSV(self.l1_prediction_path, l2_archive_dir)
+
+            # Move the L3 outdated file to archive directory
+            l3_archive_dir = generate_meta_archive_directory_path(layer="l3")
+            self.data_manager.MoveCSV(self.l3_prediction_path, l3_archive_dir)
+
+        # Prepare the initial CSV for L2 and L3 before manually running the loop
+        if range is not None:
+            for _ in range:
+                # Process prediction
+                self.ProcessPrediction()
+                self.loop_count += 1
 
         while True:
             # Wait for user to press Enter to continue
@@ -85,21 +104,20 @@ class MainManager:
         # Predict the next step using prediction_steps based on the base models
         base_results = self.predictBaseModels()
 
-        print_loop_message(self.loop_count, "Main", "Base:", base_results.head())
-
         # Predict the next step using prediction_steps based on the meta models
         meta_results = self.predictMetaModels(base_results)
-
-        print_loop_message(self.loop_count, "Main", "Meta:", meta_results.head())
 
         # Find final result by weight averaging of the prediction result from meta models
         final_result = self.predictFinalResultWithWeightAverage(meta_results, weights)
 
+        # Share index to the meta and final's prediction result
+        self.shareIndex(base_results, meta_results, final_result)
+
         # Save the prediction result of base and meta models
-        self.savePredictionResult(
-            base_model_results=base_results,
-            meta_model_results=meta_results,
-            final_result=final_result,
+        self.savePredictionResults(
+            l1_df=base_results,
+            l2_df=meta_results,
+            l3_df=final_result,
         )
 
         # Update the flag to indicate that the CSV is updated
@@ -167,10 +185,26 @@ class MainManager:
         prediction_result = self.l3_gateway.Predict(input=meta_results, weights=weights)
         return prediction_result
 
-    def savePredictionResult(
+    def shareIndex(self, base: pd.DataFrame, *results: pd.DataFrame):
+        """
+        Args:
+        - base (pd.DataFrame): The base dataframe
+        - results (List[pd.DataFrame]): List of dataframes to update their index based on base dataframe's index
+        """
+        print_loop_message(self.loop_count, "Main", "Adding index...")
+        for result in results:
+            result.index = base.index
+
+    def savePredictionResults(
         self,
-        base_model_results: pd.DataFrame,
-        meta_model_results: pd.DataFrame,
-        final_result: pd.DataFrame,
+        l1_df: pd.DataFrame,
+        l2_df: pd.DataFrame,
+        l3_df: pd.DataFrame,
     ):
-        pass
+        l1_rows, l1_headers = self.data_manager.ExtractMainPredictionToCSV(l1_df)
+        l2_rows, l2_headers = self.data_manager.ExtractMainPredictionToCSV(l2_df)
+        l3_rows, l3_headers = self.data_manager.ExtractMainPredictionToCSV(l3_df)
+
+        self.data_manager.WriteCSV(
+            path=self.l2_prediction_path, headers=l2_headers, rows=l2_rows
+        )

@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 # Add path to the root folder
 sys.path.append(
@@ -14,7 +15,7 @@ import pandas as pd
 from config.control import START_TRAINING_INDEX
 from config.path import BEFORE_FILTER_FILE
 from putils.printer import print_loop_message
-from putils.path import generate_meta_archive_directory
+from putils.path import generate_meta_archive_directory_path
 
 
 class SetupManager:
@@ -52,8 +53,8 @@ class SetupManager:
             raise Exception(error_message)
 
         # Move the outdated training file to archive directory
-        meta_archive_directory = generate_meta_archive_directory("l1")
-        self.data_manager.MoveCSV(self.l1_prediction_path, meta_archive_directory)
+        meta_archive_directory_path = generate_meta_archive_directory_path(layer="l1")
+        self.data_manager.MoveCSV(self.l1_prediction_path, meta_archive_directory_path)
 
         # Loop to split dataset with given number of rows
         meta_total_rows = 0
@@ -91,7 +92,7 @@ class SetupManager:
 
             # Extract the prediction result into CSV format
             print_loop_message(count, "Setup", "Extracting Result into CSV Format...")
-            rows, header = self.data_manager.ExtractPredictionToCSV(
+            rows, header = self.data_manager.ExtractSetupPredictionToCSV(
                 prediction_result=prediction_result,
                 actual_result=actual_result,
                 model_ids=self.base_model_ids,
