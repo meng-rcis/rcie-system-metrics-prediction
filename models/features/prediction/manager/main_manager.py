@@ -32,7 +32,6 @@ class MainManager:
         prediction_steps: int = 1,
         is_filtered: bool = False,
         is_update_csv_required: bool = False,
-        is_setup_run: bool = False,
         is_move_to_archive_required: bool = False,
     ):
         self.dataset = dataset
@@ -124,10 +123,10 @@ class MainManager:
         # Update the flag to indicate that the CSV is updated
         self.is_update_csv_required = True
 
+        print_loop_message(self.loop_count, "Main", "Finished", "\n")
+
         # Increase loop count
         self.loop_count += 1
-
-        print_loop_message(self.loop_count, "Main", "Finished", "\n")
 
     def validateProcess(self):
         print_loop_message(self.loop_count, "Main", "Validating file...")
