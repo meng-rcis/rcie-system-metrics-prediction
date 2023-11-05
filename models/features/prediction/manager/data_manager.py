@@ -111,3 +111,13 @@ class DataManager:
 
         with open(path, "r") as file:
             return len(file.readlines()) - 1
+
+    @staticmethod
+    def UpdateDestinationToLatest(
+        src: pd.DataFrame,
+        dest: pd.DataFrame,
+        src_target: str,
+        dest_target: str,
+        index: str,
+    ):
+        pass
