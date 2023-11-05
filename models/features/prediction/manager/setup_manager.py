@@ -1,6 +1,5 @@
 import os
 import sys
-import time
 
 # Add path to the root folder
 sys.path.append(
