@@ -73,8 +73,11 @@ class DataManager:
             writer.writerows(rows)
 
     @staticmethod
-    def ReadCSV(path: str):
-        return pd.read_csv(path)
+    def ReadCSV(path: str, index_col: str = None):
+        return pd.read_csv(
+            path,
+            index_col=index_col,
+        )
 
     @staticmethod
     def MoveCSV(file_path: str, dest_directory: str):

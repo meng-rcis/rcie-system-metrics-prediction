@@ -1,5 +1,6 @@
 from manager.data_manager import DataManager
 import pandas as pd
+from pconstant.feature_header import TIME
 
 
 class GatewayL3:
@@ -14,7 +15,9 @@ class GatewayL3:
             return {item: 1 / len(self.model_ids) for item in self.model_ids}
 
         # Otherwise, calculate the weight
-        meta_prediction = self.data_manager.ReadCSV(self.meta_prediction_source)
+        meta_prediction = self.data_manager.ReadCSV(
+            self.meta_prediction_source, index_col=TIME
+        )
         weights = {}  # TODO: Calculate the weight
         return weights
 
