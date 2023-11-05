@@ -121,6 +121,5 @@ class DataManager:
         dest: pd.DataFrame,
         src_target: str,
         dest_target: str,
-        index: str,
     ):
         pass
