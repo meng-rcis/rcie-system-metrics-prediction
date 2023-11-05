@@ -60,6 +60,9 @@ IS_SETUP_META_MODEL_DATASET_REQUIRED = False
 # NOTE: Force to move L2 & L3 files to archive folder or not
 IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER = True
 
+# NOTE: Update CSV initially or not
+IS_UPDATE_CSV_REQUIRED_INITIALLY = False
+
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = {
     "order": (1, 1, 1),
