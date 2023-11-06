@@ -137,12 +137,10 @@ class DataManager:
         original_df = pd.read_csv(path, index_col=index_col_name)
 
         # Update rows based on the index
-        original_df.update(updated_rows.set_index(index_col_name))
+        original_df.update(updated_rows)
 
         # Append rows that don't exist in the original dataframe
-        new_rows = updated_rows.set_index(index_col_name).loc[
-            ~updated_rows[index_col_name].isin(original_df.index)
-        ]
+        new_rows = updated_rows.loc[~updated_rows.index.isin(original_df.index)]
         combined_df = pd.concat([original_df, new_rows])
 
         # Save back to CSV
