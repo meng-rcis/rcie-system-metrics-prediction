@@ -9,13 +9,14 @@ sys.path.append(
     )
 )
 from config.control import START_TRAINING_INDEX
+from config.path import BEFORE_FILTER_FILE
 from manager.data_manager import DataManager
 from gateway.layer_1 import GatewayL1
 from gateway.layer_2 import GatewayL2
 from gateway.layer_3 import GatewayL3
 from putils.printer import print_loop_message
 from putils.path import generate_meta_archive_directory_path
-from pconstant.feature_header import ACTUAL, RAW
+from pconstant.feature_header import ACTUAL, RAW, TIME
 
 
 class MainManager:
@@ -32,7 +33,7 @@ class MainManager:
         start_training_index: int = START_TRAINING_INDEX,
         prediction_steps: int = 1,
         is_filtered: bool = False,
-        is_update_csv_required: bool = False,
+        is_update_csv_required_initially: bool = False,
         is_move_to_archive_required: bool = False,
     ):
         self.dataset = dataset
@@ -48,7 +49,7 @@ class MainManager:
         self.start_training_index = start_training_index
         self.is_first_run = True
         self.is_filtered = is_filtered
-        self.is_update_csv_required = is_update_csv_required
+        self.is_update_csv_required = is_update_csv_required_initially
         self.l1_gateway = GatewayL1(base_model_ids)
         self.l2_gateway = GatewayL2(meta_model_ids)
         self.l3_gateway = GatewayL3(
@@ -57,6 +58,12 @@ class MainManager:
         self.data_manager = DataManager()
         self.loop_count = 0
         self.is_move_to_archive_required = is_move_to_archive_required
+        self.before_filter_dataset = self.data_manager.LoadDataset(BEFORE_FILTER_FILE)
+        self.meta_file_destinations = [
+            self.l1_prediction_path,
+            self.l2_prediction_path,
+            self.l3_prediction_path,
+        ]
 
     def Run(self, range: int = None):
         # Validate file if it is the first run
@@ -91,7 +98,6 @@ class MainManager:
     def ProcessPrediction(self):
         # Write latest actual data (row: previous+step) if required
         if self.is_update_csv_required:
-            # TODO: Update the CSV with the latest data
             self.updateCSVToLatest()
 
         # Train base models with the latest data in based CSV
@@ -140,7 +146,35 @@ class MainManager:
 
     def updateCSVToLatest(self):
         print_loop_message(self.loop_count, "Main", "Updating CSV to latest...")
-        pass
+        for dest in self.meta_file_destinations:
+            self.updateCSVPredictionToLatest(dest)
+
+    def updateCSVPredictionToLatest(self, dir: str):
+        if (
+            dir != self.l1_prediction_path
+            and dir != self.l2_prediction_path
+            and dir != self.l3_prediction_path
+        ):
+            raise Exception("dir must be either L1, L2 or L3")
+        dest = self.data_manager.ReadCSV(path=dir, index_col=TIME)
+        self.data_manager.UpdateDestinationToLatest(
+            src=self.dataset,
+            dest=dest,
+            src_target=self.selected_feature,
+            dest_target=ACTUAL,
+        )
+        if self.is_filtered:
+            self.data_manager.UpdateDestinationToLatest(
+                src=self.before_filter_dataset,
+                dest=dest,
+                src_target=self.selected_feature,
+                dest_target=RAW,
+            )
+        self.data_manager.UpdateRowsInCSV(
+            path=dir,
+            updated_rows=dest,
+            index_col_name=TIME,
+        )
 
     def calculateWeight(self):
         print_loop_message(self.loop_count, "Main", "Calculating weight...")
@@ -165,7 +199,9 @@ class MainManager:
 
     def trainMetaModels(self):
         print_loop_message(self.loop_count, "Main", "Training meta models...")
-        dataset = self.data_manager.ReadCSV(self.l1_prediction_path)
+        dataset = self.data_manager.ReadCSV(
+            path=self.l1_prediction_path, index_col=TIME
+        )
         self.l2_gateway.TrainModels(
             dataset=dataset,
             features=self.base_model_ids,
@@ -213,6 +249,8 @@ class MainManager:
         # Add Raw header to l1_headers if self.is_filtered = True
         if self.is_filtered:
             l1_headers.append("Raw")
+            l2_headers.append("Raw")
+            l3_headers.append("Raw")
 
         print_loop_message(self.loop_count, "Main", "Saving data into CSV...")
         self.data_manager.WriteCSV(
