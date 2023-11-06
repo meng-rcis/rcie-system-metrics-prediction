@@ -46,8 +46,9 @@ class RandomForest(IMetaModel):
         """
         n_estimators = config.get("n_estimators", 100)
         random_state = config.get("random_state", 0)
+        verbose = config.get("verbose", 0)
         model = RandomForestRegressor(
-            n_estimators=n_estimators, random_state=random_state
+            n_estimators=n_estimators, random_state=random_state, verbose=verbose
         )
         model.fit(self.X, self.y)
         self.model = model

@@ -81,8 +81,9 @@ class FeedforwardNeuralNetwork(IMetaModel):
 
     def Predict(self, config: dict):
         input = config.get("input", None)
+        verbose = config.get("verbose", 0)
         if input is None:
             raise ValueError("Input is not provided")
         scaled_input = self.scaler_X.transform(input)
-        yhat = self.model.predict(scaled_input)
+        yhat = self.model.predict(scaled_input, verbose=verbose)
         return self.scaler_y.inverse_transform(yhat)

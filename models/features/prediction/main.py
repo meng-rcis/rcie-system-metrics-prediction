@@ -1,5 +1,6 @@
 import os
 import sys
+import warnings
 
 # Add path to the root folder
 sys.path.append(
@@ -22,6 +23,7 @@ from config.control import (
     RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE,
     IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER,
     IS_UPDATE_CSV_REQUIRED_INITIALLY,
+    IS_HIDE_WARNING,
 )
 from config.path import (
     L1_PREDICTION_DATASET_PATH,
@@ -32,6 +34,9 @@ from config.path import (
 
 
 def main():
+    if IS_HIDE_WARNING:
+        warnings.filterwarnings("ignore")
+
     DataManagerInstance = DataManager()
 
     # Trigger Model Setup if Required

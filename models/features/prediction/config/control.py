@@ -63,6 +63,9 @@ IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER = True
 # NOTE: Update CSV initially or not
 IS_UPDATE_CSV_REQUIRED_INITIALLY = False
 
+# NOTE: Define whether or not it should hide warning
+IS_HIDE_WARNING = True
+
 # NOTE: Define the default setup configuration (hyperparameter) of each model here
 SETUP_ARIMA_CONFIG = {
     "order": (1, 1, 1),
@@ -101,6 +104,7 @@ SETUP_RIDGE_REGRESSION_CONFIG = {
 SETUP_RANDOM_FOREST_CONFIG = {
     "n_estimators": 100,
     "random_state": 0,
+    "verbose": 0,
 }
 SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
     "epochs": 50,
@@ -111,7 +115,9 @@ SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
 # NOTE: Define the default prediction configuration of each model here (for meta models)
 PREDICTION_RIDGE_REGRESSION_CONFIG = {}
 PREDICTION_RANDOM_FOREST_CONFIG = {}
-PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {}
+PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
+    "verbose": 0,
+}
 
 # NOTE: Define the list of base model ids here
 BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS, models_id.LSTM]
