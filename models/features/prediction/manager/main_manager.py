@@ -89,7 +89,7 @@ class MainManager:
 
         while True:
             # Wait for user to press Enter to continue
-            print_loop_message(self.loop_count, "Main", "Press Enter to continue...")
+            print("Press Enter to continue...")
             input()
 
             # Process prediction
@@ -137,7 +137,7 @@ class MainManager:
         self.loop_count += 1
 
     def validateProcess(self):
-        print_loop_message(self.loop_count, "Main", "Validating file...")
+        print("Validating file...")
         isL1MetaFileExist = self.data_manager.IsFileExist(self.l1_prediction_path)
 
         if isL1MetaFileExist == False:
