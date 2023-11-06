@@ -122,4 +122,11 @@ class DataManager:
         src_target: str,
         dest_target: str,
     ):
-        pass
+        # Loop through dest DataFrame
+        for idx in dest.index:
+            # Check if the dest_target value in dest is NaN
+            if pd.isna(dest.at[idx, dest_target]):
+                # Retrieve the value from src DataFrame using the same index and the src_target column
+                value = src.at[idx, src_target]
+                # Update the value in dest DataFrame
+                dest.at[idx, dest_target] = value
