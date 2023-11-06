@@ -128,5 +128,23 @@ class DataManager:
             if pd.isna(dest.at[idx, dest_target]):
                 # Retrieve the value from src DataFrame using the same index and the src_target column
                 value = src.at[idx, src_target]
+
                 # Update the value in dest DataFrame
                 dest.at[idx, dest_target] = value
+
+    @staticmethod
+    def UpdateRowsInCSV(path: str, updated_rows: pd.DataFrame, index_col_name: str):
+        # Read the original CSV using the specified column as the index
+        original_df = pd.read_csv(path, index_col=index_col_name)
+
+        # Update rows based on the index
+        original_df.update(updated_rows.set_index(index_col_name))
+
+        # Append rows that don't exist in the original dataframe
+        new_rows = updated_rows.set_index(index_col_name).loc[
+            ~updated_rows[index_col_name].isin(original_df.index)
+        ]
+        combined_df = pd.concat([original_df, new_rows])
+
+        # Save back to CSV
+        combined_df.reset_index().to_csv(path, index=False)
