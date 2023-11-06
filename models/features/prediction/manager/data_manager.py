@@ -5,7 +5,7 @@ import pickle
 import shutil
 
 from typing import Any, List, Dict, Tuple
-from pconstant.feature_header import ACTUAL, RAW, TIME, ORIGINAL_INDEX
+from pconstant.feature_header import ACTUAL, RAW, TIME
 
 
 class DataManager:
@@ -132,21 +132,16 @@ class DataManager:
                 dest.at[idx, dest_target] = value
 
     @staticmethod
-    def UpdateRowsInCSV(
-        path: str,
-        updated_rows: pd.DataFrame,
-        updated_index_col_name: str,
-        original_index_col_name: str = ORIGINAL_INDEX,
-    ):
+    def UpdateRowsInCSV(path: str, updated_rows: pd.DataFrame, index_col_name: str):
         # Read the original CSV using the specified column as the index
-        original_df = pd.read_csv(path, index_col=original_index_col_name)
+        original_df = pd.read_csv(path, index_col=index_col_name)
 
         # Update rows based on the index
-        original_df.update(updated_rows.set_index(updated_index_col_name))
+        original_df.update(updated_rows.set_index(index_col_name))
 
         # Append rows that don't exist in the original dataframe
-        new_rows = updated_rows.set_index(updated_index_col_name).loc[
-            ~updated_rows[updated_index_col_name].isin(original_df.index)
+        new_rows = updated_rows.set_index(index_col_name).loc[
+            ~updated_rows[index_col_name].isin(original_df.index)
         ]
         combined_df = pd.concat([original_df, new_rows])
 
