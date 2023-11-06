@@ -144,15 +144,15 @@ class DataManager:
         combined_df = pd.concat([original_df, new_rows])
 
         # Save back to CSV
-        combined_df.reset_index().to_csv(path, index=False, float_format="%.15f")
+        combined_df.reset_index().to_csv(path, index=False)
 
     @staticmethod
     def CleanMissingRowsInCSV(path: str, *target_cols: str):
         # Read the CSV
         df = pd.read_csv(path)
-
+        
         # Drop rows where any of the target columns contain NaN
         df_cleaned = df.dropna(subset=target_cols)
-
+        
         # Save back to CSV
-        df_cleaned.to_csv(path, index=False, float_format="%.15f")
+        df_cleaned.to_csv(path, index=False)
