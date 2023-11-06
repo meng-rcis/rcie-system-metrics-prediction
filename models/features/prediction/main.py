@@ -23,6 +23,7 @@ from config.control import (
     RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE,
     IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER,
     IS_UPDATE_CSV_REQUIRED_INITIALLY,
+    IS_CLEANING_ROWS_REQUIRED_INITIALLY,
     IS_HIDE_WARNING,
 )
 from config.path import (
@@ -68,6 +69,7 @@ def main():
         prediction_steps=PREDICTION_STEPS,
         is_filtered=IS_FILTERED,
         is_update_csv_required_initially=IS_UPDATE_CSV_REQUIRED_INITIALLY,
+        is_clean_rows_required_initially=IS_CLEANING_ROWS_REQUIRED_INITIALLY,
         is_move_to_archive_required=IS_SETUP_META_MODEL_DATASET_REQUIRED
         or IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER,
     )

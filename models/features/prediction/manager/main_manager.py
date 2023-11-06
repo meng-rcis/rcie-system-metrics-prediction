@@ -35,6 +35,7 @@ class MainManager:
         is_filtered: bool = False,
         is_update_csv_required_initially: bool = False,
         is_move_to_archive_required: bool = False,
+        is_clean_rows_required_initially: bool = True,
     ):
         self.dataset = dataset
         self.selected_feature = selected_feature
@@ -59,6 +60,7 @@ class MainManager:
         self.loop_count = 0
         self.is_move_to_archive_required = is_move_to_archive_required
         self.before_filter_dataset = self.data_manager.LoadDataset(BEFORE_FILTER_FILE)
+        self.is_clean_rows_required_initially = is_clean_rows_required_initially
         self.meta_file_destinations = [
             self.l1_prediction_path,
             self.l2_prediction_path,
@@ -79,6 +81,11 @@ class MainManager:
             # Move the L3 outdated file to archive directory
             l3_archive_dir = generate_meta_archive_directory_path(layer="l3")
             self.data_manager.MoveCSV(self.l3_prediction_path, l3_archive_dir)
+
+        if self.is_clean_rows_required_initially:
+            for dest in self.meta_file_destinations:
+                if self.data_manager.IsFileExist(dest):
+                    self.data_manager.CleanMissingRowsInCSV(dest, ACTUAL, RAW)
 
         # Prepare the initial CSV for L2 and L3 before manually running the loop
         if range is not None:

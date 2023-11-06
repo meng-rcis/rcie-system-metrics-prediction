@@ -63,6 +63,9 @@ IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER = True
 # NOTE: Update CSV initially or not
 IS_UPDATE_CSV_REQUIRED_INITIALLY = False
 
+# NOTE: Define cleaning rows is required initially or not
+IS_CLEANING_ROWS_REQUIRED_INITIALLY = True
+
 # NOTE: Define whether or not it should hide warning
 IS_HIDE_WARNING = True
 
