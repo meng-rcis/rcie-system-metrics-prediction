@@ -44,7 +44,7 @@ The system will automatically run the main process with the given loop range (RA
 Therefore, we don't require to manually run the main process one by one
 Expected Result - we would automatically have the final prediction (L3 prediction) with the given data size (INITIAL_FINAL_RESULT_SIZE) saved in the L3 prediction dataset (L3_PREDICTION_DATASET_PATH)
 """
-INITIAL_FINAL_RESULT_SIZE = None
+INITIAL_FINAL_RESULT_SIZE = 100
 RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
     math.ceil(INITIAL_FINAL_RESULT_SIZE / PREDICTION_STEPS)
     if INITIAL_FINAL_RESULT_SIZE is not None
@@ -137,4 +137,4 @@ META_MODELS_IDS = [
 START_TRAINING_INDEX = 0
 
 # NOTE: Define alpha in L3 prediction
-ALPHA = 1.0
+ALPHA = 100.0
