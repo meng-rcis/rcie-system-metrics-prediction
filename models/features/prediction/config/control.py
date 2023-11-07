@@ -135,3 +135,6 @@ META_MODELS_IDS = [
 
 # NOTE: Define the starting of training index of dataset
 START_TRAINING_INDEX = 0
+
+# NOTE: Define alpha in L3 prediction
+ALPHA = 1.0

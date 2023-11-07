@@ -18,13 +18,14 @@ from config.control import (
     PREDICTION_STEPS,
     INITIAL_BASE_TRAINING_SIZE,
     INITIAL_META_TRAINING_SIZE,
+    ALPHA,
     IS_FILTERED,
     IS_SETUP_META_MODEL_DATASET_REQUIRED,
-    RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE,
     IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER,
     IS_UPDATE_CSV_REQUIRED_INITIALLY,
     IS_CLEANING_ROWS_REQUIRED_INITIALLY,
     IS_HIDE_WARNING,
+    RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE,
 )
 from config.path import (
     L1_PREDICTION_DATASET_PATH,
@@ -67,6 +68,7 @@ def main():
         base_model_ids=BASE_MODELS_IDS,
         meta_model_ids=META_MODELS_IDS,
         prediction_steps=PREDICTION_STEPS,
+        alpha=ALPHA,
         is_filtered=IS_FILTERED,
         is_update_csv_required_initially=IS_UPDATE_CSV_REQUIRED_INITIALLY,
         is_clean_rows_required_initially=IS_CLEANING_ROWS_REQUIRED_INITIALLY,

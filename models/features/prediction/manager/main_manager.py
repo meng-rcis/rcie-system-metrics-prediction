@@ -32,6 +32,7 @@ class MainManager:
         initial_base_training_size: int,
         start_training_index: int = START_TRAINING_INDEX,
         prediction_steps: int = 1,
+        alpha: float = 1.0,
         is_filtered: bool = False,
         is_update_csv_required_initially: bool = False,
         is_move_to_archive_required: bool = False,
@@ -54,7 +55,10 @@ class MainManager:
         self.l1_gateway = GatewayL1(base_model_ids)
         self.l2_gateway = GatewayL2(meta_model_ids)
         self.l3_gateway = GatewayL3(
-            meta_model_ids=meta_model_ids, meta_prediction_source=l2_prediction_path
+            meta_model_ids=meta_model_ids,
+            meta_prediction_source=l2_prediction_path,
+            target_col=self.meta_target,
+            alpha=alpha,
         )
         self.data_manager = DataManager()
         self.loop_count = 0
@@ -115,6 +119,7 @@ class MainManager:
 
         # Calculate weight of each meta model with the data in CSV-2
         weights = self.calculateWeight()
+        print(f"Weight: {weights}")
 
         # Predict the next step using prediction_steps based on the base models
         base_results = self.predictBaseModels()
