@@ -71,7 +71,7 @@ class MainManager:
             self.l3_prediction_path,
         ]
 
-    def Run(self, range: int = None):
+    def Run(self, auto_loop: int = None):
         # Validate file if it is the first run
         if self.is_first_run:
             self.validateProcess()
@@ -92,8 +92,8 @@ class MainManager:
                     self.data_manager.CleanMissingRowsInCSV(dest, ACTUAL, RAW)
 
         # Prepare the initial CSV for L2 and L3 before manually running the loop
-        if range is not None:
-            for _ in range:
+        if auto_loop is not None:
+            for _ in range(auto_loop):
                 # Process prediction
                 self.ProcessPrediction()
                 self.loop_count += 1

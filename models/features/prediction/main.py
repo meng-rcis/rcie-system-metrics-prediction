@@ -75,7 +75,7 @@ def main():
         is_move_to_archive_required=IS_SETUP_META_MODEL_DATASET_REQUIRED
         or IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER,
     )
-    MainManagerInstance.Run(range=RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE)
+    MainManagerInstance.Run(auto_loop=RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE)
 
 
 main()
