@@ -91,7 +91,7 @@ class SetupManager:
 
             # Extract the prediction result into CSV format
             print_loop_message(count, "Setup", "Extracting Result into CSV Format...")
-            rows, header = self.data_manager.ExtractSetupPredictionToCSV(
+            rows, headers = self.data_manager.ExtractSetupPredictionToCSV(
                 prediction_result=prediction_result,
                 actual_result=actual_result,
                 model_ids=self.base_model_ids,
@@ -101,7 +101,7 @@ class SetupManager:
             # Write the prediction result into CSV file
             print_loop_message(count, "Setup", "Writing Result into CSV...")
             self.data_manager.WriteCSV(
-                path=self.l1_prediction_path, header=header, rows=rows
+                path=self.l1_prediction_path, headers=headers, rows=rows
             )
 
             # Increment meta_total_rows by the number of added rows
