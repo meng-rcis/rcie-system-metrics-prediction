@@ -73,7 +73,7 @@ class DataManager:
             writer.writerows(rows)
 
     @staticmethod
-    def ReadCSV(path: str, index_col: str = None):
+    def ReadCSV(path: str, index_col: str = None) -> pd.DataFrame:
         return pd.read_csv(
             path,
             index_col=index_col,
@@ -150,9 +150,9 @@ class DataManager:
     def CleanMissingRowsInCSV(path: str, *target_cols: str):
         # Read the CSV
         df = pd.read_csv(path)
-        
+
         # Drop rows where any of the target columns contain NaN
         df_cleaned = df.dropna(subset=target_cols)
-        
+
         # Save back to CSV
         df_cleaned.to_csv(path, index=False)
