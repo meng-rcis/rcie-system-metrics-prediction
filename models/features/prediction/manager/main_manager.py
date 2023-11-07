@@ -96,7 +96,6 @@ class MainManager:
             for _ in range(auto_loop):
                 # Process prediction
                 self.ProcessPrediction()
-                self.loop_count += 1
 
         while True:
             # Wait for user to press Enter to continue
