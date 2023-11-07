@@ -50,7 +50,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
         # Splitting data into train and validation sets
         X_train, X_val, y_train, y_val = train_test_split(
             self.scaled_X,
-            self.y,
+            self.scaled_y,
             test_size=config.get("validation_split", 0.2),
             random_state=0,
         )
@@ -71,6 +71,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
             X_train,
             y_train,
             epochs=config.get("epochs", 1),
+            batch_size=config.get("batch_size", 1),
             verbose=config.get("verbose", "auto"),
             validation_data=(X_val, y_val),
         )
