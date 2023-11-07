@@ -119,7 +119,6 @@ class MainManager:
 
         # Calculate weight of each meta model with the data in CSV-2
         weights = self.calculateWeight()
-        print(f"Weight: {weights}")
 
         # Predict the next step using prediction_steps based on the base models
         base_results = self.predictBaseModels()
