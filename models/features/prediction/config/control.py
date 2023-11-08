@@ -22,7 +22,7 @@ FEATURES = [
 SELECTED_FEATURE = "cpu_usage"
 
 # NOTE: Define the number of steps to be predicted here
-PREDICTION_STEPS = 5
+PREDICTION_STEPS = 10
 
 # NOTE: Define the time (units -> milliseconds) that the model will predict again (not used yet)
 # STEP:
