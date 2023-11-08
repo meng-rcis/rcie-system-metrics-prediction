@@ -82,7 +82,7 @@ SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
     "n_past": 30,
     "steps": PREDICTION_STEPS,
-    "epochs": 25,
+    "epochs": 50,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch

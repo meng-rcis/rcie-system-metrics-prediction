@@ -45,7 +45,7 @@ class MainManager:
         self.l3_prediction_path = l3_prediction_path
         self.base_model_ids = base_model_ids
         self.meta_model_ids = meta_model_ids
-        self.meta_target = RAW if is_filtered else ACTUAL
+        self.meta_target = ACTUAL
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
         self.start_training_index = start_training_index
@@ -57,7 +57,7 @@ class MainManager:
         self.l3_gateway = GatewayL3(
             meta_model_ids=meta_model_ids,
             meta_prediction_source=l2_prediction_path,
-            target_col=self.meta_target,
+            target_col=RAW if is_filtered else ACTUAL,
             alpha=alpha,
         )
         self.data_manager = DataManager()
