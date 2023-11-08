@@ -45,7 +45,7 @@ class MainManager:
         self.l3_prediction_path = l3_prediction_path
         self.base_model_ids = base_model_ids
         self.meta_model_ids = meta_model_ids
-        self.meta_target = ACTUAL
+        self.meta_target = RAW if is_filtered else ACTUAL
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
         self.start_training_index = start_training_index
