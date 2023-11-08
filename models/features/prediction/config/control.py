@@ -105,7 +105,8 @@ SETUP_RIDGE_REGRESSION_CONFIG = {
     "alpha": 1.0,
 }
 SETUP_RANDOM_FOREST_CONFIG = {
-    "n_estimators": 100,
+    "n_estimators": 150,
+    "max_features": "auto",
     "random_state": 0,
     "verbose": 0,
 }
@@ -138,4 +139,4 @@ META_MODELS_IDS = [
 START_TRAINING_INDEX = 0
 
 # NOTE: Define alpha in L3 prediction
-ALPHA = 100.0
+ALPHA = 500.0
