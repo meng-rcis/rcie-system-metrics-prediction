@@ -22,7 +22,7 @@ FEATURES = [
 SELECTED_FEATURE = "cpu_usage"
 
 # NOTE: Define the number of steps to be predicted here
-PREDICTION_STEPS = 2
+PREDICTION_STEPS = 5
 
 # NOTE: Define the time (units -> milliseconds) that the model will predict again (not used yet)
 # STEP:
@@ -30,13 +30,13 @@ PREDICTION_STEPS = 2
 # - Train meta models (from 0 to t points)
 # - Predict new data with PREDICTION_STEPS by meta models (from t to t + PREDICTION_STEPS points)
 # - Update predicted data in source meta training data (from t to t + PREDICTION_STEPS points)
-PREDICTION_TIME = 1  # Should be time interval
+# PREDICTION_TIME = 1  # Should be time interval
 
 # NOTE: Define the number of initial base training size here
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 200
+INITIAL_META_TRAINING_SIZE = 300
 
 # NOTE: Optional - Define the number of initial L3 size here
 """
@@ -44,7 +44,7 @@ The system will automatically run the main process with the given loop range (RA
 Therefore, we don't require to manually run the main process one by one
 Expected Result - we would automatically have the final prediction (L3 prediction) with the given data size (INITIAL_FINAL_RESULT_SIZE) saved in the L3 prediction dataset (L3_PREDICTION_DATASET_PATH)
 """
-INITIAL_FINAL_RESULT_SIZE = 100
+INITIAL_FINAL_RESULT_SIZE = 300
 RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
     math.ceil(INITIAL_FINAL_RESULT_SIZE / PREDICTION_STEPS)
     if INITIAL_FINAL_RESULT_SIZE is not None
@@ -55,10 +55,10 @@ RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
 IS_FILTERED = True
 
 # NOTE: Setup meta model dataset or not
-IS_SETUP_META_MODEL_DATASET_REQUIRED = False
+IS_SETUP_META_MODEL_DATASET_REQUIRED = True
 
 # NOTE: Force to move L2 & L3 files to archive folder or not
-IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER = True
+IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER = False
 
 # NOTE: Update CSV initially or not
 IS_UPDATE_CSV_REQUIRED_INITIALLY = False
@@ -80,10 +80,10 @@ SETUP_ETS_CONFIG = {
 }  # 12 -> 12 * 5 seconds = 1 minute
 SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
-    "n_past": 10,
+    "n_past": 30,
     "steps": PREDICTION_STEPS,
-    "epochs": 70,
-    "batch_size": 16,
+    "epochs": 50,
+    "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
 }
@@ -111,6 +111,7 @@ SETUP_RANDOM_FOREST_CONFIG = {
 }
 SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
     "epochs": 50,
+    "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,
 }
