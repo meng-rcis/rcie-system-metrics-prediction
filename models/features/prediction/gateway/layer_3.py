@@ -1,3 +1,4 @@
+from models.features.prediction.interface.l3 import IL3
 from sklearn.metrics import mean_squared_error
 from math import exp
 from manager.data_manager import DataManager
@@ -5,7 +6,7 @@ from pconstant.feature_header import TIME
 import pandas as pd
 
 
-class GatewayL3:
+class GatewayL3(IL3):
     def __init__(
         self,
         meta_model_ids: list[str],

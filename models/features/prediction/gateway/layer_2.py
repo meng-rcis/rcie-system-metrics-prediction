@@ -8,6 +8,7 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface.meta_model import IMetaModel
+from models.features.prediction.interface.l2 import IL2
 from infrastructure.l2_meta_model.regression_stack import RidgeRegression
 from infrastructure.l2_meta_model.tree_stack import RandomForest
 from infrastructure.l2_meta_model.neural_stack import FeedforwardNeuralNetwork
@@ -24,7 +25,7 @@ import pandas as pd
 
 
 # NOTE: Purpose of the GatewayL2 is to let the user to define the base models and its configurations in a single place
-class GatewayL2:
+class GatewayL2(IL2):
     def __init__(self, model_ids: list[str]):
         self.models = self.InitiateModels(model_ids)
 
@@ -41,39 +42,6 @@ class GatewayL2:
                 }
             )
         return models
-
-    # NOTE: A function to get the model instance based on the model id
-    def getModel(self, model_id: str) -> IMetaModel:
-        if model_id == models_id.REGRESSION_STACK:
-            return RidgeRegression()
-        elif model_id == models_id.TREE_STACK:
-            return RandomForest()
-        elif model_id == models_id.NEURAL_STACK:
-            return FeedforwardNeuralNetwork()
-
-        raise Exception("Model ID not found: ", model_id)
-
-    # NOTE: A function to get the default setup configuration of each model
-    def getSetupConfig(self, model_id: str) -> dict:
-        if model_id == models_id.REGRESSION_STACK:
-            return SETUP_RIDGE_REGRESSION_CONFIG
-        elif model_id == models_id.TREE_STACK:
-            return SETUP_RANDOM_FOREST_CONFIG
-        elif model_id == models_id.NEURAL_STACK:
-            return SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG
-
-        raise Exception("Model ID not found: ", model_id)
-
-    # NOTE: A function to get the default prediction configuration of each model
-    def getPredictionConfig(self, model_id: str) -> dict:
-        if model_id == models_id.REGRESSION_STACK:
-            return PREDICTION_RIDGE_REGRESSION_CONFIG
-        elif model_id == models_id.TREE_STACK:
-            return PREDICTION_RANDOM_FOREST_CONFIG
-        elif model_id == models_id.NEURAL_STACK:
-            return PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG
-
-        raise Exception("Model ID not found: ", model_id)
 
     # NOTE: A function to execute the training process of all models
     def TrainModels(
@@ -105,3 +73,36 @@ class GatewayL2:
             predictions[model["id"]] = prediction
 
         return predictions
+
+        # NOTE: A function to get the model instance based on the model id
+    def getModel(self, model_id: str) -> IMetaModel:
+        if model_id == models_id.REGRESSION_STACK:
+            return RidgeRegression()
+        elif model_id == models_id.TREE_STACK:
+            return RandomForest()
+        elif model_id == models_id.NEURAL_STACK:
+            return FeedforwardNeuralNetwork()
+
+        raise Exception("Model ID not found: ", model_id)
+
+    # NOTE: A function to get the default setup configuration of each model
+    def getSetupConfig(self, model_id: str) -> dict:
+        if model_id == models_id.REGRESSION_STACK:
+            return SETUP_RIDGE_REGRESSION_CONFIG
+        elif model_id == models_id.TREE_STACK:
+            return SETUP_RANDOM_FOREST_CONFIG
+        elif model_id == models_id.NEURAL_STACK:
+            return SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG
+
+        raise Exception("Model ID not found: ", model_id)
+
+    # NOTE: A function to get the default prediction configuration of each model
+    def getPredictionConfig(self, model_id: str) -> dict:
+        if model_id == models_id.REGRESSION_STACK:
+            return PREDICTION_RIDGE_REGRESSION_CONFIG
+        elif model_id == models_id.TREE_STACK:
+            return PREDICTION_RANDOM_FOREST_CONFIG
+        elif model_id == models_id.NEURAL_STACK:
+            return PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG
+
+        raise Exception("Model ID not found: ", model_id)

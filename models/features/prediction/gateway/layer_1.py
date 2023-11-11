@@ -8,6 +8,7 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface.base_model import IBaseModel
+from models.features.prediction.interface.l1 import IL1
 from infrastructure.l1_base_model.arima import ARIMA
 from infrastructure.l1_base_model.ets import ETS
 from infrastructure.l1_base_model.prophet import Prophet
@@ -27,7 +28,7 @@ import pandas as pd
 
 
 # NOTE: Purpose of the GatewayL1 is to let the user to define the base models and its configurations in a single place
-class GatewayL1:
+class GatewayL1(IL1):
     def __init__(self, model_ids: list[str]):
         self.models = self.InitiateModels(model_ids)
 
@@ -44,6 +45,38 @@ class GatewayL1:
                 }
             )
         return models
+
+    # NOTE: A function to execute the training process of all models
+    def TrainModels(
+        self,
+        dataset: pd.DataFrame,
+        feature: str,
+        start_index: int = 0,
+        end_index: int = None,
+        prediction_steps: int = 1,
+    ):
+        for model in self.models:
+            model["instance"].ConfigModel(
+                dataset=dataset,
+                feature=feature,
+                start_index=start_index,
+                end_index=end_index,
+                prediction_steps=prediction_steps,
+            )
+            model["instance"].TrainModel(model["setup_config"])
+
+    # NOTE: A function to execute the prediction process of all models
+    def Predict(self, steps: int) -> pd.DataFrame:
+        predictions = pd.DataFrame()
+
+        for model in self.models:
+            prediction = model["instance"].Predict(
+                {**model["prediction_config"], "steps": steps}
+            )
+            predictions[model["id"]] = prediction
+
+        return predictions
+
 
     # NOTE: A function to get the model instance based on the model id
     def getModel(self, model_id: str) -> IBaseModel:
@@ -83,34 +116,3 @@ class GatewayL1:
             return PREDICTION_LSTM_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
-
-    # NOTE: A function to execute the training process of all models
-    def TrainModels(
-        self,
-        dataset: pd.DataFrame,
-        feature: str,
-        start_index: int = 0,
-        end_index: int = None,
-        prediction_steps: int = 1,
-    ):
-        for model in self.models:
-            model["instance"].ConfigModel(
-                dataset=dataset,
-                feature=feature,
-                start_index=start_index,
-                end_index=end_index,
-                prediction_steps=prediction_steps,
-            )
-            model["instance"].TrainModel(model["setup_config"])
-
-    # NOTE: A function to execute the prediction process of all models
-    def Predict(self, steps: int) -> pd.DataFrame:
-        predictions = pd.DataFrame()
-
-        for model in self.models:
-            prediction = model["instance"].Predict(
-                {**model["prediction_config"], "steps": steps}
-            )
-            predictions[model["id"]] = prediction
-
-        return predictions
