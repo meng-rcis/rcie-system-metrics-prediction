@@ -8,7 +8,7 @@ sys.path.append(
     )
 )
 from manager.data_manager import DataManager
-from gateway.layer_1 import GatewayL1
+from controller.L1 import L1
 import pandas as pd
 
 from config.control import START_TRAINING_INDEX
@@ -34,7 +34,7 @@ class SetupManager:
         self.selected_feature = selected_feature
         self.l1_prediction_path = l1_prediction_path
         self.data_manager = DataManager()
-        self.base_gateway = GatewayL1(base_model_ids)
+        self.base_gateway = L1(base_model_ids)
         self.start_training_index = start_training_index
         self.initial_base_training_size = initial_base_training_size
         self.initial_meta_training_size = initial_meta_training_size

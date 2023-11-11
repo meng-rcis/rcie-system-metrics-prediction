@@ -11,9 +11,9 @@ sys.path.append(
 from config.control import START_TRAINING_INDEX
 from config.path import BEFORE_FILTER_FILE
 from manager.data_manager import DataManager
-from gateway.layer_1 import GatewayL1
-from gateway.layer_2 import GatewayL2
-from gateway.layer_3 import GatewayL3
+from controller.L1 import L1
+from controller.L2 import L2
+from controller.L3 import L3
 from putils.printer import print_loop_message
 from putils.path import generate_meta_archive_directory_path
 from pconstant.feature_header import ACTUAL, RAW, TIME
@@ -52,9 +52,9 @@ class MainManager:
         self.is_first_run = True
         self.is_filtered = is_filtered
         self.is_update_csv_required = is_update_csv_required_initially
-        self.l1_gateway = GatewayL1(base_model_ids)
-        self.l2_gateway = GatewayL2(meta_model_ids)
-        self.l3_gateway = GatewayL3(
+        self.l1_gateway = L1(base_model_ids)
+        self.l2_gateway = L2(meta_model_ids)
+        self.l3_gateway = L3(
             meta_model_ids=meta_model_ids,
             meta_prediction_source=l2_prediction_path,
             target_col=RAW if is_filtered else ACTUAL,

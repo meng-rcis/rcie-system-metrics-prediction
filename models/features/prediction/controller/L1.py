@@ -8,7 +8,7 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface.base_model import IBaseModel
-from models.features.prediction.interface.l1 import IL1
+from models.features.prediction.interface.L1 import IL1
 from infrastructure.l1_base_model.arima import ARIMA
 from infrastructure.l1_base_model.ets import ETS
 from infrastructure.l1_base_model.prophet import Prophet
@@ -27,8 +27,8 @@ import pconstant.models_id as models_id
 import pandas as pd
 
 
-# NOTE: Purpose of the GatewayL1 is to let the user to define the base models and its configurations in a single place
-class GatewayL1(IL1):
+# NOTE: Purpose of the L1 is to let the user to define the base models and its configurations in a single place
+class L1(IL1):
     def __init__(self, model_ids: list[str]):
         self.models = self.InitiateModels(model_ids)
 

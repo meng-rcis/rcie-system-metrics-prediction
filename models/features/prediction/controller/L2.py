@@ -8,7 +8,7 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface.meta_model import IMetaModel
-from models.features.prediction.interface.l2 import IL2
+from models.features.prediction.interface.L2 import IL2
 from infrastructure.l2_meta_model.regression_stack import RidgeRegression
 from infrastructure.l2_meta_model.tree_stack import RandomForest
 from infrastructure.l2_meta_model.neural_stack import FeedforwardNeuralNetwork
@@ -24,8 +24,8 @@ import pconstant.models_id as models_id
 import pandas as pd
 
 
-# NOTE: Purpose of the GatewayL2 is to let the user to define the base models and its configurations in a single place
-class GatewayL2(IL2):
+# NOTE: Purpose of the L2 is to let the user to define the base models and its configurations in a single place
+class L2(IL2):
     def __init__(self, model_ids: list[str]):
         self.models = self.InitiateModels(model_ids)
 
