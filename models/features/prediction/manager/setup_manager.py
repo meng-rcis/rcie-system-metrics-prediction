@@ -1,5 +1,6 @@
 import os
 import sys
+import pandas as pd
 
 # Add path to the root folder
 sys.path.append(
@@ -13,8 +14,6 @@ from config.control import START_TRAINING_INDEX
 from config.path import BEFORE_FILTER_FILE
 from putils.printer import print_loop_message
 from putils.path import generate_meta_archive_directory_path
-
-import pandas as pd
 
 class SetupManager:
     def __init__(
