@@ -55,7 +55,7 @@ RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
 IS_FILTERED = True
 
 # NOTE: Setup meta model dataset or not
-IS_SETUP_META_MODEL_DATASET_REQUIRED = False
+IS_SETUP_META_MODEL_DATASET_REQUIRED = False  # Don't forget to update MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = True if you change this value to False only when you want to create new meta files (L2 & L3) but you already have base file (L1)
 
 # NOTE: Force to move L2 & L3 files to archive folder or not
 MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = True
