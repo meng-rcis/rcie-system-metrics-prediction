@@ -21,7 +21,7 @@ from config.control import (
     ALPHA,
     IS_FILTERED,
     IS_SETUP_META_MODEL_DATASET_REQUIRED,
-    IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER,
+    IS_MOVE_FILE_TO_ARCHIVE_REQUIRED,
     IS_UPDATE_CSV_REQUIRED_INITIALLY,
     IS_CLEANING_ROWS_REQUIRED_INITIALLY,
     IS_HIDE_WARNING,
@@ -72,8 +72,7 @@ def main():
         is_filtered=IS_FILTERED,
         is_update_csv_required_initially=IS_UPDATE_CSV_REQUIRED_INITIALLY,
         is_clean_rows_required_initially=IS_CLEANING_ROWS_REQUIRED_INITIALLY,
-        is_move_to_archive_required=IS_SETUP_META_MODEL_DATASET_REQUIRED
-        or IS_FORCE_MOVE_FILE_TO_ARCHIVE_FOLDER,
+        is_move_to_archive_required=IS_MOVE_FILE_TO_ARCHIVE_REQUIRED,
     )
     MainManagerInstance.Run(auto_loop=RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE)
 
