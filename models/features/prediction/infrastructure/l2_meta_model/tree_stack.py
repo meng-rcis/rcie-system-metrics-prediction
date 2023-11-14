@@ -45,7 +45,7 @@ class RandomForest(IMetaModel):
         - random_state: Controls both the randomness of the bootstrapping of the samples used when building trees (if bootstrap=True), and the sampling of the features to consider when looking for the best split at each node (if max_features < n_features).
         """
         n_estimators = config.get("n_estimators", 100)
-        max_features = config.get("max_features", "auto")
+        max_features = config.get("max_features", 1)
         random_state = config.get("random_state", 0)
         verbose = config.get("verbose", 0)
         model = RandomForestRegressor(

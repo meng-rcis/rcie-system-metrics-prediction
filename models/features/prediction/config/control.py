@@ -109,7 +109,7 @@ SETUP_RIDGE_REGRESSION_CONFIG = {
 }
 SETUP_RANDOM_FOREST_CONFIG = {
     "n_estimators": 150,
-    "max_features": "auto",
+    "max_features": 1,
     "random_state": 0,
     "verbose": 0,
 }
