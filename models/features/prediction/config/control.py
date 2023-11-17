@@ -55,10 +55,10 @@ RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
 IS_FILTERED = True
 
 # NOTE: Setup meta model dataset or not
-IS_SETUP_META_MODEL_DATASET_REQUIRED = False  # Don't forget to update MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = True if you change this value to False only when you want to create new meta files (L2 & L3) but you already have base file (L1)
+IS_SETUP_META_MODEL_DATASET_REQUIRED = True  # When you want to create new meta files (L2 & L3) but you already have base file (L1), don't forget to update MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = True
 
 # NOTE: Force to move L2 & L3 files to archive folder or not
-MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = True
+MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = False
 IS_MOVE_FILE_TO_ARCHIVE_REQUIRED = (
     IS_SETUP_META_MODEL_DATASET_REQUIRED or MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER
 )
@@ -90,6 +90,14 @@ SETUP_LSTM_CONFIG = {
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
 }
+SETUP_CNN_CONFIG = {
+    "n_past": 30,
+    "epochs": 200,
+    "steps": PREDICTION_STEPS,
+    "batch_size": 32,
+    "validation_split": 0.2,
+    "verbose": 0,
+}
 
 # NOTE: Define the default prediction configuration of each model here
 PREDICTION_ARIMA_CONFIG = {}
@@ -99,6 +107,13 @@ PREDICTION_LSTM_CONFIG = {
     "n_past": SETUP_LSTM_CONFIG.get("n_past", 10),
     "steps": SETUP_LSTM_CONFIG.get("steps", PREDICTION_STEPS),
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
+    "batch_size": 1,
+    "features": 1,
+}
+PREDICTION_CNN_CONFIG = {
+    "n_past": SETUP_CNN_CONFIG.get("n_past", 10),
+    "steps": SETUP_CNN_CONFIG.get("steps", PREDICTION_STEPS),
+    "verbose": 0,
     "batch_size": 1,
     "features": 1,
 }
@@ -128,8 +143,8 @@ PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
 }
 
 # NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS, models_id.LSTM]
-# BASE_MODELS_IDS = [models_id.LSTM]
+# BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS, models_id.LSTM, models_id.CNN]
+BASE_MODELS_IDS = [models_id.CNN]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [

@@ -7,24 +7,26 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from models.features.prediction.interface.base_model import IBaseModel
-from tensorflow import keras
+from typing import Tuple
 from sklearn.preprocessing import MinMaxScaler
+from tensorflow import keras
+from keras.models import Sequential
+from keras.layers import Dense, Flatten, Conv1D, MaxPooling1D
+from models.features.prediction.interface.base_model import IBaseModel
+from constant.columns import FREQUENCY
+from pconstant.models_id import CNN as CNN_ID
+
 import numpy as np
 import pandas as pd
 
 
 class CNN(IBaseModel):
-    def __init__(self, n_in=10):
-        self.n_in = n_in
-        self.n_out = None
+    def __init__(self):
         self.dataset = None
         self.training_dataset = None
-        self.testing_dataset = None
+        self.scaled_training_dataset = None
         self.model = None
-        self.scaled_feature_values = None
-        self.X = None
-        self.y = None
+        self.feature = None
         self.scaler = MinMaxScaler(feature_range=(0, 1))
 
     def ConfigModel(
@@ -35,67 +37,87 @@ class CNN(IBaseModel):
         end_index: int,
         prediction_steps: int,
     ):
+        # Copy dataset to avoid changing the original dataset
+        cp_dataset = dataset.copy()
         # Set the dataset and training dataset
-        self.dataset = dataset[feature]
+        self.feature = feature
+        self.dataset = cp_dataset[feature]
         self.training_dataset = (
             self.dataset.iloc[start_index:]
             if end_index is None
             else self.dataset.iloc[start_index:end_index]
         )
-        self.testing_dataset = self.dataset.iloc[
-            end_index : end_index + prediction_steps
-        ]
-        self.n_out = prediction_steps
 
-        # Scale the feature values to be between 0 and 1
-        feature_values = self.training_dataset.values.reshape(-1, 1)
-        feature_values_test = self.testing_dataset.values.reshape(-1, 1)
-        self.scaled_feature_values = self.scaler.fit_transform(feature_values)
-        self.scaled_feature_values_test = self.scaler.fit_transform(feature_values_test)
-
-        # Split the feature values into X and y
-        Xy = self.series_to_supervised(
-            data=feature_values, n_in=self.n_in, n_out=self.n_out
+    def TrainModel(self, config: dict):
+        self.scaled_training_dataset = self.scaler.fit_transform(
+            self.training_dataset.values.reshape(-1, 1)
         )
-        Xy_test = self.series_to_supervised(
-            data=feature_values_test, n_in=self.n_in, n_out=self.n_out
+        n_past = config.get("n_past", 5)
+        steps = config.get("steps", 1)
+        X, y = self.create_sequences(
+            self.scaled_training_dataset,
+            n_past,
+            steps,
         )
-        self.X, self.y = Xy[:, : self.n_in], Xy[:, self.n_in :]
-        self.X_test, self.y_test = Xy_test[:, : self.n_in], Xy_test[:, self.n_in :]
-
-    def TrainModel(self, config):
-        model = self.define_model(n_in=self.n_in, n_out=self.n_out)
-        self.model = model.fit(
-            x=self.X, y=self.y, epochs=1000, batch_size=32, verbose=1
-        )
-
-    def TuneModel(self, config):
-        pass
-
-    def Predict(self, config):
-        prediction = self.model.predict(self.X_test)
-        # y_test = self.scaler.inverse_transform(self.y_test)
-        y_pred = self.scaler.inverse_transform(prediction)
-        return y_pred
-
-    def series_to_supervised(self, data, n_in, n_out):
-        agg = []
-        for i in range(len(data) - n_in - n_out + 1):
-            agg.append(data[i : i + n_in + n_out])
-        return np.array(agg)
-
-    def define_model(self, n_in: int, n_out: int):
-        model = keras.models.Sequential()
+        # CNN Model
+        model = Sequential()
         model.add(
-            keras.layers.Conv1D(
-                filters=64, kernel_size=3, activation="relu", input_shape=(n_in, 1)
+            Conv1D(
+                filters=64,
+                kernel_size=2,
+                activation="relu",
+                input_shape=(X.shape[1], X.shape[2]),
             )
         )
-        model.add(keras.layers.MaxPooling1D(pool_size=2))
-        model.add(keras.layers.Flatten())
-        model.add(keras.layers.Dense(50, activation="relu"))
-        model.add(
-            keras.layers.Dense(n_out, activation="linear")
-        )  # linear activation for regression problems
+        model.add(Flatten())
+        model.add(Dense(50, activation="relu"))
+        model.add(Dense(y.shape[1]))
         model.compile(optimizer="adam", loss="mse")
-        return model
+        # Train the model
+        model.fit(
+            X,
+            y,
+            epochs=config.get("epochs", 1),
+            verbose=config.get("verbose", "auto"),
+            batch_size=config.get("batch_size", 32),
+            validation_split=config.get("validation_split", 0.2),
+        )
+        self.model = model
+
+    def TuneModel(self, config: dict):
+        pass
+
+    def Predict(self, config: dict) -> pd.DataFrame:
+        n_past = config.get("n_past", 5)
+        batch_size = config.get("batch_size", 1)
+        features = config.get("features", 1)
+        verbose = config.get("verbose", "auto")
+        # Forecast
+        x_input = self.scaled_training_dataset[-n_past:]  # Last sequence in data
+        x_input_values = x_input.reshape((batch_size, n_past, features))
+        yhat = self.model.predict(x_input_values, verbose=verbose)
+        # Invert scaling
+        yhat_original = self.scaler.inverse_transform(yhat)
+        # Transform the prediction results to a DataFrame
+        # Get the last datetime from the training dataset
+        last_datetime = self.training_dataset.index[-1]
+        # Calculate the datetime values for the predicted results
+        # Assuming your data has a frequency of 5 seconds (as per your previous example)
+        prediction_datetimes = pd.date_range(
+            start=last_datetime, periods=len(yhat_original[0]) + 1, freq=FREQUENCY
+        )[1:]
+        # Convert the prediction results to a DataFrame with the calculated datetime index
+        prediction_df = pd.DataFrame(
+            yhat_original[0], columns=[CNN_ID], index=prediction_datetimes
+        )
+        return prediction_df
+
+    def create_sequences(
+        self, input: pd.DataFrame, n_past: int, n_future: int
+    ) -> Tuple:
+        X, y = [], []
+        # For each time step
+        for i in range(n_past, len(input) - n_future + 1):
+            X.append(input[i - n_past : i, :])
+            y.append(input[i : i + n_future, 0])
+        return np.array(X), np.array(y)

@@ -8,20 +8,23 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface.base_model import IBaseModel
-from models.features.prediction.interface.L1 import IL1
+from models.features.prediction.interface.l1 import IL1
 from infrastructure.l1_base_model.arima import ARIMA
 from infrastructure.l1_base_model.ets import ETS
 from infrastructure.l1_base_model.prophet import Prophet
 from infrastructure.l1_base_model.lstm import LSTM
+from infrastructure.l1_base_model.cnn import CNN
 from config.control import (
     SETUP_ARIMA_CONFIG,
     SETUP_ETS_CONFIG,
     SETUP_PROPHET_CONFIG,
     SETUP_LSTM_CONFIG,
+    SETUP_CNN_CONFIG,
     PREDICTION_ARIMA_CONFIG,
     PREDICTION_ETS_CONFIG,
     PREDICTION_PROPHET_CONFIG,
     PREDICTION_LSTM_CONFIG,
+    PREDICTION_CNN_CONFIG,
 )
 import pconstant.models_id as models_id
 import pandas as pd
@@ -77,7 +80,6 @@ class L1(IL1):
 
         return predictions
 
-
     # NOTE: A function to get the model instance based on the model id
     def getModel(self, model_id: str) -> IBaseModel:
         if model_id == models_id.ARIMA:
@@ -88,6 +90,8 @@ class L1(IL1):
             return Prophet()
         elif model_id == models_id.LSTM:
             return LSTM()
+        elif model_id == models_id.CNN:
+            return CNN()
 
         raise Exception("Model ID not found: ", model_id)
 
@@ -101,6 +105,8 @@ class L1(IL1):
             return SETUP_PROPHET_CONFIG
         elif model_id == models_id.LSTM:
             return SETUP_LSTM_CONFIG
+        elif model_id == models_id.CNN:
+            return SETUP_CNN_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
 
@@ -114,5 +120,7 @@ class L1(IL1):
             return PREDICTION_PROPHET_CONFIG
         elif model_id == models_id.LSTM:
             return PREDICTION_LSTM_CONFIG
+        elif model_id == models_id.CNN:
+            return PREDICTION_CNN_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
