@@ -1,4 +1,4 @@
-from models.features.prediction.interface.L3 import IL3
+from models.features.prediction.interface.l3 import IL3
 
 from sklearn.metrics import mean_squared_error
 from math import exp

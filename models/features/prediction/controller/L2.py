@@ -8,7 +8,7 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface.meta_model import IMetaModel
-from models.features.prediction.interface.L2 import IL2
+from models.features.prediction.interface.l2 import IL2
 from infrastructure.l2_meta_model.regression_stack import RidgeRegression
 from infrastructure.l2_meta_model.tree_stack import RandomForest
 from infrastructure.l2_meta_model.neural_stack import FeedforwardNeuralNetwork
@@ -75,6 +75,7 @@ class L2(IL2):
         return predictions
 
         # NOTE: A function to get the model instance based on the model id
+
     def getModel(self, model_id: str) -> IMetaModel:
         if model_id == models_id.REGRESSION_STACK:
             return RidgeRegression()
