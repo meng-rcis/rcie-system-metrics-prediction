@@ -9,7 +9,10 @@ sys.path.append(
 )
 from models.features.prediction.interface.meta_model import IMetaModel
 from models.features.prediction.interface.l2 import IL2
-from infrastructure.l2_meta_model.regression_stack import RidgeRegression, LR
+from infrastructure.l2_meta_model.regression_stack import (
+    RidgeRegression,
+    LinearRegression,
+)
 from infrastructure.l2_meta_model.tree_stack import RandomForest
 from infrastructure.l2_meta_model.neural_stack import FeedforwardNeuralNetwork
 import config.control as models_config
@@ -71,7 +74,7 @@ class L2(IL2):
 
     def getModel(self, model_id: str) -> IMetaModel:
         if model_id == models_id.REGRESSION_STACK:
-            return LR()
+            return LinearRegression()
         elif model_id == models_id.TREE_STACK:
             return RandomForest()
         elif model_id == models_id.NEURAL_STACK:

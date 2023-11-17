@@ -11,7 +11,7 @@ sys.path.append(
 )
 from models.features.prediction.interface.meta_model import IMetaModel
 from sklearn.linear_model import Ridge
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression as LRL
 
 
 class RidgeRegression(IMetaModel):
@@ -59,7 +59,7 @@ class RidgeRegression(IMetaModel):
         return self.model.predict(input)
 
 
-class LR(IMetaModel):
+class LinearRegression(IMetaModel):
     def __init__(self):
         self.dataset = None
         self.training_dataset = None
@@ -85,7 +85,7 @@ class LR(IMetaModel):
         self.y = self.training_dataset[target]
 
     def TrainModel(self, config: dict):
-        model = LinearRegression()
+        model = LRL()
         model.fit(self.X, self.y)
         self.model = model
 
