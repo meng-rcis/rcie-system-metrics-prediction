@@ -5,11 +5,12 @@ SARIMAX = "SARIMAX"
 ETS = "ETS"  # done
 PROPHET = "PROPHET"  # done
 LSTM = "LSTM"  # done
-CNN = "CNN"
+CNN = "CNN"  # done
 RNN = "RNN"
-GRU = "GRU"
+GRU = "GRU"  # done
 VAR = "VAR"
 BSTS = "BSTS"
+GP = "GP"
 
 # Meta Models
 REGRESSION_STACK = "RIDGE_REGRESSION"
