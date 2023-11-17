@@ -55,13 +55,13 @@ class GRU(IBaseModel):
         self.scaled_training_dataset = self.scaler.fit_transform(
             self.training_dataset.values.reshape(-1, 1)
         )
-        # Group data for LSTM
+        # Group data for GRU
         X, y = self.create_sequences(
             self.scaled_training_dataset,
             config.get("n_past", 5),
             config.get("steps", 1),
         )
-        # LSTM Model
+        # GRU Model
         model = Sequential()
         model.add(
             GRUL(
@@ -98,7 +98,7 @@ class GRU(IBaseModel):
         x_input = self.scaled_training_dataset[-n_past:]  # Last sequence in data
         x_input_values = x_input.reshape(
             (batch_size, n_past, features)
-        )  # Reshape for LSTM
+        )  # Reshape for GRU
         yhat = self.model.predict(x_input_values, verbose=verbose)
         # Invert scaling
         yhat_original = self.scaler.inverse_transform(yhat)
@@ -115,7 +115,7 @@ class GRU(IBaseModel):
         )
         return prediction_df
 
-    # Preprocess data for LSTM
+    # Preprocess data for GRU
     def create_sequences(
         self, input: pd.DataFrame, n_past: int, n_future: int
     ) -> Tuple:
