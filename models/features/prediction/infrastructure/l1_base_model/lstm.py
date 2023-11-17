@@ -7,8 +7,7 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-import pandas as pd
-import numpy as np
+from typing import Tuple
 from constant.columns import FREQUENCY
 from pconstant.models_id import LSTM as LSTM_ID
 from models.features.prediction.interface.base_model import IBaseModel
@@ -17,6 +16,9 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, LSTM as Layer_LSTM
+
+import pandas as pd
+import numpy as np
 
 
 class LSTM(IBaseModel):
@@ -114,7 +116,9 @@ class LSTM(IBaseModel):
         return prediction_df
 
     # Preprocess data for LSTM
-    def create_sequences(self, input, n_past, n_future):
+    def create_sequences(
+        self, input: pd.DataFrame, n_past: int, n_future: int
+    ) -> Tuple:
         X, y = [], []
         # For each time step
         for i in range(n_past, len(input) - n_future + 1):
