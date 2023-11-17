@@ -173,7 +173,7 @@ BASE_MODELS_IDS = [
     models_id.LSTM,
     models_id.CNN,
     models_id.GRU,
-    # models_id.GP,
+    models_id.GP,
 ]
 # BASE_MODELS_IDS = [models_id.GP]
 
