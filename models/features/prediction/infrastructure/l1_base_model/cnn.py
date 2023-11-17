@@ -11,7 +11,7 @@ from typing import Tuple
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 from keras.models import Sequential
-from keras.layers import Dense, Flatten, Conv1D, MaxPooling1D
+from keras.layers import Dense, Flatten, Conv1D
 from models.features.prediction.interface.base_model import IBaseModel
 from constant.columns import FREQUENCY
 from pconstant.models_id import CNN as CNN_ID
