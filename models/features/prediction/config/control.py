@@ -106,6 +106,10 @@ SETUP_GRU_CONFIG = {
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
 }
+SETUP_GP_CONFIG = {
+    "length_scale": 1.0,
+    "noise_level": 1.0,
+}
 
 # NOTE: Define the default prediction configuration of each model here
 PREDICTION_ARIMA_CONFIG = {}
@@ -131,6 +135,9 @@ PREDICTION_GRU_CONFIG = {
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
     "batch_size": 1,
     "features": 1,
+}
+PREDICTION_GP_CONFIG = {
+    "steps": PREDICTION_STEPS,
 }
 
 # NOTE: Define the default setup configuration (hyperparameter) of each model here (for meta models)
@@ -158,8 +165,8 @@ PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
 }
 
 # NOTE: Define the list of base model ids here
-# BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS, models_id.LSTM, models_id.CNN]
-BASE_MODELS_IDS = [models_id.GRU]
+# BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS, models_id.LSTM, models_id.CNN, models_id.GRU]
+BASE_MODELS_IDS = [models_id.GP]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [

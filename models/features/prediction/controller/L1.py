@@ -15,6 +15,7 @@ from infrastructure.l1_base_model.prophet import Prophet
 from infrastructure.l1_base_model.lstm import LSTM
 from infrastructure.l1_base_model.cnn import CNN
 from infrastructure.l1_base_model.gru import GRU
+from infrastructure.l1_base_model.gp import GP
 import config.control as models_config
 import pconstant.models_id as models_id
 import pandas as pd
@@ -84,6 +85,8 @@ class L1(IL1):
             return CNN()
         elif model_id == models_id.GRU:
             return GRU()
+        elif model_id == models_id.GP:
+            return GP()
 
         raise Exception("[getModel] Model ID not found: ", model_id)
 
@@ -101,6 +104,8 @@ class L1(IL1):
             return models_config.SETUP_CNN_CONFIG
         elif model_id == models_id.GRU:
             return models_config.SETUP_GRU_CONFIG
+        elif model_id == models_id.GP:
+            return models_config.SETUP_GP_CONFIG
 
         raise Exception("[getSetupConfig] Model ID not found: ", model_id)
 
@@ -118,5 +123,7 @@ class L1(IL1):
             return models_config.PREDICTION_CNN_CONFIG
         elif model_id == models_id.GRU:
             return models_config.PREDICTION_GRU_CONFIG
+        elif model_id == models_id.GP:
+            return models_config.PREDICTION_GP_CONFIG
 
         raise Exception("[getPredictionConfig] Model ID not found: ", model_id)
