@@ -14,18 +14,8 @@ from infrastructure.l1_base_model.ets import ETS
 from infrastructure.l1_base_model.prophet import Prophet
 from infrastructure.l1_base_model.lstm import LSTM
 from infrastructure.l1_base_model.cnn import CNN
-from config.control import (
-    SETUP_ARIMA_CONFIG,
-    SETUP_ETS_CONFIG,
-    SETUP_PROPHET_CONFIG,
-    SETUP_LSTM_CONFIG,
-    SETUP_CNN_CONFIG,
-    PREDICTION_ARIMA_CONFIG,
-    PREDICTION_ETS_CONFIG,
-    PREDICTION_PROPHET_CONFIG,
-    PREDICTION_LSTM_CONFIG,
-    PREDICTION_CNN_CONFIG,
-)
+from infrastructure.l1_base_model.gru import GRU
+import config.control as models_config
 import pconstant.models_id as models_id
 import pandas as pd
 
@@ -92,35 +82,41 @@ class L1(IL1):
             return LSTM()
         elif model_id == models_id.CNN:
             return CNN()
+        elif model_id == models_id.GRU:
+            return GRU()
 
-        raise Exception("Model ID not found: ", model_id)
+        raise Exception("[getModel] Model ID not found: ", model_id)
 
     # NOTE: A function to get the default setup configuration of each model
     def getSetupConfig(self, model_id: str) -> dict:
         if model_id == models_id.ARIMA:
-            return SETUP_ARIMA_CONFIG
+            return models_config.SETUP_ARIMA_CONFIG
         elif model_id == models_id.ETS:
-            return SETUP_ETS_CONFIG
+            return models_config.SETUP_ETS_CONFIG
         elif model_id == models_id.PROPHET:
-            return SETUP_PROPHET_CONFIG
+            return models_config.SETUP_PROPHET_CONFIG
         elif model_id == models_id.LSTM:
-            return SETUP_LSTM_CONFIG
+            return models_config.SETUP_LSTM_CONFIG
         elif model_id == models_id.CNN:
-            return SETUP_CNN_CONFIG
+            return models_config.SETUP_CNN_CONFIG
+        elif model_id == models_id.GRU:
+            return models_config.SETUP_GRU_CONFIG
 
-        raise Exception("Model ID not found: ", model_id)
+        raise Exception("[getSetupConfig] Model ID not found: ", model_id)
 
     # NOTE: A function to get the default prediction configuration of each model
     def getPredictionConfig(self, model_id: str) -> dict:
         if model_id == models_id.ARIMA:
-            return PREDICTION_ARIMA_CONFIG
+            return models_config.PREDICTION_ARIMA_CONFIG
         elif model_id == models_id.ETS:
-            return PREDICTION_ETS_CONFIG
+            return models_config.PREDICTION_ETS_CONFIG
         elif model_id == models_id.PROPHET:
-            return PREDICTION_PROPHET_CONFIG
+            return models_config.PREDICTION_PROPHET_CONFIG
         elif model_id == models_id.LSTM:
-            return PREDICTION_LSTM_CONFIG
+            return models_config.PREDICTION_LSTM_CONFIG
         elif model_id == models_id.CNN:
-            return PREDICTION_CNN_CONFIG
+            return models_config.PREDICTION_CNN_CONFIG
+        elif model_id == models_id.GRU:
+            return models_config.PREDICTION_GRU_CONFIG
 
-        raise Exception("Model ID not found: ", model_id)
+        raise Exception("[getPredictionConfig] Model ID not found: ", model_id)

@@ -98,6 +98,14 @@ SETUP_CNN_CONFIG = {
     "validation_split": 0.2,
     "verbose": 0,
 }
+SETUP_GRU_CONFIG = {
+    "n_past": 30,
+    "steps": PREDICTION_STEPS,
+    "epochs": 50,
+    "batch_size": 32,
+    "validation_split": 0.2,
+    "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
+}
 
 # NOTE: Define the default prediction configuration of each model here
 PREDICTION_ARIMA_CONFIG = {}
@@ -114,6 +122,13 @@ PREDICTION_CNN_CONFIG = {
     "n_past": SETUP_CNN_CONFIG.get("n_past", 10),
     "steps": SETUP_CNN_CONFIG.get("steps", PREDICTION_STEPS),
     "verbose": 0,
+    "batch_size": 1,
+    "features": 1,
+}
+PREDICTION_GRU_CONFIG = {
+    "n_past": SETUP_GRU_CONFIG.get("n_past", 10),
+    "steps": SETUP_GRU_CONFIG.get("steps", PREDICTION_STEPS),
+    "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
     "batch_size": 1,
     "features": 1,
 }
@@ -144,7 +159,7 @@ PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
 
 # NOTE: Define the list of base model ids here
 # BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS, models_id.LSTM, models_id.CNN]
-BASE_MODELS_IDS = [models_id.CNN]
+BASE_MODELS_IDS = [models_id.GRU]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [
