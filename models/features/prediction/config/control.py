@@ -83,25 +83,25 @@ SETUP_ETS_CONFIG = {
 }  # 12 -> 12 * 5 seconds = 1 minute
 SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
-    "n_past": 30,
     "steps": PREDICTION_STEPS,
-    "epochs": 50,
+    "n_past": 30,
+    "epochs": 30,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
 }
 SETUP_CNN_CONFIG = {
-    "n_past": 30,
     "steps": PREDICTION_STEPS,
-    "epochs": 50,
+    "n_past": 30,
+    "epochs": 30,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,
 }
 SETUP_GRU_CONFIG = {
-    "n_past": 30,
     "steps": PREDICTION_STEPS,
-    "epochs": 50,
+    "n_past": 30,
+    "epochs": 30,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
@@ -144,6 +144,7 @@ PREDICTION_GP_CONFIG = {
 SETUP_RIDGE_REGRESSION_CONFIG = {
     "alpha": 1.0,
 }
+SETUP_LINEAR_REGRESSION_CONFIG = {}
 SETUP_RANDOM_FOREST_CONFIG = {
     "n_estimators": 150,
     "max_features": 1,
@@ -159,6 +160,7 @@ SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
 
 # NOTE: Define the default prediction configuration of each model here (for meta models)
 PREDICTION_RIDGE_REGRESSION_CONFIG = {}
+PREDICTION_LINEAR_REGRESSION_CONFIG = {}
 PREDICTION_RANDOM_FOREST_CONFIG = {}
 PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
     "verbose": 0,

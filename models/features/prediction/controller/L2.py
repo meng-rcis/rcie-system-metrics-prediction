@@ -9,17 +9,10 @@ sys.path.append(
 )
 from models.features.prediction.interface.meta_model import IMetaModel
 from models.features.prediction.interface.l2 import IL2
-from infrastructure.l2_meta_model.regression_stack import RidgeRegression
+from infrastructure.l2_meta_model.regression_stack import RidgeRegression, LR
 from infrastructure.l2_meta_model.tree_stack import RandomForest
 from infrastructure.l2_meta_model.neural_stack import FeedforwardNeuralNetwork
-from config.control import (
-    SETUP_RIDGE_REGRESSION_CONFIG,
-    SETUP_RANDOM_FOREST_CONFIG,
-    SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG,
-    PREDICTION_RIDGE_REGRESSION_CONFIG,
-    PREDICTION_RANDOM_FOREST_CONFIG,
-    PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG,
-)
+import config.control as models_config
 import pconstant.models_id as models_id
 import pandas as pd
 
@@ -78,7 +71,7 @@ class L2(IL2):
 
     def getModel(self, model_id: str) -> IMetaModel:
         if model_id == models_id.REGRESSION_STACK:
-            return RidgeRegression()
+            return LR()
         elif model_id == models_id.TREE_STACK:
             return RandomForest()
         elif model_id == models_id.NEURAL_STACK:
@@ -89,21 +82,21 @@ class L2(IL2):
     # NOTE: A function to get the default setup configuration of each model
     def getSetupConfig(self, model_id: str) -> dict:
         if model_id == models_id.REGRESSION_STACK:
-            return SETUP_RIDGE_REGRESSION_CONFIG
+            return models_config.SETUP_LINEAR_REGRESSION_CONFIG
         elif model_id == models_id.TREE_STACK:
-            return SETUP_RANDOM_FOREST_CONFIG
+            return models_config.SETUP_RANDOM_FOREST_CONFIG
         elif model_id == models_id.NEURAL_STACK:
-            return SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG
+            return models_config.SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
 
     # NOTE: A function to get the default prediction configuration of each model
     def getPredictionConfig(self, model_id: str) -> dict:
         if model_id == models_id.REGRESSION_STACK:
-            return PREDICTION_RIDGE_REGRESSION_CONFIG
+            return models_config.PREDICTION_LINEAR_REGRESSION_CONFIG
         elif model_id == models_id.TREE_STACK:
-            return PREDICTION_RANDOM_FOREST_CONFIG
+            return models_config.PREDICTION_RANDOM_FOREST_CONFIG
         elif model_id == models_id.NEURAL_STACK:
-            return PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG
+            return models_config.PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
