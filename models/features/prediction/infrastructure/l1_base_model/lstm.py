@@ -15,7 +15,8 @@ from models.features.prediction.interface.base_model import IBaseModel
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 from keras.models import Sequential
-from keras.layers import Dense, LSTM as Layer_LSTM
+from keras.layers import Dense, LSTM as LSTML
+from keras.optimizers import Adam
 
 import pandas as pd
 import numpy as np
@@ -63,7 +64,7 @@ class LSTM(IBaseModel):
         # LSTM Model
         model = Sequential()
         model.add(
-            Layer_LSTM(
+            LSTML(
                 64,
                 activation="relu",
                 # dropout=0.2,
@@ -72,9 +73,9 @@ class LSTM(IBaseModel):
                 return_sequences=True,
             )
         )
-        model.add(Layer_LSTM(32, activation="relu", return_sequences=False))
+        model.add(LSTML(32, activation="relu", return_sequences=False))
         model.add(Dense(y.shape[1]))
-        model.compile(optimizer="adam", loss="mse")
+        model.compile(optimizer=Adam(), loss="mse")
         # Train the model
         model.fit(
             X,
