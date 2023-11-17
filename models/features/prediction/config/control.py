@@ -36,7 +36,7 @@ PREDICTION_STEPS = 5
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 1000
+INITIAL_META_TRAINING_SIZE = 10
 
 # NOTE: Optional - Define the number of initial L3 size here
 """
@@ -92,8 +92,8 @@ SETUP_LSTM_CONFIG = {
 }
 SETUP_CNN_CONFIG = {
     "n_past": 30,
-    "epochs": 200,
     "steps": PREDICTION_STEPS,
+    "epochs": 50,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,
@@ -165,8 +165,15 @@ PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
 }
 
 # NOTE: Define the list of base model ids here
-# BASE_MODELS_IDS = [models_id.ARIMA, models_id.ETS, models_id.LSTM, models_id.CNN, models_id.GRU]
-BASE_MODELS_IDS = [models_id.GP]
+BASE_MODELS_IDS = [
+    models_id.ARIMA,
+    models_id.ETS,
+    models_id.LSTM,
+    models_id.CNN,
+    models_id.GRU,
+    models_id.GP,
+]
+# BASE_MODELS_IDS = [models_id.GP]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [
