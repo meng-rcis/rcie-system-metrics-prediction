@@ -36,7 +36,7 @@ PREDICTION_STEPS = 5
 INITIAL_BASE_TRAINING_SIZE = 1000
 
 # NOTE: Define the number of initial meta training size here
-INITIAL_META_TRAINING_SIZE = 10
+INITIAL_META_TRAINING_SIZE = 1000
 
 # NOTE: Optional - Define the number of initial L3 size here
 """
@@ -146,7 +146,7 @@ SETUP_RIDGE_REGRESSION_CONFIG = {
 }
 SETUP_LINEAR_REGRESSION_CONFIG = {}
 SETUP_RANDOM_FOREST_CONFIG = {
-    "n_estimators": 150,
+    "n_estimators": 300,
     "max_features": 1,
     "random_state": 0,
     "verbose": 0,
@@ -173,7 +173,7 @@ BASE_MODELS_IDS = [
     models_id.LSTM,
     models_id.CNN,
     models_id.GRU,
-    models_id.GP,
+    # models_id.GP,
 ]
 # BASE_MODELS_IDS = [models_id.GP]
 
