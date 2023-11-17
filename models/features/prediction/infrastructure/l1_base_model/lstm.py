@@ -9,7 +9,6 @@ sys.path.append(
 )
 import pandas as pd
 import numpy as np
-from config.control import FEATURES
 from constant.columns import FREQUENCY
 from pconstant.models_id import LSTM as LSTM_ID
 from models.features.prediction.interface.base_model import IBaseModel
@@ -28,7 +27,6 @@ class LSTM(IBaseModel):
         self.model = None
         self.feature = None
         self.scaler = MinMaxScaler(feature_range=(0, 1))
-        self.use_all_features = False
 
     def ConfigModel(
         self,
@@ -42,9 +40,7 @@ class LSTM(IBaseModel):
         cp_dataset = dataset.copy()
         # Set up configuration
         self.feature = feature
-        self.dataset = (
-            cp_dataset[FEATURES] if self.use_all_features else cp_dataset[feature]
-        )  # TO-DO: Fix cp_dataset[FEATURES]
+        self.dataset = cp_dataset[feature]
         self.training_dataset = (
             self.dataset.iloc[start_index:]
             if end_index is None
