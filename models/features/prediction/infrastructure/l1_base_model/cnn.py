@@ -47,11 +47,11 @@ class CNN(IBaseModel):
             if end_index is None
             else self.dataset.iloc[start_index:end_index]
         )
-
-    def TrainModel(self, config: dict):
         self.scaled_training_dataset = self.scaler.fit_transform(
             self.training_dataset.values.reshape(-1, 1)
         )
+
+    def TrainModel(self, config: dict):
         n_past = config.get("n_past", 5)
         steps = config.get("steps", 1)
         X, y = self.create_sequences(
