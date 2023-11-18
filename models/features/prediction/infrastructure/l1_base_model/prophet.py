@@ -9,7 +9,7 @@ sys.path.append(
 )
 from constant.columns import INDEX_COL, FREQUENCY
 from models.features.prediction.interface.base_model import IBaseModel
-from prophet import Prophet as Prophet_MODEL
+from prophet import Prophet as ProphetL
 import pandas as pd
 import logging
 
@@ -38,7 +38,7 @@ class Prophet(IBaseModel):
         # Set up configuration
         self.feature = feature
         self.dataset = cp_dataset[[INDEX_COL, feature]]
-        df_prophet = self.dataset.rename(columns={INDEX_COL: "ds", feature: "y"})
+        df_prophet = self.dataset.rename(columns={INDEX_COL: "ds", self.feature: "y"})
         self.training_dataset = (
             df_prophet[start_index:]
             if end_index is None
@@ -47,7 +47,7 @@ class Prophet(IBaseModel):
         self.prediction_steps = prediction_steps
 
     def TrainModel(self, config: dict):
-        self.model = Prophet_MODEL()
+        self.model = ProphetL()
         self.model.fit(self.training_dataset)
 
     def TuneModel(self, config: dict):
