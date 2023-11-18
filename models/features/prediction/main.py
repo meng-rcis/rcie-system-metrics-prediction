@@ -77,4 +77,5 @@ def main():
     MainManagerInstance.Run(auto_loop=RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE)
 
 
-main()
+if __name__ == "__main__":
+    main()
