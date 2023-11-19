@@ -107,7 +107,7 @@ class SetupManager:
             # Increment meta_total_rows by the number of added rows
             meta_total_rows += self.prediction_steps
             print_loop_message(
-                self.loop_count, "Setup", "Number of Meta Rows:", meta_total_rows, "\n"
+                self.loop_count, "Setup", "Total Meta Rows:", meta_total_rows
             )
 
             # Print the time taken to complete the loop
