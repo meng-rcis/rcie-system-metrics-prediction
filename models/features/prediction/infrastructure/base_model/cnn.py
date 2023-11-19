@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
 
-from typing import Tuple
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Conv1D
 from interface import IBaseModel
 from pconstant.models_id import CNN as CNN_ID
+from putils.formatter import create_sequences
 
 
 class CNN(IBaseModel):
@@ -19,7 +19,7 @@ class CNN(IBaseModel):
         self.feature = None
         self.scaler = MinMaxScaler(feature_range=(0, 1))
 
-    def ConfigModel(
+    def PrepareParameters(
         self,
         dataset: pd.DataFrame,
         feature: str,
@@ -40,10 +40,10 @@ class CNN(IBaseModel):
             self.training_dataset.values.reshape(-1, 1)
         )
 
-    def TrainModel(self, config: dict):
+    def ConfigModel(self, config: dict):
         n_past = config.get("n_past", 5)
         steps = config.get("steps", 1)
-        X, y = self.create_sequences(
+        X, y = create_sequences(
             self.scaled_training_dataset,
             n_past,
             steps,
@@ -72,9 +72,6 @@ class CNN(IBaseModel):
             validation_split=config.get("validation_split", 0.2),
         )
         self.model = model
-
-    def TuneModel(self, config: dict):
-        pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
         n_past = config.get("n_past", 5)
@@ -105,13 +102,3 @@ class CNN(IBaseModel):
             index=prediction_datetimes,
         )
         return prediction_df
-
-    def create_sequences(
-        self, input: pd.DataFrame, n_past: int, n_future: int
-    ) -> Tuple:
-        X, y = [], []
-        # For each time step
-        for i in range(n_past, len(input) - n_future + 1):
-            X.append(input[i - n_past : i, :])
-            y.append(input[i : i + n_future, 0])
-        return np.array(X), np.array(y)

@@ -10,7 +10,7 @@ class ARIMA(IBaseModel):
         self.training_dataset = None
         self.model = None
 
-    def ConfigModel(
+    def PrepareParameters(
         self,
         dataset: pd.DataFrame,
         feature: str,
@@ -27,7 +27,7 @@ class ARIMA(IBaseModel):
             else self.dataset.iloc[start_index:end_index]
         )
 
-    def TrainModel(self, config: dict):
+    def ConfigModel(self, config: dict):
         """
         Train an ARIMA model on a given time series.
         - series: Pandas Series object representing the time series data.
@@ -36,9 +36,6 @@ class ARIMA(IBaseModel):
         order = config.get("order", None)
         model = ARIMAM(self.training_dataset, order=order)
         self.model = model.fit()
-
-    def TuneModel(self, config: dict):
-        pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
         steps = config.get("steps", 1)

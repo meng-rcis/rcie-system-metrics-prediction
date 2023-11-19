@@ -20,7 +20,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
         self.scaler_X = StandardScaler()
         self.scaler_y = StandardScaler()
 
-    def ConfigModel(
+    def PrepareParameters(
         self,
         dataset: pd.DataFrame,
         features: list[str],
@@ -39,7 +39,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
         self.scaled_X = self.scaler_X.fit_transform(self.X)
         self.scaled_y = self.scaler_y.fit_transform(self.y.values.reshape(-1, 1))
 
-    def TrainModel(self, config: dict):
+    def ConfigModel(self, config: dict):
         # Splitting data into train and validation sets
         X_train, X_val, y_train, y_val = train_test_split(
             self.scaled_X,

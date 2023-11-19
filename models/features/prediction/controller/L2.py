@@ -39,14 +39,14 @@ class L2(IL2):
         end_index: int = None,
     ):
         for model in self.models:
-            model["instance"].ConfigModel(
+            model["instance"].PrepareParameters(
                 dataset=dataset,
                 features=features,
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
             )
-            model["instance"].TrainModel(config=model["setup_config"])
+            model["instance"].ConfigModel(config=model["setup_config"])
 
     # NOTE: A function to execute the prediction process of all models
     def Predict(self, input: pd.DataFrame) -> pd.DataFrame:

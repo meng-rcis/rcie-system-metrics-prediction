@@ -3,8 +3,8 @@ import numpy as np
 
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, WhiteKernel
-from constant.columns import INDEX_COL
 from interface import IBaseModel
+from constant.columns import INDEX_COL
 
 
 class GP(IBaseModel):
@@ -15,7 +15,7 @@ class GP(IBaseModel):
         self.X = None
         self.y = None
 
-    def ConfigModel(
+    def PrepareParameters(
         self,
         dataset: pd.DataFrame,
         feature: str,
@@ -38,15 +38,12 @@ class GP(IBaseModel):
         self.X = self.training_dataset["time_num"].values.reshape(-1, 1)
         self.y = self.training_dataset[feature].values.reshape(-1, 1)
 
-    def TrainModel(self, config: dict):
+    def ConfigModel(self, config: dict):
         length_scale = config.get("length_scale", 1.0)
         noise_level = config.get("noise_level", 1.0)
         kernel = RBF(length_scale=length_scale) + WhiteKernel(noise_level=noise_level)
         self.model = GaussianProcessRegressor(kernel=kernel)
         self.model.fit(self.X, self.y)
-
-    def TuneModel(self, config: dict):
-        pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
         # Forecast future values

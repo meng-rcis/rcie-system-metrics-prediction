@@ -4,7 +4,7 @@ import pandas as pd
 
 class IBaseModel(abc.ABC):
     @abc.abstractmethod
-    def ConfigModel(
+    def PrepareParameters(
         self,
         dataset: pd.DataFrame,
         feature: str,
@@ -14,7 +14,7 @@ class IBaseModel(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def TrainModel(self, config: dict):
+    def ConfigModel(self, config: dict):
         pass
 
     @abc.abstractmethod

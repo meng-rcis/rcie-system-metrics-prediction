@@ -19,7 +19,7 @@ class GRU(IBaseModel):
         self.feature = None
         self.scaler = MinMaxScaler(feature_range=(0, 1))
 
-    def ConfigModel(
+    def PrepareParameters(
         self,
         dataset: pd.DataFrame,
         feature: str,
@@ -41,7 +41,7 @@ class GRU(IBaseModel):
             self.training_dataset.values.reshape(-1, 1)
         )
 
-    def TrainModel(self, config: dict):
+    def ConfigModel(self, config: dict):
         # Group data for GRU
         X, y = create_sequences(
             self.scaled_training_dataset,
@@ -72,9 +72,6 @@ class GRU(IBaseModel):
             validation_split=config.get("validation_split", 0.2),
         )
         self.model = model
-
-    def TuneModel(self, config: dict):
-        pass
 
     def Predict(self, config: dict) -> pd.DataFrame:
         n_past = config.get("n_past", 5)

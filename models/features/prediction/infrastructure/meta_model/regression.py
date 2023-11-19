@@ -12,7 +12,7 @@ class RidgeRegression(IMetaModel):
         self.X = None
         self.y = None
 
-    def ConfigModel(
+    def PrepareParameters(
         self,
         dataset: pd.DataFrame,
         features: list[str],
@@ -29,7 +29,7 @@ class RidgeRegression(IMetaModel):
         self.X = self.training_dataset[features]
         self.y = self.training_dataset[target]
 
-    def TrainModel(self, config: dict):
+    def ConfigModel(self, config: dict):
         """
         Train a Ridge Regression model
         - alpha: Regularization strength; must be a positive float.
@@ -38,9 +38,6 @@ class RidgeRegression(IMetaModel):
         model = Ridge(alpha=alpha)
         model.fit(self.X, self.y)
         self.model = model
-
-    def TuneModel(self, config: dict):
-        pass
 
     def Predict(self, config: dict):
         input = config.get("input", None)
@@ -57,7 +54,7 @@ class LinearRegression(IMetaModel):
         self.X = None
         self.y = None
 
-    def ConfigModel(
+    def PrepareParameters(
         self,
         dataset: pd.DataFrame,
         features: list[str],
@@ -74,7 +71,7 @@ class LinearRegression(IMetaModel):
         self.X = self.training_dataset[features]
         self.y = self.training_dataset[target]
 
-    def TrainModel(self, config: dict):
+    def ConfigModel(self, config: dict):
         model = LRL()
         model.fit(self.X, self.y)
         self.model = model

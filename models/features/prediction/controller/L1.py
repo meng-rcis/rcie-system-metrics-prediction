@@ -128,12 +128,12 @@ class L1(IL1):
         steps: int = 1,
     ):
         for model in self.models:
-            model["instance"].ConfigModel(
+            model["instance"].PrepareParameters(
                 dataset=dataset,
                 feature=feature,
                 start_index=start_index,
                 end_index=end_index,
             )
-            model["instance"].TrainModel(
+            model["instance"].ConfigModel(
                 config={**model["setup_config"], "steps": steps}
             )
