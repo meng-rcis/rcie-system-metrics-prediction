@@ -1,4 +1,5 @@
 import abc
+from typing import Any
 import pandas as pd
 
 
@@ -14,7 +15,7 @@ class IBaseModel(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def ConfigModel(self, config: dict):
+    def ConfigModel(self, config: dict) -> Any:
         pass
 
     @abc.abstractmethod
@@ -22,9 +23,5 @@ class IBaseModel(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def SaveModel(self):
-        pass
-
-    @abc.abstractmethod
-    def LoadModel(self):
+    def SaveModel(self, model: Any):
         pass

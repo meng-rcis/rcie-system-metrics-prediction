@@ -150,13 +150,11 @@ class L1(IL1):
                 )
                 for model in self.models
             ]
-            # Wait for all tasks to complete
-            for future in concurrent.futures.as_completed(futures):
-                future.result()  # This will block until the specific future is completed
+            trained_models = [future.result() for future in futures]
 
-        # Load the fitted model
-        for model in self.models:
-            model["instance"].LoadModel()
+        # Sequentially saving the trained models
+        for model, trained_model in zip(self.models, trained_models):
+            model["instance"].SaveModel(trained_model)
 
     def __sequential_model_train(
         self,

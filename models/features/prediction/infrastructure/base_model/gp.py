@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from joblib import dump, load
+from typing import Any
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 from interface import IBaseModel
@@ -15,7 +15,6 @@ class GP(IBaseModel):
         self.model = None
         self.X = None
         self.y = None
-        self.save_model_path = "temp/gp_model.joblib"
 
     def PrepareParameters(
         self,
@@ -40,15 +39,13 @@ class GP(IBaseModel):
         self.X = self.training_dataset["time_num"].values.reshape(-1, 1)
         self.y = self.training_dataset[feature].values.reshape(-1, 1)
 
-    def ConfigModel(self, config: dict):
+    def ConfigModel(self, config: dict) -> Any:
         length_scale = config.get("length_scale", 1.0)
         noise_level = config.get("noise_level", 1.0)
         kernel = RBF(length_scale=length_scale) + WhiteKernel(noise_level=noise_level)
         self.model = GaussianProcessRegressor(kernel=kernel)
         self.model.fit(self.X, self.y)
-        # Save the model if required
-        if config.get("is_saving_model_required", False):
-            self.SaveModel()
+        return self.model
 
     def Predict(self, config: dict) -> pd.DataFrame:
         # Forecast future values
@@ -73,8 +70,5 @@ class GP(IBaseModel):
         prediction.set_index(INDEX_COL, inplace=True)
         return prediction
 
-    def SaveModel(self):
-        dump(self.model, self.save_model_path)
-
-    def LoadModel(self):
-        self.model = load(self.save_model_path)
+    def SaveModel(self, model: Any):
+        self.model = model

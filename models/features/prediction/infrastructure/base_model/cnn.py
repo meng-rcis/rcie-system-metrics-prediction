@@ -1,8 +1,9 @@
 import pandas as pd
 
+from typing import Any
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
-from keras.models import Sequential, load_model
+from keras.models import Sequential
 from keras.layers import Dense, Flatten, Conv1D
 from interface import IBaseModel
 from pconstant.models_id import CNN as CNN_ID
@@ -17,7 +18,6 @@ class CNN(IBaseModel):
         self.model = None
         self.feature = None
         self.scaler = MinMaxScaler(feature_range=(0, 1))
-        self.save_model_path = "temp/cnn_model"
 
     def PrepareParameters(
         self,
@@ -40,7 +40,7 @@ class CNN(IBaseModel):
             self.training_dataset.values.reshape(-1, 1)
         )
 
-    def ConfigModel(self, config: dict):
+    def ConfigModel(self, config: dict) -> Any:
         n_past = config.get("n_past", 5)
         steps = config.get("steps", 1)
         X, y = create_sequences(
@@ -72,9 +72,7 @@ class CNN(IBaseModel):
             validation_split=config.get("validation_split", 0.2),
         )
         self.model = model
-        # Save the model if required
-        if config.get("is_saving_model_required", False):
-            self.SaveModel()
+        return self.model
 
     def Predict(self, config: dict) -> pd.DataFrame:
         n_past = config.get("n_past", 5)
@@ -106,8 +104,5 @@ class CNN(IBaseModel):
         )
         return prediction_df
 
-    def SaveModel(self):
-        self.model.save(self.save_model_path)
-
-    def LoadModel(self):
-        self.model = load_model(self.save_model_path)
+    def SaveModel(self, model: Any):
+        self.model = model

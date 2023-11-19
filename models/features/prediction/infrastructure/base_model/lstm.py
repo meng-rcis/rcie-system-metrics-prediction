@@ -1,9 +1,10 @@
 import pandas as pd
 import tensorflow as tf
 
+from typing import Any
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
-from keras.models import Sequential, load_model
+from keras.models import Sequential
 from keras.layers import Dense, LSTM as LSTML
 from pconstant.models_id import LSTM as LSTM_ID
 from interface import IBaseModel
@@ -18,7 +19,6 @@ class LSTM(IBaseModel):
         self.model = None
         self.feature = None
         self.scaler = MinMaxScaler(feature_range=(0, 1))
-        self.save_model_path = "temp/lstm_model"
 
     def PrepareParameters(
         self,
@@ -42,7 +42,7 @@ class LSTM(IBaseModel):
             self.training_dataset.values.reshape(-1, 1)
         )
 
-    def ConfigModel(self, config: dict):
+    def ConfigModel(self, config: dict) -> Any:
         # Group data for LSTM
         X, y = create_sequences(
             self.scaled_training_dataset,
@@ -74,9 +74,7 @@ class LSTM(IBaseModel):
             validation_split=config.get("validation_split", 0.2),
         )
         self.model = model
-        # Save the model if required
-        if config.get("is_saving_model_required", False):
-            self.SaveModel()
+        return self.model
 
     def Predict(self, config: dict) -> pd.DataFrame:
         n_past = config.get("n_past", 5)
@@ -109,8 +107,5 @@ class LSTM(IBaseModel):
         )
         return prediction_df
 
-    def SaveModel(self):
-        self.model.save(self.save_model_path)
-
-    def LoadModel(self):
-        self.model = load_model(self.save_model_path)
+    def SaveModel(self, model: Any):
+        self.model = model
