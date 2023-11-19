@@ -150,6 +150,7 @@ class L1(IL1):
                 )
                 for model in self.models
             ]
+            # Retrieve results in the order of submission
             trained_models = [future.result() for future in futures]
 
         # Sequentially saving the trained models
