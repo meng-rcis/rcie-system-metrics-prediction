@@ -33,16 +33,17 @@ class L1(IL1):
         start_index: int = 0,
         end_index: int = None,
         steps: int = 1,
+        is_parallel_processing: bool = False,
     ):
-        for model in self.models:
-            model["instance"].ConfigModel(
+        if is_parallel_processing:
+            pass
+        else:
+            self.trainModelsSequentially(
                 dataset=dataset,
                 feature=feature,
                 start_index=start_index,
                 end_index=end_index,
-            )
-            model["instance"].TrainModel(
-                config={**model["setup_config"], "steps": steps}
+                steps=steps,
             )
 
     # NOTE: A function to execute the prediction process of all models
@@ -107,3 +108,22 @@ class L1(IL1):
             return models_config.PREDICTION_GP_CONFIG
 
         raise Exception("[getPredictionConfig] Model ID not found: ", model_id)
+
+    def trainModelsSequentially(
+        self,
+        dataset: pd.DataFrame,
+        feature: str,
+        start_index: int = 0,
+        end_index: int = None,
+        steps: int = 1,
+    ):
+        for model in self.models:
+            model["instance"].ConfigModel(
+                dataset=dataset,
+                feature=feature,
+                start_index=start_index,
+                end_index=end_index,
+            )
+            model["instance"].TrainModel(
+                config={**model["setup_config"], "steps": steps}
+            )

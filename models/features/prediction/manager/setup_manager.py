@@ -20,6 +20,7 @@ class SetupManager:
         initial_meta_training_size: int = 10,
         prediction_steps: int = 1,
         is_filtered: bool = False,
+        is_parallel_processing: bool = False,
     ):
         self.dataset = dataset
         self.selected_feature = selected_feature
@@ -32,6 +33,7 @@ class SetupManager:
         self.prediction_steps = prediction_steps
         self.base_model_ids = base_model_ids
         self.is_filtered = is_filtered
+        self.is_parallel_processing = is_parallel_processing
         self.loop_count = 1
         self.before_filter_dataset = (
             self.data_manager.LoadDataset(BEFORE_FILTER_FILE) if is_filtered else None
@@ -64,6 +66,7 @@ class SetupManager:
                 start_index=self.start_training_index,
                 end_index=last_training_index,
                 steps=self.prediction_steps,
+                is_parallel_processing=self.is_parallel_processing,
             )
 
             # Predict the next step using prediction_steps based on the base models

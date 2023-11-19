@@ -18,6 +18,7 @@ from config.control import (
     INITIAL_META_TRAINING_SIZE,
     ALPHA,
     IS_FILTERED,
+    IS_PARALLEL_PROCESSING,
     IS_SETUP_META_MODEL_DATASET_REQUIRED,
     IS_MOVE_FILE_TO_ARCHIVE_REQUIRED,
     IS_UPDATE_CSV_REQUIRED_INITIALLY,
@@ -50,6 +51,7 @@ def main():
             prediction_steps=PREDICTION_STEPS,
             initial_base_training_size=INITIAL_BASE_TRAINING_SIZE,
             initial_meta_training_size=INITIAL_META_TRAINING_SIZE,
+            is_parallel_processing=IS_PARALLEL_PROCESSING,
             is_filtered=IS_FILTERED,
         )
         SetupManagerInstance.PrepareMetaModelDataset()
@@ -68,6 +70,7 @@ def main():
         prediction_steps=PREDICTION_STEPS,
         alpha=ALPHA,
         is_filtered=IS_FILTERED,
+        is_parallel_processing=IS_PARALLEL_PROCESSING,
         is_update_csv_required_initially=IS_UPDATE_CSV_REQUIRED_INITIALLY,
         is_clean_rows_required_initially=IS_CLEANING_ROWS_REQUIRED_INITIALLY,
         is_move_to_archive_required=IS_MOVE_FILE_TO_ARCHIVE_REQUIRED,

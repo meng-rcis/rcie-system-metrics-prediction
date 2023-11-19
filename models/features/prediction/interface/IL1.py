@@ -17,6 +17,7 @@ class IL1(abc.ABC):
         start_index: int = 0,
         end_index: int = None,
         prediction_steps: int = 1,
+        is_parallel_processing: bool = False,
     ):
         pass
 
@@ -34,4 +35,15 @@ class IL1(abc.ABC):
 
     @abc.abstractmethod
     def getModel(self, model_id: str) -> IBaseModel:
+        pass
+
+    @abc.abstractmethod
+    def trainModelsSequentially(
+        self,
+        dataset: pd.DataFrame,
+        feature: str,
+        start_index: int = 0,
+        end_index: int = None,
+        prediction_steps: int = 1,
+    ):
         pass

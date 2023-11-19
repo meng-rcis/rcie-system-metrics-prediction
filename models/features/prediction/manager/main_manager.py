@@ -24,6 +24,7 @@ class MainManager:
         prediction_steps: int = 1,
         alpha: float = 1.0,
         is_filtered: bool = False,
+        is_parallel_processing: bool = False,
         is_update_csv_required_initially: bool = False,
         is_move_to_archive_required: bool = False,
         is_clean_rows_required_initially: bool = True,
@@ -41,6 +42,7 @@ class MainManager:
         self.start_training_index = start_training_index
         self.is_first_run = True
         self.is_filtered = is_filtered
+        self.is_parallel_processing = is_parallel_processing
         self.is_update_csv_required = is_update_csv_required_initially
         self.l1_gateway = L1(base_model_ids)
         self.l2_gateway = L2(meta_model_ids)
@@ -195,6 +197,7 @@ class MainManager:
             start_index=self.start_training_index,
             end_index=last_training_index,
             steps=self.prediction_steps,
+            is_parallel_processing=self.is_parallel_processing,
         )
 
     def trainMetaModels(self):
