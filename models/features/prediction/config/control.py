@@ -22,7 +22,7 @@ FEATURES = [
 SELECTED_FEATURE = "cpu_usage"
 
 # NOTE: Define the number of steps to be predicted here
-PREDICTION_STEPS = 10
+PREDICTION_STEPS = 5
 
 # NOTE: Define the time (units -> milliseconds) that the model will predict again (not used yet)
 # STEP:
@@ -85,7 +85,7 @@ SETUP_PROPHET_CONFIG = {}
 SETUP_LSTM_CONFIG = {
     "steps": PREDICTION_STEPS,
     "n_past": 30,
-    "epochs": 30,
+    "epochs": 50,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
@@ -93,7 +93,7 @@ SETUP_LSTM_CONFIG = {
 SETUP_CNN_CONFIG = {
     "steps": PREDICTION_STEPS,
     "n_past": 30,
-    "epochs": 30,
+    "epochs": 50,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,
@@ -101,7 +101,7 @@ SETUP_CNN_CONFIG = {
 SETUP_GRU_CONFIG = {
     "steps": PREDICTION_STEPS,
     "n_past": 30,
-    "epochs": 30,
+    "epochs": 50,
     "batch_size": 32,
     "validation_split": 0.2,
     "verbose": 0,  # 0: silent, 1: progress bar, 2: one line per epoch
