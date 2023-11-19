@@ -38,6 +38,17 @@ class IL1(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def trainModelsParallelly(
+        self,
+        dataset: pd.DataFrame,
+        feature: str,
+        start_index: int = 0,
+        end_index: int = None,
+        prediction_steps: int = 1,
+    ):
+        pass
+
+    @abc.abstractmethod
     def trainModelsSequentially(
         self,
         dataset: pd.DataFrame,

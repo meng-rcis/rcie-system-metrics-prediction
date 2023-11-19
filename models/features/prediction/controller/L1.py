@@ -109,6 +109,16 @@ class L1(IL1):
 
         raise Exception("[getPredictionConfig] Model ID not found: ", model_id)
 
+    def trainModelsParallelly(
+        self,
+        dataset: pd.DataFrame,
+        feature: str,
+        start_index: int = 0,
+        end_index: int = None,
+        prediction_steps: int = 1,
+    ):
+        pass
+
     def trainModelsSequentially(
         self,
         dataset: pd.DataFrame,
