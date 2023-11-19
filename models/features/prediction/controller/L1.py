@@ -40,9 +40,15 @@ class L1(IL1):
         steps: int = 1,
     ):
         if self.is_parallel_processing:
-            pass
+            self.__parallel_model_train(
+                dataset=dataset,
+                feature=feature,
+                start_index=start_index,
+                end_index=end_index,
+                steps=steps,
+            )
         else:
-            self.trainModelsSequentially(
+            self.__sequential_model_train(
                 dataset=dataset,
                 feature=feature,
                 start_index=start_index,
@@ -113,7 +119,7 @@ class L1(IL1):
 
         raise Exception("[getPredictionConfig] Model ID not found: ", model_id)
 
-    def trainModelsParallelly(
+    def __parallel_model_train(
         self,
         dataset: pd.DataFrame,
         feature: str,
@@ -121,9 +127,16 @@ class L1(IL1):
         end_index: int = None,
         steps: int = 1,
     ):
-        pass
+        print("Parallel Processing")
+        for model in self.models:
+            model["instance"].PrepareParameters(
+                dataset=dataset,
+                feature=feature,
+                start_index=start_index,
+                end_index=end_index,
+            )
 
-    def trainModelsSequentially(
+    def __sequential_model_train(
         self,
         dataset: pd.DataFrame,
         feature: str,

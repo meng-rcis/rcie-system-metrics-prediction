@@ -41,7 +41,7 @@ class IL1(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def trainModelsParallelly(
+    def __parallel_model_train(
         self,
         dataset: pd.DataFrame,
         feature: str,
@@ -52,7 +52,7 @@ class IL1(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def trainModelsSequentially(
+    def __sequential_model_train(
         self,
         dataset: pd.DataFrame,
         feature: str,
