@@ -1,22 +1,13 @@
-import os
-import sys
+import numpy as np
+import pandas as pd
 
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
 from typing import Tuple
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Conv1D
-from models.features.prediction.interface import IBaseModel
+from interface import IBaseModel
 from pconstant.models_id import CNN as CNN_ID
-
-import numpy as np
-import pandas as pd
 
 
 class CNN(IBaseModel):

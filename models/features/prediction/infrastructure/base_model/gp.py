@@ -1,18 +1,10 @@
-import os
-import sys
-
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
 import pandas as pd
 import numpy as np
-from constant.columns import INDEX_COL
-from models.features.prediction.interface import IBaseModel
+
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, WhiteKernel
+from constant.columns import INDEX_COL
+from interface import IBaseModel
 
 
 class GP(IBaseModel):

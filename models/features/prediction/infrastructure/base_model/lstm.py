@@ -1,22 +1,13 @@
-import os
-import sys
 import pandas as pd
-
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
-from pconstant.models_id import LSTM as LSTM_ID
-from models.features.prediction.interface import IBaseModel
-from models.features.prediction.putils.formatter import create_sequences
 
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, LSTM as LSTML
 from keras.optimizers import Adam
+from pconstant.models_id import LSTM as LSTM_ID
+from interface import IBaseModel
+from putils.formatter import create_sequences
 
 
 class LSTM(IBaseModel):

@@ -1,15 +1,6 @@
-import os
-import sys
 import math
-
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
-
 import pconstant.models_id as models_id
+
 from constant.columns import FREQUENCY
 
 # NOTE: Define the time (units -> milliseconds) that the model will predict again (not used yet)

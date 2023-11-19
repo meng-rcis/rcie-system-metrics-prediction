@@ -1,21 +1,13 @@
-import os
-import sys
+import pandas as pd
+import config.control as models_config
+import pconstant.models_id as models_id
 
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
-from models.features.prediction.interface import IMetaModel, IL2
+from interface import IMetaModel, IL2
 from infrastructure.meta_model import (
     LinearRegression,
     RandomForest,
     FeedforwardNeuralNetwork,
 )
-import pandas as pd
-import config.control as models_config
-import pconstant.models_id as models_id
 
 
 # NOTE: Purpose of the L2 is to let the user to define the base models and its configurations in a single place

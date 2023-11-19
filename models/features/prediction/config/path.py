@@ -1,13 +1,3 @@
-import os
-import sys
-import time
-
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
 from config.control import IS_FILTERED
 
 """

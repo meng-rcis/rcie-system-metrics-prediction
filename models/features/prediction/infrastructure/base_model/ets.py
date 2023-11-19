@@ -1,15 +1,7 @@
-import os
-import sys
-
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
 import pandas as pd
-from models.features.prediction.interface import IBaseModel
+
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from interface import IBaseModel
 
 
 class ETS(IBaseModel):

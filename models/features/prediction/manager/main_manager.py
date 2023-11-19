@@ -1,17 +1,9 @@
-import os
-import sys
 import pandas as pd
 
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
-from config.control import START_TRAINING_INDEX
-from config.path import BEFORE_FILTER_FILE
 from manager import DataManager
 from controller import L1, L2, L3
+from config.control import START_TRAINING_INDEX
+from config.path import BEFORE_FILTER_FILE
 from putils.printer import print_loop_message
 from putils.path import generate_meta_archive_directory_path
 from pconstant.feature_header import ACTUAL, RAW, TIME

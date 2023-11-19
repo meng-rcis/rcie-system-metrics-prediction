@@ -1,18 +1,11 @@
-import os
-import sys
-
 import pandas as pd
 
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
-from models.features.prediction.interface import IMetaModel
-import tensorflow as tf
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from tensorflow import keras
+from keras.models import Sequential
+from keras.layers import Dense
+from interface import IMetaModel
 
 
 class FeedforwardNeuralNetwork(IMetaModel):
@@ -55,13 +48,11 @@ class FeedforwardNeuralNetwork(IMetaModel):
             random_state=0,
         )
         # Define the model architecture
-        model = tf.keras.models.Sequential(
+        model = Sequential(
             [
-                tf.keras.layers.Dense(
-                    10, activation="relu", input_shape=(X_train.shape[1],)
-                ),
-                tf.keras.layers.Dense(10, activation="relu"),
-                tf.keras.layers.Dense(1),
+                Dense(10, activation="relu", input_shape=(X_train.shape[1],)),
+                Dense(10, activation="relu"),
+                Dense(1),
             ]
         )
         # Compile the model

@@ -1,7 +1,7 @@
 import abc
 import pandas as pd
 
-from models.features.prediction.interface import IBaseModel
+from interface import IBaseModel
 
 
 class IL1(abc.ABC):

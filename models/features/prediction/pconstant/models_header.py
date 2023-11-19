@@ -1,12 +1,3 @@
-import os
-import sys
-
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
 import pconstant.models_id as models_id
 
 BASE_HEADERS = [

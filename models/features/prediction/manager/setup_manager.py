@@ -1,13 +1,5 @@
-import os
-import sys
 import pandas as pd
 
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
 from manager import DataManager
 from controller import L1
 from config.control import START_TRAINING_INDEX

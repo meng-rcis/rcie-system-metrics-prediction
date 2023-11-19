@@ -1,17 +1,9 @@
-import os
-import sys
-
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
-from infrastructure.base_model import ARIMA, ETS, LSTM, CNN, GRU, GP
-from models.features.prediction.interface import IBaseModel, IL1
 import pandas as pd
 import config.control as models_config
 import pconstant.models_id as models_id
+
+from infrastructure.base_model import ARIMA, ETS, LSTM, CNN, GRU, GP
+from interface import IBaseModel, IL1
 
 
 # NOTE: Purpose of the L1 is to let the user to define the base models and its configurations in a single place

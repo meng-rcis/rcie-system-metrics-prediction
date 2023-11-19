@@ -1,9 +1,9 @@
 import pandas as pd
 
-from sklearn.metrics import mean_squared_error
 from math import exp
+from sklearn.metrics import mean_squared_error
 from manager import DataManager
-from models.features.prediction.interface import IL3
+from interface import IL3
 from pconstant.feature_header import TIME
 
 
@@ -14,11 +14,13 @@ class L3(IL3):
         meta_prediction_source: str,
         target_col: str,
         alpha: float = 1.0,
+        index_col: str = TIME,
     ):
         self.model_ids = meta_model_ids
         self.meta_prediction_source = meta_prediction_source
         self.target_col = target_col
         self.alpha = alpha
+        self.index_col = index_col
         self.data_manager = DataManager()
 
     def FindModelWeights(self) -> object:
@@ -28,7 +30,7 @@ class L3(IL3):
 
         # Otherwise, calculate the weight
         meta_prediction = self.data_manager.ReadCSV(
-            self.meta_prediction_source, index_col=TIME
+            self.meta_prediction_source, index_col=self.index_col
         )
 
         # Calculate RMSE for each model

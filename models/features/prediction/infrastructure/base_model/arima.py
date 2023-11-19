@@ -1,15 +1,7 @@
-import os
-import sys
-
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
-from statsmodels.tsa.arima.model import ARIMA as ARIMA_MODEL
-from models.features.prediction.interface import IBaseModel
 import pandas as pd
+
+from statsmodels.tsa.arima.model import ARIMA as ARIMAM
+from interface import IBaseModel
 
 
 class ARIMA(IBaseModel):
@@ -43,7 +35,7 @@ class ARIMA(IBaseModel):
         - order: A tuple representing the (p,d,q) parameters for ARIMA.
         """
         order = config.get("order", None)
-        model = ARIMA_MODEL(self.training_dataset, order=order)
+        model = ARIMAM(self.training_dataset, order=order)
         self.model = model.fit()
 
     def TuneModel(self, config: dict):

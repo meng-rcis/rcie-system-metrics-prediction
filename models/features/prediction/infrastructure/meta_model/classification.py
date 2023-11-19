@@ -1,14 +1,6 @@
-import os
-import sys
 import pandas as pd
 
-# Add path to the root folder
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    )
-)
-from models.features.prediction.interface import IMetaModel
+from interface import IMetaModel
 from sklearn.ensemble import RandomForestRegressor
 
 
