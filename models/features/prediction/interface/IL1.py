@@ -6,7 +6,11 @@ from interface import IBaseModel
 
 class IL1(abc.ABC):
     @abc.abstractmethod
-    def InitiateModels(self, model_ids: list[str]) -> list[dict]:
+    def InitiateModels(
+        self,
+        model_ids: list[str],
+        is_parallel_processing: bool = False,
+    ):
         pass
 
     @abc.abstractmethod
@@ -17,7 +21,6 @@ class IL1(abc.ABC):
         start_index: int = 0,
         end_index: int = None,
         prediction_steps: int = 1,
-        is_parallel_processing: bool = False,
     ):
         pass
 
@@ -44,7 +47,7 @@ class IL1(abc.ABC):
         feature: str,
         start_index: int = 0,
         end_index: int = None,
-        prediction_steps: int = 1,
+        steps: int = 1,
     ):
         pass
 
@@ -55,6 +58,6 @@ class IL1(abc.ABC):
         feature: str,
         start_index: int = 0,
         end_index: int = None,
-        prediction_steps: int = 1,
+        steps: int = 1,
     ):
         pass

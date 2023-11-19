@@ -8,8 +8,13 @@ from interface import IBaseModel, IL1
 
 # NOTE: Purpose of the L1 is to let the user to define the base models and its configurations in a single place
 class L1(IL1):
-    def __init__(self, model_ids: list[str]):
+    def __init__(
+        self,
+        model_ids: list[str],
+        is_parallel_processing: bool = False,
+    ):
         self.models = self.InitiateModels(model_ids)
+        self.is_parallel_processing = is_parallel_processing
 
     # NOTE: A function to prepare all models
     def InitiateModels(self, model_ids: list[str]) -> list[dict]:
@@ -33,9 +38,8 @@ class L1(IL1):
         start_index: int = 0,
         end_index: int = None,
         steps: int = 1,
-        is_parallel_processing: bool = False,
     ):
-        if is_parallel_processing:
+        if self.is_parallel_processing:
             pass
         else:
             self.trainModelsSequentially(
@@ -115,7 +119,7 @@ class L1(IL1):
         feature: str,
         start_index: int = 0,
         end_index: int = None,
-        prediction_steps: int = 1,
+        steps: int = 1,
     ):
         pass
 

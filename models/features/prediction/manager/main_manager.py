@@ -43,10 +43,9 @@ class MainManager:
         self.start_training_index = start_training_index
         self.is_first_run = True
         self.is_filtered = is_filtered
-        self.is_parallel_processing = is_parallel_processing
         self.is_update_csv_required = is_update_csv_required_initially
-        self.l1_gateway = L1(base_model_ids)
-        self.l2_gateway = L2(meta_model_ids)
+        self.l1_gateway = L1(model_ids=base_model_ids, is_parallel_processing=is_parallel_processing)
+        self.l2_gateway = L2(model_ids=meta_model_ids)
         self.l3_gateway = L3(
             meta_model_ids=meta_model_ids,
             meta_prediction_source=l2_prediction_path,
@@ -209,7 +208,6 @@ class MainManager:
             start_index=self.start_training_index,
             end_index=last_training_index,
             steps=self.prediction_steps,
-            is_parallel_processing=self.is_parallel_processing,
         )
 
     def trainMetaModels(self):
