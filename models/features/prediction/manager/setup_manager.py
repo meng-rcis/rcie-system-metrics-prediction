@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 
 from manager import DataManager
@@ -53,6 +54,9 @@ class SetupManager:
         meta_total_rows = 0
 
         while meta_total_rows < self.initial_meta_training_size:
+            start_time = time.time()
+            print_loop_message(self.loop_count, "Setup", "Started")
+
             # Train base models
             print_loop_message(self.loop_count, "Setup", "Training Base Models...")
             last_training_index = (
@@ -104,6 +108,16 @@ class SetupManager:
             meta_total_rows += self.prediction_steps
             print_loop_message(
                 self.loop_count, "Setup", "Number of Meta Rows:", meta_total_rows, "\n"
+            )
+
+            # Print the time taken to complete the loop
+            end_time = time.time()
+            print_loop_message(
+                self.loop_count,
+                "Setup",
+                "Finished",
+                f"[Total Time: {end_time - start_time}]",
+                "\n",
             )
 
             self.loop_count += 1

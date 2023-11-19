@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 
 from manager import DataManager
@@ -98,6 +99,9 @@ class MainManager:
             self.ProcessPrediction()
 
     def ProcessPrediction(self):
+        start_time = time.time()
+        print_loop_message(self.loop_count, "Main", "Started")
+
         # Write latest actual data (row: previous+step) if required
         if self.is_update_csv_required:
             self.updateCSVToLatest()
@@ -132,8 +136,16 @@ class MainManager:
 
         # Update the flag to indicate that the CSV is updated
         self.is_update_csv_required = True
+        end_time = time.time()
 
-        print_loop_message(self.loop_count, "Main", "Finished", "\n")
+        # Print the time taken to complete the loop
+        print_loop_message(
+            self.loop_count,
+            "Main",
+            "Finished",
+            f"[Total Time: {end_time - start_time}]",
+            "\n",
+        )
 
         # Increase loop count
         self.loop_count += 1
