@@ -13,7 +13,6 @@ from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Conv1D
 from models.features.prediction.interface.base_model import IBaseModel
-from constant.columns import FREQUENCY
 from pconstant.models_id import CNN as CNN_ID
 
 import numpy as np
@@ -92,6 +91,7 @@ class CNN(IBaseModel):
         batch_size = config.get("batch_size", 1)
         features = config.get("features", 1)
         verbose = config.get("verbose", "auto")
+        frequency = config.get("frequency", "5S")
         # Forecast
         x_input = self.scaled_training_dataset[-n_past:]  # Last sequence in data
         x_input_values = x_input.reshape((batch_size, n_past, features))
@@ -104,11 +104,15 @@ class CNN(IBaseModel):
         # Calculate the datetime values for the predicted results
         # Assuming your data has a frequency of 5 seconds (as per your previous example)
         prediction_datetimes = pd.date_range(
-            start=last_datetime, periods=len(yhat_original[0]) + 1, freq=FREQUENCY
+            start=last_datetime,
+            periods=len(yhat_original[0]) + 1,
+            freq=frequency,
         )[1:]
         # Convert the prediction results to a DataFrame with the calculated datetime index
         prediction_df = pd.DataFrame(
-            yhat_original[0], columns=[CNN_ID], index=prediction_datetimes
+            yhat_original[0],
+            columns=[CNN_ID],
+            index=prediction_datetimes,
         )
         return prediction_df
 

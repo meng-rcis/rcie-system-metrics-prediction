@@ -1,5 +1,6 @@
 import os
 import sys
+import pandas as pd
 
 # Add path to the root folder
 sys.path.append(
@@ -7,19 +8,15 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from typing import Tuple
-from constant.columns import FREQUENCY
 from pconstant.models_id import LSTM as LSTM_ID
 from models.features.prediction.interface.base_model import IBaseModel
+from models.features.prediction.putils.formatter import create_sequences
 
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, LSTM as LSTML
 from keras.optimizers import Adam
-
-import pandas as pd
-import numpy as np
 
 
 class LSTM(IBaseModel):
@@ -56,7 +53,7 @@ class LSTM(IBaseModel):
 
     def TrainModel(self, config: dict):
         # Group data for LSTM
-        X, y = self.create_sequences(
+        X, y = create_sequences(
             self.scaled_training_dataset,
             config.get("n_past", 5),
             config.get("steps", 1),
@@ -95,6 +92,7 @@ class LSTM(IBaseModel):
         batch_size = config.get("batch_size", 1)
         features = config.get("features", 1)
         verbose = config.get("verbose", "auto")
+        frequency = config.get("frequency", "5S")
         # Forecast
         x_input = self.scaled_training_dataset[-n_past:]  # Last sequence in data
         x_input_values = x_input.reshape(
@@ -108,21 +106,14 @@ class LSTM(IBaseModel):
         # Calculate the datetime values for the predicted results
         # Assuming your data has a frequency of 5 seconds (as per your previous example)
         prediction_datetimes = pd.date_range(
-            start=last_datetime, periods=len(yhat_original[0]) + 1, freq=FREQUENCY
+            start=last_datetime,
+            periods=len(yhat_original[0]) + 1,
+            freq=frequency,
         )[1:]
         # Convert the prediction results to a DataFrame with the calculated datetime index
         prediction_df = pd.DataFrame(
-            yhat_original[0], columns=[LSTM_ID], index=prediction_datetimes
+            yhat_original[0],
+            columns=[LSTM_ID],
+            index=prediction_datetimes,
         )
         return prediction_df
-
-    # Preprocess data for LSTM
-    def create_sequences(
-        self, input: pd.DataFrame, n_past: int, n_future: int
-    ) -> Tuple:
-        X, y = [], []
-        # For each time step
-        for i in range(n_past, len(input) - n_future + 1):
-            X.append(input[i - n_past : i, :])
-            y.append(input[i : i + n_future, 0])
-        return np.array(X), np.array(y)
