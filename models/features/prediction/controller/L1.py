@@ -1,6 +1,7 @@
 import concurrent.futures
 import pandas as pd
 import config.control as models_config
+import config.os as os_config
 import pconstant.models_id as models_id
 
 from infrastructure.base_model import ARIMA, ETS, LSTM, CNN, GRU, GP
@@ -138,7 +139,9 @@ class L1(IL1):
             )
 
         # Use ProcessPoolExecutor for parallel execution
-        with concurrent.futures.ProcessPoolExecutor() as executor:
+        with concurrent.futures.ProcessPoolExecutor(
+            max_workers=os_config.MAXIMUM_NUMBER_OF_PROCESS
+        ) as executor:
             futures = [
                 executor.submit(
                     model["instance"].ConfigModel,
