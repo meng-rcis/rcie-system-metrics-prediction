@@ -32,7 +32,7 @@ class L1(IL1):
         feature: str,
         start_index: int = 0,
         end_index: int = None,
-        prediction_steps: int = 1,
+        steps: int = 1,
     ):
         for model in self.models:
             model["instance"].ConfigModel(
@@ -40,9 +40,10 @@ class L1(IL1):
                 feature=feature,
                 start_index=start_index,
                 end_index=end_index,
-                prediction_steps=prediction_steps,
             )
-            model["instance"].TrainModel(model["setup_config"])
+            model["instance"].TrainModel(
+                config={**model["setup_config"], "steps": steps}
+            )
 
     # NOTE: A function to execute the prediction process of all models
     def Predict(self, steps: int) -> pd.DataFrame:
@@ -50,7 +51,7 @@ class L1(IL1):
 
         for model in self.models:
             prediction = model["instance"].Predict(
-                {**model["prediction_config"], "steps": steps}
+                config={**model["prediction_config"], "steps": steps}
             )
             predictions[model["id"]] = prediction
 

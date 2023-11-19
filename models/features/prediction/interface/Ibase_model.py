@@ -10,7 +10,6 @@ class IBaseModel(abc.ABC):
         feature: str,
         start_index: int,
         end_index: int,
-        prediction_steps: int,
     ):
         pass
 

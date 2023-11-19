@@ -63,7 +63,7 @@ class SetupManager:
                 feature=self.selected_feature,
                 start_index=self.start_training_index,
                 end_index=last_training_index,
-                prediction_steps=self.prediction_steps,
+                steps=self.prediction_steps,
             )
 
             # Predict the next step using prediction_steps based on the base models

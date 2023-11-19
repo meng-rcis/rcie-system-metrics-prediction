@@ -46,7 +46,7 @@ class L2(IL2):
                 start_index=start_index,
                 end_index=end_index,
             )
-            model["instance"].TrainModel(model["setup_config"])
+            model["instance"].TrainModel(config=model["setup_config"])
 
     # NOTE: A function to execute the prediction process of all models
     def Predict(self, input: pd.DataFrame) -> pd.DataFrame:
@@ -54,7 +54,7 @@ class L2(IL2):
 
         for model in self.models:
             prediction = model["instance"].Predict(
-                {**model["prediction_config"], "input": input}
+                config={**model["prediction_config"], "input": input}
             )
             predictions[model["id"]] = prediction
 

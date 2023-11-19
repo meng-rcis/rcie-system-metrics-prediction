@@ -21,7 +21,6 @@ class GP(IBaseModel):
         feature: str,
         start_index: int,
         end_index: int,
-        prediction_steps: int,
     ):
         # Copy dataset to avoid changing the original dataset
         cp_dataset = dataset.copy()

@@ -97,7 +97,6 @@ SETUP_ETS_CONFIG = {
 }
 
 SETUP_LSTM_CONFIG = {
-    "steps": PREDICTION_STEPS,
     "n_past": 30,
     "epochs": 50,
     "batch_size": 32,
@@ -106,7 +105,6 @@ SETUP_LSTM_CONFIG = {
 }
 
 SETUP_CNN_CONFIG = {
-    "steps": PREDICTION_STEPS,
     "n_past": 30,
     "epochs": 50,
     "batch_size": 32,
@@ -115,7 +113,6 @@ SETUP_CNN_CONFIG = {
 }
 
 SETUP_GRU_CONFIG = {
-    "steps": PREDICTION_STEPS,
     "n_past": 30,
     "epochs": 50,
     "batch_size": 32,
@@ -139,7 +136,6 @@ PREDICTION_ETS_CONFIG = {}
 
 PREDICTION_LSTM_CONFIG = {
     "n_past": SETUP_LSTM_CONFIG.get("n_past", 10),
-    "steps": SETUP_LSTM_CONFIG.get("steps", PREDICTION_STEPS),
     "verbose": 0,
     "batch_size": 1,
     "features": 1,
@@ -148,7 +144,6 @@ PREDICTION_LSTM_CONFIG = {
 
 PREDICTION_CNN_CONFIG = {
     "n_past": SETUP_CNN_CONFIG.get("n_past", 10),
-    "steps": SETUP_CNN_CONFIG.get("steps", PREDICTION_STEPS),
     "verbose": 0,
     "batch_size": 1,
     "features": 1,
@@ -157,16 +152,13 @@ PREDICTION_CNN_CONFIG = {
 
 PREDICTION_GRU_CONFIG = {
     "n_past": SETUP_GRU_CONFIG.get("n_past", 10),
-    "steps": SETUP_GRU_CONFIG.get("steps", PREDICTION_STEPS),
     "verbose": 0,
     "batch_size": 1,
     "features": 1,
     "frequency": FREQUENCY,
 }
 
-PREDICTION_GP_CONFIG = {
-    "steps": PREDICTION_STEPS,
-}
+PREDICTION_GP_CONFIG = {}
 
 """
 SETUP - L2 Layer Models Configuration

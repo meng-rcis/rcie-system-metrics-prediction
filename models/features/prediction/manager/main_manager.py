@@ -194,7 +194,7 @@ class MainManager:
             feature=self.selected_feature,
             start_index=self.start_training_index,
             end_index=last_training_index,
-            prediction_steps=self.prediction_steps,
+            steps=self.prediction_steps,
         )
 
     def trainMetaModels(self):
