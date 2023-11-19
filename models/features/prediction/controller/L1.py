@@ -9,12 +9,12 @@ sys.path.append(
 )
 from models.features.prediction.interface.base_model import IBaseModel
 from models.features.prediction.interface.l1 import IL1
-from infrastructure.l1_base_model.arima import ARIMA
-from infrastructure.l1_base_model.ets import ETS
-from infrastructure.l1_base_model.lstm import LSTM
-from infrastructure.l1_base_model.cnn import CNN
-from infrastructure.l1_base_model.gru import GRU
-from infrastructure.l1_base_model.gp import GP
+from infrastructure.base_model.arima import ARIMA
+from infrastructure.base_model.ets import ETS
+from infrastructure.base_model.lstm import LSTM
+from infrastructure.base_model.cnn import CNN
+from infrastructure.base_model.gru import GRU
+from infrastructure.base_model.gp import GP
 import config.control as models_config
 import pconstant.models_id as models_id
 import pandas as pd

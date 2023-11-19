@@ -9,12 +9,12 @@ sys.path.append(
 )
 from models.features.prediction.interface.meta_model import IMetaModel
 from models.features.prediction.interface.l2 import IL2
-from infrastructure.l2_meta_model.regression_stack import (
+from infrastructure.meta_model.regression import (
     RidgeRegression,
     LinearRegression,
 )
-from infrastructure.l2_meta_model.tree_stack import RandomForest
-from infrastructure.l2_meta_model.neural_stack import FeedforwardNeuralNetwork
+from infrastructure.meta_model.classification import RandomForest
+from infrastructure.meta_model.deep_learning import FeedforwardNeuralNetwork
 import config.control as models_config
 import pconstant.models_id as models_id
 import pandas as pd

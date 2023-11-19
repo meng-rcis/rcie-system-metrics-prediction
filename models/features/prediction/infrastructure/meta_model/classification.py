@@ -1,6 +1,5 @@
 import os
 import sys
-
 import pandas as pd
 
 # Add path to the root folder
