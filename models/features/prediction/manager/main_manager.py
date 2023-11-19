@@ -51,7 +51,7 @@ class MainManager:
             alpha=alpha,
         )
         self.data_manager = DataManager()
-        self.loop_count = 0
+        self.loop_count = 1
         self.is_move_to_archive_required = is_move_to_archive_required
         self.before_filter_dataset = self.data_manager.LoadDataset(BEFORE_FILTER_FILE)
         self.is_clean_rows_required_initially = is_clean_rows_required_initially

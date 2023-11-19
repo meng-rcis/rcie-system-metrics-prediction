@@ -32,6 +32,7 @@ class SetupManager:
         self.prediction_steps = prediction_steps
         self.base_model_ids = base_model_ids
         self.is_filtered = is_filtered
+        self.loop_count = 1
         self.before_filter_dataset = (
             self.data_manager.LoadDataset(BEFORE_FILTER_FILE) if is_filtered else None
         )
@@ -48,11 +49,10 @@ class SetupManager:
 
         # Loop to split dataset with given number of rows
         meta_total_rows = 0
-        count = 0
 
         while meta_total_rows < self.initial_meta_training_size:
             # Train base models
-            print_loop_message(count, "Setup", "Training Base Models...")
+            print_loop_message(self.loop_count, "Setup", "Training Base Models...")
             last_training_index = (
                 self.start_training_index
                 + meta_total_rows
@@ -67,7 +67,7 @@ class SetupManager:
             )
 
             # Predict the next step using prediction_steps based on the base models
-            print_loop_message(count, "Setup", "Predicting Result...")
+            print_loop_message(self.loop_count, "Setup", "Predicting Result...")
             prediction_result = self.base_gateway.Predict(steps=self.prediction_steps)
             actual_result = self.dataset[self.selected_feature].iloc[
                 last_training_index : last_training_index + self.prediction_steps
@@ -81,7 +81,9 @@ class SetupManager:
                 ]
 
             # Extract the prediction result into CSV format
-            print_loop_message(count, "Setup", "Extracting Result into CSV Format...")
+            print_loop_message(
+                self.loop_count, "Setup", "Extracting Result into CSV Format..."
+            )
             rows, headers = self.data_manager.ExtractSetupPredictionToCSV(
                 prediction_result=prediction_result,
                 actual_result=actual_result,
@@ -90,7 +92,7 @@ class SetupManager:
             )
 
             # Write the prediction result into CSV file
-            print_loop_message(count, "Setup", "Writing Result into CSV...")
+            print_loop_message(self.loop_count, "Setup", "Writing Result into CSV...")
             self.data_manager.WriteCSV(
                 path=self.l1_prediction_path, headers=headers, rows=rows
             )
@@ -98,10 +100,10 @@ class SetupManager:
             # Increment meta_total_rows by the number of added rows
             meta_total_rows += self.prediction_steps
             print_loop_message(
-                count, "Setup", "Number of Meta Rows:", meta_total_rows, "\n"
+                self.loop_count, "Setup", "Number of Meta Rows:", meta_total_rows, "\n"
             )
 
-            count += 1
+            self.loop_count += 1
 
         print("[Complete] Meta Dataset Located At:", self.l1_prediction_path)
 
