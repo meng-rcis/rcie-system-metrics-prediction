@@ -18,9 +18,5 @@ class IBaseModel(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def TuneModel(self, config: dict):
-        pass
-
-    @abc.abstractmethod
     def Predict(self, config: dict) -> pd.DataFrame:
         pass

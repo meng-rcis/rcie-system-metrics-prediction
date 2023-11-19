@@ -68,9 +68,6 @@ class FeedforwardNeuralNetwork(IMetaModel):
         )
         self.model = model
 
-    def TuneModel(self, config: dict):
-        pass
-
     def Predict(self, config: dict):
         input = config.get("input", None)
         verbose = config.get("verbose", 0)
