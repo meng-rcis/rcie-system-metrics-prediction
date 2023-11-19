@@ -2,3 +2,6 @@
 __pycache__
 
 venv
+
+# ignore all saved model files
+temp/**/*
