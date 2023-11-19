@@ -8,12 +8,14 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface import IMetaModel, IL2
-from infrastructure.meta_model.regression import LinearRegression
-from infrastructure.meta_model.classification import RandomForest
-from infrastructure.meta_model.deep_learning import FeedforwardNeuralNetwork
+from infrastructure.meta_model import (
+    LinearRegression,
+    RandomForest,
+    FeedforwardNeuralNetwork,
+)
+import pandas as pd
 import config.control as models_config
 import pconstant.models_id as models_id
-import pandas as pd
 
 
 # NOTE: Purpose of the L2 is to let the user to define the base models and its configurations in a single place
