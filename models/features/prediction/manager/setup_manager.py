@@ -112,11 +112,12 @@ class SetupManager:
 
             # Print the time taken to complete the loop
             end_time = time.time()
+            diff_time = round(end_time - start_time, 2)
             print_loop_message(
                 self.loop_count,
                 "Setup",
                 "Finished",
-                f"[Total Time: {end_time - start_time}]",
+                f"[Total Time: {diff_time} seconds]",
                 "\n",
             )
 

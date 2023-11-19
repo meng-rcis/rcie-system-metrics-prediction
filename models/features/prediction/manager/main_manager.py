@@ -44,7 +44,9 @@ class MainManager:
         self.is_first_run = True
         self.is_filtered = is_filtered
         self.is_update_csv_required = is_update_csv_required_initially
-        self.l1_gateway = L1(model_ids=base_model_ids, is_parallel_processing=is_parallel_processing)
+        self.l1_gateway = L1(
+            model_ids=base_model_ids, is_parallel_processing=is_parallel_processing
+        )
         self.l2_gateway = L2(model_ids=meta_model_ids)
         self.l3_gateway = L3(
             meta_model_ids=meta_model_ids,
@@ -136,13 +138,14 @@ class MainManager:
         # Update the flag to indicate that the CSV is updated
         self.is_update_csv_required = True
         end_time = time.time()
+        diff_time = round(end_time - start_time, 2)
 
         # Print the time taken to complete the loop
         print_loop_message(
             self.loop_count,
             "Main",
             "Finished",
-            f"[Total Time: {end_time - start_time}]",
+            f"[Total Time: {diff_time} seconds]",
             "\n",
         )
 
