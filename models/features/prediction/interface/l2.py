@@ -3,6 +3,7 @@ import pandas as pd
 
 from models.features.prediction.interface.meta_model import IMetaModel
 
+
 class IL2(abc.ABC):
     @abc.abstractmethod
     def InitiateModels(self, model_ids: list[str]) -> list[dict]:
@@ -32,5 +33,5 @@ class IL2(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def getModel(self, model_id: str) -> IMetaModel:    
+    def getModel(self, model_id: str) -> IMetaModel:
         pass

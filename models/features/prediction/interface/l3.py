@@ -1,6 +1,7 @@
 import abc
 import pandas as pd
 
+
 class IL3(abc.ABC):
     @abc.abstractmethod
     def FindModelWeights(self) -> object:

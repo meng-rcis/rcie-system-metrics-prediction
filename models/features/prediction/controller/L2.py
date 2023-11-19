@@ -8,7 +8,7 @@ sys.path.append(
     )
 )
 from models.features.prediction.interface.meta_model import IMetaModel
-from models.features.prediction.interface.l2 import IL2
+from models.features.prediction.interface.L2 import IL2
 from infrastructure.meta_model.regression import (
     RidgeRegression,
     LinearRegression,
