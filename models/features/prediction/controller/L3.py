@@ -1,10 +1,9 @@
-from models.features.prediction.interface.l3 import IL3
-
+import pandas as pd
 from sklearn.metrics import mean_squared_error
 from math import exp
-from manager.data_manager import DataManager
+from manager import DataManager
+from models.features.prediction.interface.l3 import IL3
 from pconstant.feature_header import TIME
-import pandas as pd
 
 
 class L3(IL3):

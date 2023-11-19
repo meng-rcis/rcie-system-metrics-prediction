@@ -10,10 +10,8 @@ sys.path.append(
 )
 from config.control import START_TRAINING_INDEX
 from config.path import BEFORE_FILTER_FILE
-from manager.data_manager import DataManager
-from controller.L1 import L1
-from controller.L2 import L2
-from controller.L3 import L3
+from manager import DataManager
+from controller import L1, L2, L3
 from putils.printer import print_loop_message
 from putils.path import generate_meta_archive_directory_path
 from pconstant.feature_header import ACTUAL, RAW, TIME
