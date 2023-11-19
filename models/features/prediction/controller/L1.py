@@ -11,7 +11,6 @@ from models.features.prediction.interface.base_model import IBaseModel
 from models.features.prediction.interface.l1 import IL1
 from infrastructure.l1_base_model.arima import ARIMA
 from infrastructure.l1_base_model.ets import ETS
-from infrastructure.l1_base_model.prophet import Prophet
 from infrastructure.l1_base_model.lstm import LSTM
 from infrastructure.l1_base_model.cnn import CNN
 from infrastructure.l1_base_model.gru import GRU
@@ -77,8 +76,6 @@ class L1(IL1):
             return ARIMA()
         elif model_id == models_id.ETS:
             return ETS()
-        elif model_id == models_id.PROPHET:
-            return Prophet()
         elif model_id == models_id.LSTM:
             return LSTM()
         elif model_id == models_id.CNN:
@@ -96,8 +93,6 @@ class L1(IL1):
             return models_config.SETUP_ARIMA_CONFIG
         elif model_id == models_id.ETS:
             return models_config.SETUP_ETS_CONFIG
-        elif model_id == models_id.PROPHET:
-            return models_config.SETUP_PROPHET_CONFIG
         elif model_id == models_id.LSTM:
             return models_config.SETUP_LSTM_CONFIG
         elif model_id == models_id.CNN:
@@ -115,8 +110,6 @@ class L1(IL1):
             return models_config.PREDICTION_ARIMA_CONFIG
         elif model_id == models_id.ETS:
             return models_config.PREDICTION_ETS_CONFIG
-        elif model_id == models_id.PROPHET:
-            return models_config.PREDICTION_PROPHET_CONFIG
         elif model_id == models_id.LSTM:
             return models_config.PREDICTION_LSTM_CONFIG
         elif model_id == models_id.CNN:
