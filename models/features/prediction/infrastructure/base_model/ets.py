@@ -1,5 +1,6 @@
 import pandas as pd
 
+from joblib import dump, load
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from interface import IBaseModel
 
@@ -9,6 +10,7 @@ class ETS(IBaseModel):
         self.dataset = None
         self.training_dataset = None
         self.model = None
+        self.save_model_path = "temp/ets_model.joblib"
 
     def PrepareParameters(
         self,
@@ -45,8 +47,17 @@ class ETS(IBaseModel):
             seasonal_periods=seasonal_periods,
         )
         self.model = model.fit()
+        # Save the model if required
+        if config.get("is_saving_model_required", False):
+            self.SaveModel()
 
     def Predict(self, config: dict) -> pd.DataFrame:
         steps = config.get("steps", 1)
         prediction = self.model.forecast(steps=steps)
         return prediction
+
+    def SaveModel(self):
+        dump(self.model, self.save_model_path)
+
+    def LoadModel(self):
+        self.model = load(self.save_model_path)

@@ -1,5 +1,6 @@
 import pandas as pd
 
+from joblib import dump, load
 from statsmodels.tsa.arima.model import ARIMA as ARIMAM
 from interface import IBaseModel
 
@@ -9,6 +10,7 @@ class ARIMA(IBaseModel):
         self.dataset = None
         self.training_dataset = None
         self.model = None
+        self.save_model_path = "temp/arima_model.joblib"
 
     def PrepareParameters(
         self,
@@ -36,7 +38,16 @@ class ARIMA(IBaseModel):
         order = config.get("order", None)
         model = ARIMAM(self.training_dataset, order=order)
         self.model = model.fit()
+        # Save the model if required
+        if config.get("is_saving_model_required", False):
+            self.SaveModel()
 
     def Predict(self, config: dict) -> pd.DataFrame:
         steps = config.get("steps", 1)
         return self.model.forecast(steps=steps)
+
+    def SaveModel(self):
+        dump(self.model, self.save_model_path)
+
+    def LoadModel(self):
+        self.model = load(self.save_model_path)

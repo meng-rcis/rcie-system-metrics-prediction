@@ -28,7 +28,8 @@ class SetupManager:
         self.l1_prediction_path = l1_prediction_path
         self.data_manager = DataManager()
         self.base_gateway = L1(
-            model_ids=base_model_ids, is_parallel_processing=is_parallel_processing
+            model_ids=base_model_ids,
+            is_parallel_processing=is_parallel_processing,
         )
         self.start_training_index = start_training_index
         self.initial_base_training_size = initial_base_training_size

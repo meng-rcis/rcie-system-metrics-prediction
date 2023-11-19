@@ -20,3 +20,11 @@ class IBaseModel(abc.ABC):
     @abc.abstractmethod
     def Predict(self, config: dict) -> pd.DataFrame:
         pass
+
+    @abc.abstractmethod
+    def SaveModel(self):
+        pass
+
+    @abc.abstractmethod
+    def LoadModel(self):
+        pass

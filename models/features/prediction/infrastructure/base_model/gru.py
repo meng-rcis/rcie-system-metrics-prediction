@@ -1,10 +1,10 @@
 import pandas as pd
+import tensorflow as tf
 
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import GRU as GRUL, Dense
-from keras.optimizers import Adam
 from pconstant.models_id import GRU as GRU_ID
 from interface import IBaseModel
 from putils.formatter import create_sequences
@@ -18,6 +18,7 @@ class GRU(IBaseModel):
         self.model = None
         self.feature = None
         self.scaler = MinMaxScaler(feature_range=(0, 1))
+        self.save_model_path = "temp/gru_model"
 
     def PrepareParameters(
         self,
@@ -60,8 +61,7 @@ class GRU(IBaseModel):
         )
         model.add(GRUL(32, activation="relu", return_sequences=False))
         model.add(Dense(y.shape[1]))
-        model.compile(optimizer=Adam(), loss="mse")
-
+        model.compile(optimizer=tf.keras.optimizers.Adam(), loss="mse")
         # Train the model
         model.fit(
             X,
@@ -72,6 +72,9 @@ class GRU(IBaseModel):
             validation_split=config.get("validation_split", 0.2),
         )
         self.model = model
+        # Save the model if required
+        if config.get("is_saving_model_required", False):
+            self.SaveModel()
 
     def Predict(self, config: dict) -> pd.DataFrame:
         n_past = config.get("n_past", 5)
@@ -103,3 +106,9 @@ class GRU(IBaseModel):
             index=prediction_datetimes,
         )
         return prediction_df
+
+    def SaveModel(self):
+        self.model.save(self.save_model_path)
+
+    def LoadModel(self):
+        self.model = load_model(self.save_model_path)

@@ -1,3 +1,4 @@
+import concurrent.futures
 import pandas as pd
 import config.control as models_config
 import pconstant.models_id as models_id
@@ -127,7 +128,7 @@ class L1(IL1):
         end_index: int = None,
         steps: int = 1,
     ):
-        print("Parallel Processing")
+        # Prepare the parameters for each model
         for model in self.models:
             model["instance"].PrepareParameters(
                 dataset=dataset,
@@ -135,6 +136,27 @@ class L1(IL1):
                 start_index=start_index,
                 end_index=end_index,
             )
+
+        # Use ProcessPoolExecutor for parallel execution
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            futures = [
+                executor.submit(
+                    model["instance"].ConfigModel,
+                    {
+                        **model["setup_config"],
+                        "steps": steps,
+                        "is_saving_model_required": True,
+                    },
+                )
+                for model in self.models
+            ]
+            # Wait for all tasks to complete
+            for future in concurrent.futures.as_completed(futures):
+                future.result()  # This will block until the specific future is completed
+
+        # Load the fitted model
+        for model in self.models:
+            model["instance"].LoadModel()
 
     def __sequential_model_train(
         self,
