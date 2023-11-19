@@ -10,7 +10,7 @@ sys.path.append(
 import pandas as pd
 import numpy as np
 from constant.columns import INDEX_COL
-from models.features.prediction.interface.base_model import IBaseModel
+from models.features.prediction.interface import IBaseModel
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, WhiteKernel
 

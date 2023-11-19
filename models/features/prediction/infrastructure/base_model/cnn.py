@@ -12,7 +12,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Conv1D
-from models.features.prediction.interface.base_model import IBaseModel
+from models.features.prediction.interface import IBaseModel
 from pconstant.models_id import CNN as CNN_ID
 
 import numpy as np

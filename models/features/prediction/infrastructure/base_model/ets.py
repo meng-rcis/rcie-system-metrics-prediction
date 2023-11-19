@@ -8,7 +8,7 @@ sys.path.append(
     )
 )
 import pandas as pd
-from models.features.prediction.interface.base_model import IBaseModel
+from models.features.prediction.interface import IBaseModel
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 

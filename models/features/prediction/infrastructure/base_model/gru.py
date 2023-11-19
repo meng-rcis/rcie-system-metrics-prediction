@@ -9,7 +9,7 @@ sys.path.append(
     )
 )
 from pconstant.models_id import GRU as GRU_ID
-from models.features.prediction.interface.base_model import IBaseModel
+from models.features.prediction.interface import IBaseModel
 from models.features.prediction.putils.formatter import create_sequences
 
 from sklearn.preprocessing import MinMaxScaler

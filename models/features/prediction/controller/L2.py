@@ -7,12 +7,8 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from models.features.prediction.interface.meta_model import IMetaModel
-from models.features.prediction.interface.L2 import IL2
-from infrastructure.meta_model.regression import (
-    RidgeRegression,
-    LinearRegression,
-)
+from models.features.prediction.interface import IMetaModel, IL2
+from infrastructure.meta_model.regression import LinearRegression
 from infrastructure.meta_model.classification import RandomForest
 from infrastructure.meta_model.deep_learning import FeedforwardNeuralNetwork
 import config.control as models_config

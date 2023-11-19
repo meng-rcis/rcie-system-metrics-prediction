@@ -8,7 +8,7 @@ sys.path.append(
     )
 )
 from statsmodels.tsa.arima.model import ARIMA as ARIMA_MODEL
-from models.features.prediction.interface.base_model import IBaseModel
+from models.features.prediction.interface import IBaseModel
 import pandas as pd
 
 

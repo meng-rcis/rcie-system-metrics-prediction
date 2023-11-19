@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.metrics import mean_squared_error
 from math import exp
 from manager import DataManager
-from models.features.prediction.interface.L3 import IL3
+from models.features.prediction.interface import IL3
 from pconstant.feature_header import TIME
 
 

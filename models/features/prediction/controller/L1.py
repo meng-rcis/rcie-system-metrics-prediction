@@ -7,8 +7,7 @@ sys.path.append(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
 )
-from models.features.prediction.interface.base_model import IBaseModel
-from models.features.prediction.interface.L1 import IL1
+from models.features.prediction.interface import IBaseModel, IL1
 from infrastructure.base_model.arima import ARIMA
 from infrastructure.base_model.ets import ETS
 from infrastructure.base_model.lstm import LSTM

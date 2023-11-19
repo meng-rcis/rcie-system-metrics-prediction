@@ -1,7 +1,7 @@
 import abc
 import pandas as pd
 
-from models.features.prediction.interface.meta_model import IMetaModel
+from models.features.prediction.interface import IMetaModel
 
 
 class IL2(abc.ABC):
