@@ -74,7 +74,7 @@ IS_HIDE_WARNING = True
 #     models_id.GRU,
 #     models_id.GP,
 # ]
-BASE_MODELS_IDS = [models_id.TCN]
+BASE_MODELS_IDS = [models_id.ARIMA, models_id.SARIMA]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [
@@ -92,6 +92,16 @@ verbose - 0: silent, 1: progress bar, 2: one line per epoch
 
 SETUP_ARIMA_CONFIG = {
     "order": (1, 1, 1),
+}
+
+SETUP_SARIMA_CONFIG = {
+    "order": (1, 1, 1),
+    "seasonal_order": (1, 1, 1, 12),  # 12 -> 12 * 5 seconds = 1 minute
+}
+
+SETUP_SARIMAX_CONFIG = {
+    "order": (1, 1, 1),
+    "seasonal_order": (1, 1, 1, 12),  # 12 -> 12 * 5 seconds = 1 minute
 }
 
 SETUP_ETS_CONFIG = {
@@ -143,6 +153,12 @@ define the default prediction configuration of each model here
 """
 
 PREDICTION_ARIMA_CONFIG = {}
+
+PREDICTION_SARIMA_CONFIG = {}
+
+PREDICTION_SARIMAX_CONFIG = {
+    "exog_future": None,
+}
 
 PREDICTION_ETS_CONFIG = {}
 

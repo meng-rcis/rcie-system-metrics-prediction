@@ -3,8 +3,8 @@ import pandas as pd
 import config.control as models_config
 import config.os as os_config
 import pconstant.models_id as models_id
+import infrastructure.base_model as models
 
-from infrastructure.base_model import ARIMA, ETS, LSTM, CNN, GRU, GP, TCN
 from interface import IBaseModel, IL1
 
 
@@ -73,19 +73,23 @@ class L1(IL1):
     # NOTE: A function to get the model instance based on the model id
     def getModel(self, model_id: str) -> IBaseModel:
         if model_id == models_id.ARIMA:
-            return ARIMA()
+            return models.ARIMA()
+        elif model_id == models_id.SARIMA:
+            return models.SARIMA()
+        elif model_id == models_id.SARIMAX:
+            return models.SARIMAX()
         elif model_id == models_id.ETS:
-            return ETS()
+            return models.ETS()
         elif model_id == models_id.GP:
-            return GP()
+            return models.GP()
         elif model_id == models_id.LSTM:
-            return LSTM()
+            return models.LSTM()
         elif model_id == models_id.CNN:
-            return CNN()
+            return models.CNN()
         elif model_id == models_id.GRU:
-            return GRU()
+            return models.GRU()
         elif model_id == models_id.TCN:
-            return TCN()
+            return models.TCN()
 
         raise Exception("[getModel] Model ID not found: ", model_id)
 
@@ -93,6 +97,10 @@ class L1(IL1):
     def getSetupConfig(self, model_id: str) -> dict:
         if model_id == models_id.ARIMA:
             return models_config.SETUP_ARIMA_CONFIG
+        elif model_id == models_id.SARIMA:
+            return models_config.SETUP_SARIMA_CONFIG
+        elif model_id == models_id.SARIMAX:
+            return models_config.SETUP_SARIMAX_CONFIG
         elif model_id == models_id.ETS:
             return models_config.SETUP_ETS_CONFIG
         elif model_id == models_id.GP:
@@ -112,6 +120,10 @@ class L1(IL1):
     def getPredictionConfig(self, model_id: str) -> dict:
         if model_id == models_id.ARIMA:
             return models_config.PREDICTION_ARIMA_CONFIG
+        elif model_id == models_id.SARIMA:
+            return models_config.PREDICTION_SARIMA_CONFIG
+        elif model_id == models_id.SARIMAX:
+            return models_config.PREDICTION_SARIMAX_CONFIG
         elif model_id == models_id.ETS:
             return models_config.PREDICTION_ETS_CONFIG
         elif model_id == models_id.GP:
