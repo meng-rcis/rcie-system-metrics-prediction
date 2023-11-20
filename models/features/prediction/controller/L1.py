@@ -4,7 +4,7 @@ import config.control as models_config
 import config.os as os_config
 import pconstant.models_id as models_id
 
-from infrastructure.base_model import ARIMA, ETS, LSTM, CNN, GRU, GP
+from infrastructure.base_model import ARIMA, ETS, LSTM, CNN, GRU, GP, TCN
 from interface import IBaseModel, IL1
 
 
@@ -76,14 +76,16 @@ class L1(IL1):
             return ARIMA()
         elif model_id == models_id.ETS:
             return ETS()
+        elif model_id == models_id.GP:
+            return GP()
         elif model_id == models_id.LSTM:
             return LSTM()
         elif model_id == models_id.CNN:
             return CNN()
         elif model_id == models_id.GRU:
             return GRU()
-        elif model_id == models_id.GP:
-            return GP()
+        elif model_id == models_id.TCN:
+            return TCN()
 
         raise Exception("[getModel] Model ID not found: ", model_id)
 
@@ -93,14 +95,16 @@ class L1(IL1):
             return models_config.SETUP_ARIMA_CONFIG
         elif model_id == models_id.ETS:
             return models_config.SETUP_ETS_CONFIG
+        elif model_id == models_id.GP:
+            return models_config.SETUP_GP_CONFIG
         elif model_id == models_id.LSTM:
             return models_config.SETUP_LSTM_CONFIG
         elif model_id == models_id.CNN:
             return models_config.SETUP_CNN_CONFIG
         elif model_id == models_id.GRU:
             return models_config.SETUP_GRU_CONFIG
-        elif model_id == models_id.GP:
-            return models_config.SETUP_GP_CONFIG
+        elif model_id == models_id.TCN:
+            return models_config.SETUP_TCN_CONFIG
 
         raise Exception("[getSetupConfig] Model ID not found: ", model_id)
 
@@ -110,14 +114,16 @@ class L1(IL1):
             return models_config.PREDICTION_ARIMA_CONFIG
         elif model_id == models_id.ETS:
             return models_config.PREDICTION_ETS_CONFIG
+        elif model_id == models_id.GP:
+            return models_config.PREDICTION_GP_CONFIG
         elif model_id == models_id.LSTM:
             return models_config.PREDICTION_LSTM_CONFIG
         elif model_id == models_id.CNN:
             return models_config.PREDICTION_CNN_CONFIG
         elif model_id == models_id.GRU:
             return models_config.PREDICTION_GRU_CONFIG
-        elif model_id == models_id.GP:
-            return models_config.PREDICTION_GP_CONFIG
+        elif model_id == models_id.TCN:
+            return models_config.PREDICTION_TCN_CONFIG
 
         raise Exception("[getPredictionConfig] Model ID not found: ", model_id)
 

@@ -65,15 +65,15 @@ IS_CLEANING_ROWS_REQUIRED_INITIALLY = True
 IS_HIDE_WARNING = True
 
 # NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [
-    models_id.ARIMA,
-    models_id.ETS,
-    models_id.LSTM,
-    models_id.CNN,
-    models_id.GRU,
-    models_id.GP,
-]
-# BASE_MODELS_IDS = [models_id.GP]
+# BASE_MODELS_IDS = [
+#     models_id.ARIMA,
+#     models_id.ETS,
+#     models_id.LSTM,
+#     models_id.CNN,
+#     models_id.GRU,
+#     models_id.GP,
+# ]
+BASE_MODELS_IDS = [models_id.TCN]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [
@@ -97,6 +97,11 @@ SETUP_ETS_CONFIG = {
     "trend": "add",
     "seasonal": "add",
     "seasonal_periods": 12,  # 12 -> 12 * 5 seconds = 1 minute
+}
+
+SETUP_GP_CONFIG = {
+    "length_scale": 1.0,
+    "noise_level": 1.0,
 }
 
 SETUP_LSTM_CONFIG = {
@@ -123,9 +128,12 @@ SETUP_GRU_CONFIG = {
     "verbose": 0,
 }
 
-SETUP_GP_CONFIG = {
-    "length_scale": 1.0,
-    "noise_level": 1.0,
+SETUP_TCN_CONFIG = {
+    "n_past": 30,
+    "epochs": 50,
+    "batch_size": 32,
+    "validation_split": 0.2,
+    "verbose": 0,
 }
 
 """
@@ -136,6 +144,8 @@ define the default prediction configuration of each model here
 PREDICTION_ARIMA_CONFIG = {}
 
 PREDICTION_ETS_CONFIG = {}
+
+PREDICTION_GP_CONFIG = {}
 
 PREDICTION_LSTM_CONFIG = {
     "n_past": SETUP_LSTM_CONFIG.get("n_past", 10),
@@ -161,7 +171,13 @@ PREDICTION_GRU_CONFIG = {
     "frequency": FREQUENCY,
 }
 
-PREDICTION_GP_CONFIG = {}
+PREDICTION_TCN_CONFIG = {
+    "n_past": SETUP_TCN_CONFIG.get("n_past", 10),
+    "verbose": 0,
+    "batch_size": 1,
+    "features": 1,
+    "frequency": FREQUENCY,
+}
 
 """
 SETUP - L2 Layer Models Configuration

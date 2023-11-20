@@ -6,11 +6,13 @@ ETS = "ETS"  # done
 PROPHET = "PROPHET"  # done
 LSTM = "LSTM"  # done
 CNN = "CNN"  # done
-RNN = "RNN"
 GRU = "GRU"  # done
+GP = "GP"  # done
+TCN = "TCN"  # done
+RNN = "RNN"
 VAR = "VAR"
 BSTS = "BSTS"
-GP = "GP"
+
 
 # Meta Models
 REGRESSION_STACK = "LINEAR_REGRESSION"
