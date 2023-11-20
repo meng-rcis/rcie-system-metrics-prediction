@@ -1,5 +1,6 @@
 import pandas as pd
 
+from typing import Any
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
@@ -39,7 +40,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
         self.scaled_X = self.scaler_X.fit_transform(self.X)
         self.scaled_y = self.scaler_y.fit_transform(self.y.values.reshape(-1, 1))
 
-    def ConfigModel(self, config: dict):
+    def ConfigModel(self, config: dict) -> Any:
         # Splitting data into train and validation sets
         X_train, X_val, y_train, y_val = train_test_split(
             self.scaled_X,
@@ -67,6 +68,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
             validation_data=(X_val, y_val),
         )
         self.model = model
+        return self.model
 
     def Predict(self, config: dict):
         input = config.get("input", None)
@@ -76,3 +78,6 @@ class FeedforwardNeuralNetwork(IMetaModel):
         scaled_input = self.scaler_X.transform(input)
         yhat = self.model.predict(scaled_input, verbose=verbose)
         return self.scaler_y.inverse_transform(yhat)
+
+    def SaveModel(self, model: Any):
+        self.model = model

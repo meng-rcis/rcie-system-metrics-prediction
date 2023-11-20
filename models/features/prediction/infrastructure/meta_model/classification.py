@@ -1,5 +1,6 @@
 import pandas as pd
 
+from typing import Any
 from interface import IMetaModel
 from sklearn.ensemble import RandomForestRegressor
 
@@ -29,7 +30,7 @@ class RandomForest(IMetaModel):
         self.X = self.training_dataset[features]
         self.y = self.training_dataset[target]
 
-    def ConfigModel(self, config: dict):
+    def ConfigModel(self, config: dict) -> Any:
         """
         Train a Random Forest model
         - n_estimators: The number of trees in the forest.
@@ -47,9 +48,13 @@ class RandomForest(IMetaModel):
         )
         model.fit(self.X, self.y)
         self.model = model
+        return self.model
 
     def Predict(self, config: dict):
         input = config.get("input", None)
         if input is None:
             raise ValueError("Input is not provided")
         return self.model.predict(input)
+
+    def SaveModel(self, model: Any):
+        self.model = model

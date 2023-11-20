@@ -41,6 +41,7 @@ RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
 
 # NOTE: Use parallel processing or not
 IS_PARALLEL_PROCESSING = True
+IS_PARALLEL_PROCESSING_FOR_L2 = True and IS_PARALLEL_PROCESSING
 
 # NOTE: Use filter (reduce noise) or not
 IS_FILTERED = True

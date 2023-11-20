@@ -154,7 +154,6 @@ class L1(IL1):
                     {
                         **model["setup_config"],
                         "steps": steps,
-                        "is_saving_model_required": True,
                     },
                 )
                 for model in self.models

@@ -26,6 +26,7 @@ class MainManager:
         alpha: float = 1.0,
         is_filtered: bool = False,
         is_parallel_processing: bool = False,
+        is_parallel_processing_for_l2: bool = False,
         is_update_csv_required_initially: bool = False,
         is_move_to_archive_required: bool = False,
         is_clean_rows_required_initially: bool = True,
@@ -45,9 +46,13 @@ class MainManager:
         self.is_filtered = is_filtered
         self.is_update_csv_required = is_update_csv_required_initially
         self.l1_gateway = L1(
-            model_ids=base_model_ids, is_parallel_processing=is_parallel_processing
+            model_ids=base_model_ids,
+            is_parallel_processing=is_parallel_processing,
         )
-        self.l2_gateway = L2(model_ids=meta_model_ids)
+        self.l2_gateway = L2(
+            model_ids=meta_model_ids,
+            is_parallel_processing=is_parallel_processing_for_l2,
+        )
         self.l3_gateway = L3(
             meta_model_ids=meta_model_ids,
             meta_prediction_source=l2_prediction_path,

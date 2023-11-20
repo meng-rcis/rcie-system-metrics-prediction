@@ -1,6 +1,8 @@
 import abc
 import pandas as pd
 
+from typing import Any
+
 
 class IMetaModel(abc.ABC):
     @abc.abstractmethod
@@ -15,9 +17,13 @@ class IMetaModel(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def ConfigModel(self, config: dict):
+    def ConfigModel(self, config: dict) -> Any:
         pass
 
     @abc.abstractmethod
     def Predict(self, config: dict) -> pd.DataFrame:
+        pass
+
+    @abc.abstractmethod
+    def SaveModel(self, model: Any):
         pass

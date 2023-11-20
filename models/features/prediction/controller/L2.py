@@ -1,5 +1,7 @@
+import concurrent.futures
 import pandas as pd
 import config.control as models_config
+import config.os as os_config
 import pconstant.models_id as models_id
 
 from interface import IMetaModel, IL2
@@ -12,8 +14,13 @@ from infrastructure.meta_model import (
 
 # NOTE: Purpose of the L2 is to let the user to define the base models and its configurations in a single place
 class L2(IL2):
-    def __init__(self, model_ids: list[str]):
+    def __init__(
+        self,
+        model_ids: list[str],
+        is_parallel_processing: bool = False,
+    ):
         self.models = self.InitiateModels(model_ids)
+        self.is_parallel_processing = is_parallel_processing
 
     # NOTE: A function to prepare all models
     def InitiateModels(self, model_ids: list[str]) -> list[dict]:
@@ -38,15 +45,22 @@ class L2(IL2):
         start_index: int = 0,
         end_index: int = None,
     ):
-        for model in self.models:
-            model["instance"].PrepareParameters(
+        if self.is_parallel_processing:
+            self.__parallel_model_train(
                 dataset=dataset,
                 features=features,
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
             )
-            model["instance"].ConfigModel(config=model["setup_config"])
+        else:
+            self.__sequential_model_train(
+                dataset=dataset,
+                features=features,
+                target=target,
+                start_index=start_index,
+                end_index=end_index,
+            )
 
     # NOTE: A function to execute the prediction process of all models
     def Predict(self, input: pd.DataFrame) -> pd.DataFrame:
@@ -93,3 +107,57 @@ class L2(IL2):
             return models_config.PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG
 
         raise Exception("Model ID not found: ", model_id)
+
+    def __parallel_model_train(
+        self,
+        dataset: pd.DataFrame,
+        features: list[str],
+        target: str,
+        start_index: int = 0,
+        end_index: int = None,
+    ):
+        # Prepare the parameters for each model
+        for model in self.models:
+            model["instance"].PrepareParameters(
+                dataset=dataset,
+                features=features,
+                target=target,
+                start_index=start_index,
+                end_index=end_index,
+            )
+
+        # Use ProcessPoolExecutor for parallel execution
+        with concurrent.futures.ProcessPoolExecutor(
+            max_workers=os_config.MAXIMUM_NUMBER_OF_PROCESS
+        ) as executor:
+            futures = [
+                executor.submit(
+                    model["instance"].ConfigModel,
+                    model["setup_config"],
+                )
+                for model in self.models
+            ]
+            # Retrieve results in the order of submission
+            trained_models = [future.result() for future in futures]
+
+        # Sequentially saving the trained models
+        for model, trained_model in zip(self.models, trained_models):
+            model["instance"].SaveModel(trained_model)
+
+    def __sequential_model_train(
+        self,
+        dataset: pd.DataFrame,
+        features: list[str],
+        target: str,
+        start_index: int = 0,
+        end_index: int = None,
+    ):
+        for model in self.models:
+            model["instance"].PrepareParameters(
+                dataset=dataset,
+                features=features,
+                target=target,
+                start_index=start_index,
+                end_index=end_index,
+            )
+            model["instance"].ConfigModel(config=model["setup_config"])
