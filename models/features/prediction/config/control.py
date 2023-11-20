@@ -66,15 +66,17 @@ IS_CLEANING_ROWS_REQUIRED_INITIALLY = True
 IS_HIDE_WARNING = True
 
 # NOTE: Define the list of base model ids here
-# BASE_MODELS_IDS = [
-#     models_id.ARIMA,
-#     models_id.ETS,
-#     models_id.LSTM,
-#     models_id.CNN,
-#     models_id.GRU,
-#     models_id.GP,
-# ]
-BASE_MODELS_IDS = [models_id.ARIMA, models_id.SARIMA]
+BASE_MODELS_IDS = [
+    models_id.ARIMA,
+    models_id.SARIMA,
+    models_id.ETS,
+    models_id.GP,
+    models_id.LSTM,
+    models_id.CNN,
+    models_id.GRU,
+    models_id.TCN,
+]
+# BASE_MODELS_IDS = [models_id.ARIMA]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [
