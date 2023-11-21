@@ -18,7 +18,7 @@ SELECTED_FEATURE = "cpu_usage"  # "cpu_usage", "memory_usage", "bandwidth_inboun
 START_TRAINING_INDEX = 0
 
 # NOTE: Define the number of steps to be predicted here
-PREDICTION_STEPS = 10
+PREDICTION_STEPS = 5
 
 # NOTE: Define the number of initial base training size here
 INITIAL_BASE_TRAINING_SIZE = 1000
