@@ -68,13 +68,13 @@ IS_HIDE_WARNING = True
 # NOTE: Define the list of base model ids here
 BASE_MODELS_IDS = [
     models_id.ARIMA,
-    models_id.SARIMA,
+    # models_id.SARIMA,
     models_id.ETS,
     models_id.GP,
     models_id.LSTM,
     models_id.CNN,
     models_id.GRU,
-    models_id.TCN,
+    # models_id.TCN,
 ]
 # BASE_MODELS_IDS = [models_id.ARIMA]
 
