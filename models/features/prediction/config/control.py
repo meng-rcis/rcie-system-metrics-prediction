@@ -32,7 +32,7 @@ Therefore, we don't require to manually run the main process one by one
 Expected Result - we would automatically have the final prediction (L3 prediction) with the given data size (INITIAL_FINAL_RESULT_SIZE) saved in the L3 prediction dataset (L3_PREDICTION_DATASET_PATH)
 -> define the number of initial L3 size here
 """
-INITIAL_FINAL_RESULT_SIZE = 300
+INITIAL_FINAL_RESULT_SIZE = 200
 RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
     math.ceil(INITIAL_FINAL_RESULT_SIZE / PREDICTION_STEPS)
     if INITIAL_FINAL_RESULT_SIZE is not None
@@ -48,7 +48,7 @@ IS_FILTERED = True
 
 # NOTE: Setup meta model dataset or not
 # When you want to create new meta files (L2 & L3) but you already have base file (L1), don't forget to update MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = True
-IS_SETUP_META_MODEL_DATASET_REQUIRED = True
+IS_SETUP_META_MODEL_DATASET_REQUIRED = False
 
 # NOTE: Force to move L2 & L3 files to archive folder or not
 MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = False
