@@ -3,7 +3,6 @@ import pandas as pd
 
 from manager import DataManager
 from controller import L1, L2, L3
-from config.control import START_TRAINING_INDEX
 from config.path import BEFORE_FILTER_FILE
 from putils.printer import print_loop_message
 from putils.path import generate_meta_archive_directory_path
@@ -21,13 +20,12 @@ class MainManager:
         base_model_ids: list[str],
         meta_model_ids: list[str],
         initial_base_training_size: int,
-        start_training_index: int = START_TRAINING_INDEX,
+        start_training_index: int = 0,
         prediction_steps: int = 1,
         alpha: float = 1.0,
         is_filtered: bool = False,
         is_parallel_processing: bool = False,
         is_parallel_processing_for_l2: bool = False,
-        is_update_csv_required_initially: bool = False,
         is_move_to_archive_required: bool = False,
         is_clean_rows_required_initially: bool = True,
     ):
@@ -43,8 +41,8 @@ class MainManager:
         self.initial_base_training_size = initial_base_training_size
         self.start_training_index = start_training_index
         self.is_first_run = True
+        self.is_update_csv_required = False
         self.is_filtered = is_filtered
-        self.is_update_csv_required = is_update_csv_required_initially
         self.l1_gateway = L1(
             model_ids=base_model_ids,
             is_parallel_processing=is_parallel_processing,

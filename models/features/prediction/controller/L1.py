@@ -2,8 +2,8 @@ import concurrent.futures
 import pandas as pd
 import config.os as os_config
 
+from interface import IL1
 from config.control import L1_MODELS, SETUP_L1_CONFIG, PREDICTION_L1_CONFIG
-from interface import IBaseModel, IL1
 
 
 # NOTE: Purpose of the L1 is to let the user to define the base models and its configurations in a single place

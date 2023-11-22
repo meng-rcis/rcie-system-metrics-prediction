@@ -1,15 +1,8 @@
 import concurrent.futures
 import pandas as pd
-import config.control as models_config
 import config.os as os_config
-import pconstant.models_id as models_id
 
-from interface import IMetaModel, IL2
-from infrastructure.meta_model import (
-    LinearRegression,
-    RandomForest,
-    FeedforwardNeuralNetwork,
-)
+from interface import IL2
 from config.control import L2_MODELS, SETUP_L2_CONFIG, PREDICTION_L2_CONFIG
 
 

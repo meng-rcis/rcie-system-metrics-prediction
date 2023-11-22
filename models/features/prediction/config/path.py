@@ -1,4 +1,4 @@
-from config.control import IS_FILTERED
+from config.control import CONFIG
 
 """
 This is the path for the base training dataset
@@ -8,7 +8,7 @@ Base models will be trained with this dataset
 DUMP_BASE_DIRECTORY = "dump/"
 
 # Define base training dataset file
-BASE_FILE = "filtered_df.p" if IS_FILTERED else "df.p"
+BASE_FILE = "filtered_df.p" if CONFIG["IS_FILTERED"] else "df.p"
 
 # Define base training dataset path
 BASE_DATASET_PATH = DUMP_BASE_DIRECTORY + BASE_FILE
@@ -24,7 +24,11 @@ This is base meta configuration data
 META_SOURCE_DIRECTORY = "models/features/source/"
 
 # Define meta training dataset file
-META_FILE = "prediction_result_filtered.csv" if IS_FILTERED else "prediction_result.csv"
+META_FILE = (
+    "prediction_result_filtered.csv"
+    if CONFIG["IS_FILTERED"]
+    else "prediction_result.csv"
+)
 
 """
 This is the path for the L1 prediction dataset

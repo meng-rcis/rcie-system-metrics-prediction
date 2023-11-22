@@ -3,7 +3,6 @@ import pandas as pd
 
 from manager import DataManager
 from controller import L1
-from config.control import START_TRAINING_INDEX
 from config.path import BEFORE_FILTER_FILE
 from putils.printer import print_loop_message
 from putils.path import generate_meta_archive_directory_path
@@ -16,7 +15,7 @@ class SetupManager:
         selected_feature: str,
         l1_prediction_path: str,
         base_model_ids: list[str],
-        start_training_index: int = START_TRAINING_INDEX,
+        start_training_index: int = 0,
         initial_base_training_size: int = 100,
         initial_meta_training_size: int = 10,
         prediction_steps: int = 1,
