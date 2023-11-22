@@ -3,13 +3,12 @@ ARIMA = "ARIMA"  # done
 SARIMA = "SARIMA"  # done
 SARIMAX = "SARIMAX"  # done
 ETS = "ETS"  # done
-PROPHET = "PROPHET"  # done
 LSTM = "LSTM"  # done
 CNN = "CNN"  # done
 GRU = "GRU"  # done
 GP = "GP"  # done
 TCN = "TCN"  # done
-RNN = "RNN"
+RNN = "RNN"  # done
 VAR = "VAR"
 BSTS = "BSTS"
 
