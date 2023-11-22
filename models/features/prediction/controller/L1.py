@@ -1,10 +1,8 @@
 import concurrent.futures
 import pandas as pd
-import config.control as models_config
 import config.os as os_config
-import pconstant.models_id as models_id
-import infrastructure.base_model as models
 
+from config.control import L1_MODELS, SETUP_L1_CONFIG, PREDICTION_L1_CONFIG
 from interface import IBaseModel, IL1
 
 
@@ -22,14 +20,18 @@ class L1(IL1):
     def InitiateModels(self, model_ids: list[str]) -> list[dict]:
         models = []
         for model_id in model_ids:
-            models.append(
-                {
-                    "id": model_id,
-                    "instance": self.getModel(model_id),
-                    "setup_config": self.getSetupConfig(model_id),
-                    "prediction_config": self.getPredictionConfig(model_id),
-                }
-            )
+            model = {
+                "id": model_id,
+                "instance": L1_MODELS.get(model_id, None),
+                "setup_config": SETUP_L1_CONFIG.get(model_id, {}),
+                "prediction_config": PREDICTION_L1_CONFIG.get(model_id, {}),
+            }
+            if model["instance"] is None:
+                raise Exception(f"Model {model_id} in L1 is not supported")
+            print("model_id", model_id)
+            print("model setup config", model["setup_config"])
+            print("model prediction config", model["prediction_config"], "\n")
+            models.append(model)
         return models
 
     # NOTE: A function to execute the training process of all models
@@ -69,75 +71,6 @@ class L1(IL1):
             predictions[model["id"]] = prediction
 
         return predictions
-
-    # NOTE: A function to get the model instance based on the model id
-    def getModel(self, model_id: str) -> IBaseModel:
-        if model_id == models_id.ARIMA:
-            return models.ARIMA()
-        elif model_id == models_id.SARIMA:
-            return models.SARIMA()
-        elif model_id == models_id.SARIMAX:
-            return models.SARIMAX()
-        elif model_id == models_id.ETS:
-            return models.ETS()
-        elif model_id == models_id.GP:
-            return models.GP()
-        elif model_id == models_id.LSTM:
-            return models.LSTM()
-        elif model_id == models_id.CNN:
-            return models.CNN()
-        elif model_id == models_id.GRU:
-            return models.GRU()
-        elif model_id == models_id.TCN:
-            return models.TCN()
-
-        raise Exception("[getModel] Model ID not found: ", model_id)
-
-    # NOTE: A function to get the default setup configuration of each model
-    def getSetupConfig(self, model_id: str) -> dict:
-        if model_id == models_id.ARIMA:
-            return models_config.SETUP_ARIMA_CONFIG
-        elif model_id == models_id.SARIMA:
-            return models_config.SETUP_SARIMA_CONFIG
-        elif model_id == models_id.SARIMAX:
-            return models_config.SETUP_SARIMAX_CONFIG
-        elif model_id == models_id.ETS:
-            return models_config.SETUP_ETS_CONFIG
-        elif model_id == models_id.GP:
-            return models_config.SETUP_GP_CONFIG
-        elif model_id == models_id.LSTM:
-            return models_config.SETUP_LSTM_CONFIG
-        elif model_id == models_id.CNN:
-            return models_config.SETUP_CNN_CONFIG
-        elif model_id == models_id.GRU:
-            return models_config.SETUP_GRU_CONFIG
-        elif model_id == models_id.TCN:
-            return models_config.SETUP_TCN_CONFIG
-
-        raise Exception("[getSetupConfig] Model ID not found: ", model_id)
-
-    # NOTE: A function to get the default prediction configuration of each model
-    def getPredictionConfig(self, model_id: str) -> dict:
-        if model_id == models_id.ARIMA:
-            return models_config.PREDICTION_ARIMA_CONFIG
-        elif model_id == models_id.SARIMA:
-            return models_config.PREDICTION_SARIMA_CONFIG
-        elif model_id == models_id.SARIMAX:
-            return models_config.PREDICTION_SARIMAX_CONFIG
-        elif model_id == models_id.ETS:
-            return models_config.PREDICTION_ETS_CONFIG
-        elif model_id == models_id.GP:
-            return models_config.PREDICTION_GP_CONFIG
-        elif model_id == models_id.LSTM:
-            return models_config.PREDICTION_LSTM_CONFIG
-        elif model_id == models_id.CNN:
-            return models_config.PREDICTION_CNN_CONFIG
-        elif model_id == models_id.GRU:
-            return models_config.PREDICTION_GRU_CONFIG
-        elif model_id == models_id.TCN:
-            return models_config.PREDICTION_TCN_CONFIG
-
-        raise Exception("[getPredictionConfig] Model ID not found: ", model_id)
 
     def __parallel_model_train(
         self,

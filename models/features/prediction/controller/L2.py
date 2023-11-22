@@ -10,6 +10,7 @@ from infrastructure.meta_model import (
     RandomForest,
     FeedforwardNeuralNetwork,
 )
+from config.control import L2_MODELS, SETUP_L2_CONFIG, PREDICTION_L2_CONFIG
 
 
 # NOTE: Purpose of the L2 is to let the user to define the base models and its configurations in a single place
@@ -26,14 +27,18 @@ class L2(IL2):
     def InitiateModels(self, model_ids: list[str]) -> list[dict]:
         models = []
         for model_id in model_ids:
-            models.append(
-                {
-                    "id": model_id,
-                    "instance": self.getModel(model_id),
-                    "setup_config": self.getSetupConfig(model_id),
-                    "prediction_config": self.getPredictionConfig(model_id),
-                }
-            )
+            model = {
+                "id": model_id,
+                "instance": L2_MODELS.get(model_id, None),
+                "setup_config": SETUP_L2_CONFIG.get(model_id, {}),
+                "prediction_config": PREDICTION_L2_CONFIG.get(model_id, {}),
+            }
+            if model["instance"] is None:
+                raise Exception(f"Model {model_id} in L2 is not supported")
+            print("model_id", model_id)
+            print("model setup config", model["setup_config"])
+            print("model prediction config", model["prediction_config"])
+            models.append(model)
         return models
 
     # NOTE: A function to execute the training process of all models
@@ -73,40 +78,6 @@ class L2(IL2):
             predictions[model["id"]] = prediction
 
         return predictions
-
-        # NOTE: A function to get the model instance based on the model id
-
-    def getModel(self, model_id: str) -> IMetaModel:
-        if model_id == models_id.REGRESSION_STACK:
-            return LinearRegression()
-        elif model_id == models_id.TREE_STACK:
-            return RandomForest()
-        elif model_id == models_id.NEURAL_STACK:
-            return FeedforwardNeuralNetwork()
-
-        raise Exception("Model ID not found: ", model_id)
-
-    # NOTE: A function to get the default setup configuration of each model
-    def getSetupConfig(self, model_id: str) -> dict:
-        if model_id == models_id.REGRESSION_STACK:
-            return models_config.SETUP_LINEAR_REGRESSION_CONFIG
-        elif model_id == models_id.TREE_STACK:
-            return models_config.SETUP_RANDOM_FOREST_CONFIG
-        elif model_id == models_id.NEURAL_STACK:
-            return models_config.SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG
-
-        raise Exception("Model ID not found: ", model_id)
-
-    # NOTE: A function to get the default prediction configuration of each model
-    def getPredictionConfig(self, model_id: str) -> dict:
-        if model_id == models_id.REGRESSION_STACK:
-            return models_config.PREDICTION_LINEAR_REGRESSION_CONFIG
-        elif model_id == models_id.TREE_STACK:
-            return models_config.PREDICTION_RANDOM_FOREST_CONFIG
-        elif model_id == models_id.NEURAL_STACK:
-            return models_config.PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG
-
-        raise Exception("Model ID not found: ", model_id)
 
     def __parallel_model_train(
         self,

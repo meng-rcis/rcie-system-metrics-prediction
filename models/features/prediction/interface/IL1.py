@@ -23,15 +23,3 @@ class IL1(abc.ABC):
     @abc.abstractmethod
     def Predict(self, steps: int) -> pd.DataFrame:
         pass
-
-    @abc.abstractmethod
-    def getPredictionConfig(self, model_id: str) -> dict:
-        pass
-
-    @abc.abstractmethod
-    def getSetupConfig(self, model_id: str) -> dict:
-        pass
-
-    @abc.abstractmethod
-    def getModel(self, model_id: str) -> IBaseModel:
-        pass

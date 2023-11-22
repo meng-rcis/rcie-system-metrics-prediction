@@ -1,5 +1,7 @@
 import math
 import pconstant.models_id as models_id
+import infrastructure.base_model as base_models
+import infrastructure.meta_model as meta_models
 
 from constant.columns import FREQUENCY
 
@@ -32,7 +34,7 @@ Therefore, we don't require to manually run the main process one by one
 Expected Result - we would automatically have the final prediction (L3 prediction) with the given data size (INITIAL_FINAL_RESULT_SIZE) saved in the L3 prediction dataset (L3_PREDICTION_DATASET_PATH)
 -> define the number of initial L3 size here
 """
-INITIAL_FINAL_RESULT_SIZE = 200
+INITIAL_FINAL_RESULT_SIZE = 300
 RANGE_REQUIRED_TO_AUTO_GENERATE_FINAL_RESULT_SIZE = (
     math.ceil(INITIAL_FINAL_RESULT_SIZE / PREDICTION_STEPS)
     if INITIAL_FINAL_RESULT_SIZE is not None
@@ -86,158 +88,152 @@ META_MODELS_IDS = [
 ]
 
 """
-SETUP - L1 Layer Models Configuration
+L1 Layer Models Configuration
 define the default setup configuration of each model here
 
 verbose - 0: silent, 1: progress bar, 2: one line per epoch
 """
 
-SETUP_ARIMA_CONFIG = {
-    "order": (1, 1, 1),
+L1_MODELS = {
+    models_id.ARIMA: base_models.ARIMA(),
+    models_id.SARIMA: base_models.SARIMA(),
+    models_id.SARIMAX: base_models.SARIMAX(),
+    models_id.ETS: base_models.ETS(),
+    models_id.GP: base_models.GP(),
+    models_id.LSTM: base_models.LSTM(),
+    models_id.CNN: base_models.CNN(),
+    models_id.GRU: base_models.GRU(),
+    models_id.TCN: base_models.TCN(),
 }
 
-SETUP_SARIMA_CONFIG = {
-    "order": (1, 1, 1),
-    "seasonal_order": (1, 1, 1, 12),  # 12 -> 12 * 5 seconds = 1 minute
+SETUP_L1_CONFIG = {
+    models_id.ARIMA: {
+        "order": (1, 1, 1),
+    },
+    models_id.SARIMA: {
+        "order": (1, 1, 1),
+        "seasonal_order": (1, 1, 1, 12),  # 12 -> 12 * 5 seconds = 1 minute
+    },
+    models_id.SARIMAX: {
+        "order": (1, 1, 1),
+        "seasonal_order": (1, 1, 1, 12),  # 12 -> 12 * 5 seconds = 1 minute
+    },
+    models_id.ETS: {
+        "trend": "add",
+        "seasonal": "add",
+        "seasonal_periods": 12,  # 12 -> 12 * 5 seconds = 1 minute
+    },
+    models_id.GP: {
+        "length_scale": 1.0,
+        "noise_level": 1.0,
+    },
+    models_id.LSTM: {
+        "n_past": 30,
+        "epochs": 50,
+        "batch_size": 32,
+        "validation_split": 0.2,
+        "verbose": 0,
+    },
+    models_id.CNN: {
+        "n_past": 30,
+        "epochs": 50,
+        "batch_size": 32,
+        "validation_split": 0.2,
+        "verbose": 0,
+    },
+    models_id.GRU: {
+        "n_past": 30,
+        "epochs": 50,
+        "batch_size": 32,
+        "validation_split": 0.2,
+        "verbose": 0,
+    },
+    models_id.TCN: {
+        "n_past": 30,
+        "epochs": 50,
+        "batch_size": 32,
+        "validation_split": 0.2,
+        "verbose": 0,
+    },
 }
 
-SETUP_SARIMAX_CONFIG = {
-    "order": (1, 1, 1),
-    "seasonal_order": (1, 1, 1, 12),  # 12 -> 12 * 5 seconds = 1 minute
-}
-
-SETUP_ETS_CONFIG = {
-    "trend": "add",
-    "seasonal": "add",
-    "seasonal_periods": 12,  # 12 -> 12 * 5 seconds = 1 minute
-}
-
-SETUP_GP_CONFIG = {
-    "length_scale": 1.0,
-    "noise_level": 1.0,
-}
-
-SETUP_LSTM_CONFIG = {
-    "n_past": 30,
-    "epochs": 50,
-    "batch_size": 32,
-    "validation_split": 0.2,
-    "verbose": 0,
-}
-
-SETUP_CNN_CONFIG = {
-    "n_past": 30,
-    "epochs": 50,
-    "batch_size": 32,
-    "validation_split": 0.2,
-    "verbose": 0,
-}
-
-SETUP_GRU_CONFIG = {
-    "n_past": 30,
-    "epochs": 50,
-    "batch_size": 32,
-    "validation_split": 0.2,
-    "verbose": 0,
-}
-
-SETUP_TCN_CONFIG = {
-    "n_past": 30,
-    "epochs": 50,
-    "batch_size": 32,
-    "validation_split": 0.2,
-    "verbose": 0,
-}
-
-"""
-PREDICTION - L1 Layer Models Configuration
-define the default prediction configuration of each model here
-"""
-
-PREDICTION_ARIMA_CONFIG = {}
-
-PREDICTION_SARIMA_CONFIG = {}
-
-PREDICTION_SARIMAX_CONFIG = {
-    "exog_future": None,
-}
-
-PREDICTION_ETS_CONFIG = {}
-
-PREDICTION_GP_CONFIG = {}
-
-PREDICTION_LSTM_CONFIG = {
-    "n_past": SETUP_LSTM_CONFIG.get("n_past", 10),
-    "verbose": 0,
-    "batch_size": 1,
-    "features": 1,
-    "frequency": FREQUENCY,
-}
-
-PREDICTION_CNN_CONFIG = {
-    "n_past": SETUP_CNN_CONFIG.get("n_past", 10),
-    "verbose": 0,
-    "batch_size": 1,
-    "features": 1,
-    "frequency": FREQUENCY,
-}
-
-PREDICTION_GRU_CONFIG = {
-    "n_past": SETUP_GRU_CONFIG.get("n_past", 10),
-    "verbose": 0,
-    "batch_size": 1,
-    "features": 1,
-    "frequency": FREQUENCY,
-}
-
-PREDICTION_TCN_CONFIG = {
-    "n_past": SETUP_TCN_CONFIG.get("n_past", 10),
-    "verbose": 0,
-    "batch_size": 1,
-    "features": 1,
-    "frequency": FREQUENCY,
+PREDICTION_L1_CONFIG = {
+    models_id.ARIMA: {},
+    models_id.SARIMA: {},
+    models_id.SARIMAX: {
+        "exog_future": None,
+    },
+    models_id.ETS: {},
+    models_id.GP: {},
+    models_id.LSTM: {
+        "n_past": SETUP_L1_CONFIG.get(models_id.LSTM, {}).get("n_past", 10),
+        "verbose": 0,
+        "batch_size": 1,
+        "features": 1,
+        "frequency": FREQUENCY,
+    },
+    models_id.CNN: {
+        "n_past": SETUP_L1_CONFIG.get(models_id.CNN, {}).get("n_past", 10),
+        "verbose": 0,
+        "batch_size": 1,
+        "features": 1,
+        "frequency": FREQUENCY,
+    },
+    models_id.GRU: {
+        "n_past": SETUP_L1_CONFIG.get(models_id.GRU, {}).get("n_past", 10),
+        "verbose": 0,
+        "batch_size": 1,
+        "features": 1,
+        "frequency": FREQUENCY,
+    },
+    models_id.TCN: {
+        "n_past": SETUP_L1_CONFIG.get(models_id.TCN, {}).get("n_past", 10),
+        "verbose": 0,
+        "batch_size": 1,
+        "features": 1,
+        "frequency": FREQUENCY,
+    },
 }
 
 """
-SETUP - L2 Layer Models Configuration
+L2 Layer Models Configuration
 define the default setup configuration of each model here (for meta models)
 """
 
-SETUP_RIDGE_REGRESSION_CONFIG = {
-    "alpha": 1.0,
+L2_MODELS = {
+    models_id.REGRESSION_STACK: meta_models.LinearRegression(),
+    models_id.TREE_STACK: meta_models.RandomForest(),
+    models_id.NEURAL_STACK: meta_models.FeedforwardNeuralNetwork(),
 }
 
-SETUP_LINEAR_REGRESSION_CONFIG = {}
-
-SETUP_RANDOM_FOREST_CONFIG = {
-    "n_estimators": 300,
-    "max_features": 1,
-    "random_state": 0,
-    "verbose": 0,
+SETUP_L2_CONFIG = {
+    "LINEAR_REGRESSION": {},
+    "RIDGE_REGRESSION": {
+        "alpha": 1.0,
+    },
+    "RANDOM_FOREST": {
+        "n_estimators": 300,
+        "max_features": 1,
+        "random_state": 0,
+        "verbose": 0,
+    },
+    "FEEDFORWARD_NEURAL_NETWORK": {
+        "epochs": 50,
+        "batch_size": 32,
+        "validation_split": 0.2,
+        "verbose": 0,
+    },
 }
 
-SETUP_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {
-    "epochs": 50,
-    "batch_size": 32,
-    "validation_split": 0.2,
-    "verbose": 0,
+PREDICTION_L2_CONFIG = {
+    "LINEAR_REGRESSION": {},
+    "RIDGE_REGRESSION": {},
+    "RANDOM_FOREST": {},
+    "FEEDFORWARD_NEURAL_NETWORK": {"verbose": 0},
 }
 
 """
-PREDICTION - L2 Layer Models Configuration
-define the default prediction configuration of each model here (for meta models)
-"""
-
-PREDICTION_RIDGE_REGRESSION_CONFIG = {}
-
-PREDICTION_LINEAR_REGRESSION_CONFIG = {}
-
-PREDICTION_RANDOM_FOREST_CONFIG = {}
-
-PREDICTION_FEEDFORWARD_NEURAL_NETWORK_CONFIG = {"verbose": 0}
-
-"""
-PREDICTION - L3 Layer Configuration
+L3 Layer Configuration
 define configuration for L3 layer here
 """
 
