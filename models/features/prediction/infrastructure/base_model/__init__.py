@@ -2,6 +2,7 @@ from .arima import ARIMA
 from .sarima import SARIMA
 from .sarimax import SARIMAX
 from .ets import ETS
+from .rnn import RNN
 from .lstm import LSTM
 from .cnn import CNN
 from .gru import GRU

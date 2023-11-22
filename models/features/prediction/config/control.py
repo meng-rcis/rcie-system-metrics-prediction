@@ -50,7 +50,7 @@ IS_FILTERED = True
 
 # NOTE: Setup meta model dataset or not
 # When you want to create new meta files (L2 & L3) but you already have base file (L1), don't forget to update MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = True
-IS_SETUP_META_MODEL_DATASET_REQUIRED = False
+IS_SETUP_META_MODEL_DATASET_REQUIRED = True
 
 # NOTE: Force to move L2 & L3 files to archive folder or not
 MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER = False
@@ -68,17 +68,17 @@ IS_CLEANING_ROWS_REQUIRED_INITIALLY = True
 IS_HIDE_WARNING = True
 
 # NOTE: Define the list of base model ids here
-BASE_MODELS_IDS = [
-    models_id.ARIMA,
-    models_id.SARIMA,
-    models_id.ETS,
-    models_id.GP,
-    models_id.LSTM,
-    models_id.CNN,
-    models_id.GRU,
-    models_id.TCN,
-]
-# BASE_MODELS_IDS = [models_id.ARIMA]
+# BASE_MODELS_IDS = [
+#     models_id.ARIMA,
+#     models_id.SARIMA,
+#     models_id.ETS,
+#     models_id.GP,
+#     models_id.LSTM,
+#     models_id.CNN,
+#     models_id.GRU,
+#     models_id.TCN,
+# ]
+BASE_MODELS_IDS = [models_id.RNN]
 
 # NOTE: Define the list of meta model ids here
 META_MODELS_IDS = [
@@ -100,6 +100,7 @@ L1_MODELS = {
     models_id.SARIMAX: base_models.SARIMAX(),
     models_id.ETS: base_models.ETS(),
     models_id.GP: base_models.GP(),
+    models_id.RNN: base_models.RNN(),
     models_id.LSTM: base_models.LSTM(),
     models_id.CNN: base_models.CNN(),
     models_id.GRU: base_models.GRU(),
@@ -126,6 +127,13 @@ SETUP_L1_CONFIG = {
     models_id.GP: {
         "length_scale": 1.0,
         "noise_level": 1.0,
+    },
+    models_id.RNN: {
+        "n_past": 30,
+        "epochs": 50,
+        "batch_size": 32,
+        "validation_split": 0.2,
+        "verbose": 0,
     },
     models_id.LSTM: {
         "n_past": 30,
@@ -165,6 +173,13 @@ PREDICTION_L1_CONFIG = {
     },
     models_id.ETS: {},
     models_id.GP: {},
+    models_id.RNN: {
+        "n_past": SETUP_L1_CONFIG.get(models_id.RNN, {}).get("n_past", 10),
+        "verbose": 0,
+        "batch_size": 1,
+        "features": 1,
+        "frequency": FREQUENCY,
+    },
     models_id.LSTM: {
         "n_past": SETUP_L1_CONFIG.get(models_id.LSTM, {}).get("n_past", 10),
         "verbose": 0,
