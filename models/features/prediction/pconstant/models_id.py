@@ -1,7 +1,7 @@
 # Base Models
 ARIMA = "ARIMA"  # done
-SARIMA = "SARIMA"
-SARIMAX = "SARIMAX"
+SARIMA = "SARIMA"  # done
+SARIMAX = "SARIMAX"  # done
 ETS = "ETS"  # done
 PROPHET = "PROPHET"  # done
 LSTM = "LSTM"  # done
