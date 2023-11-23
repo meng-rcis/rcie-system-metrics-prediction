@@ -23,13 +23,14 @@ PREDICTION_STEPS - the number of steps to be predicted
 INITIAL_BASE_TRAINING_SIZE - the number of initial base training size
 INITIAL_META_TRAINING_SIZE - the number of initial meta training size
 AUTO_CREATED_FINAL_RESULT_SIZE - the number of L3 size that will be automatically generated initially
+ALPHA - the number on how we value RMSE of L2 models to generate the final result (in L3)
 IS_FILTERED - use filter (reduce noise) or not
 IS_HIDE_WARNING - define whether or not it should hide warning
 IS_PARALLEL_PROCESSING - use parallel processing or not (main switch to use parallel processing or not)
 IS_PARALLEL_PROCESSING_FOR_L2 - use parallel processing for L2 or not
 IS_CLEANING_ROWS_REQUIRED_INITIALLY - define cleaning rows is required initially or not
 IS_SETUP_META_MODEL_DATASET_REQUIRED - setup meta model dataset or not
-MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER - force to move L2 & L3 files to archive folder or not
+MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER - force to move L2 & L3 files to archive folder or not (used to start the new main process)
 BASE_MODELS_IDS - define the list of base model ids here
 META_MODELS_IDS - define the list of meta model ids here
 """
@@ -41,26 +42,28 @@ CONFIG = {
     "INITIAL_BASE_TRAINING_SIZE": 1000,
     "INITIAL_META_TRAINING_SIZE": 1000,
     "AUTO_CREATED_FINAL_RESULT_SIZE": 300,
+    "ALPHA": 500.0,
     "IS_FILTERED": True,
     "IS_HIDE_WARNING": True,
     "IS_PARALLEL_PROCESSING": True,
     "IS_PARALLEL_PROCESSING_FOR_L2": True,
     "IS_CLEANING_ROWS_REQUIRED_INITIALLY": True,
-    "IS_SETUP_META_MODEL_DATASET_REQUIRED": True,
-    "MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER": False,
-    # "BASE_MODELS_IDS": [
-    #     models_id.ARIMA,
-    #     models_id.SARIMA,
-    #     models_id.ETS,
-    #     models_id.GP,
-    #     models_id.LSTM,
-    #     models_id.CNN,
-    #     models_id.GRU,
-    #     models_id.TCN,
-    # ],
+    "IS_SETUP_META_MODEL_DATASET_REQUIRED": False,
+    "MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER": True,
     "BASE_MODELS_IDS": [
+        models_id.ARIMA,
+        models_id.SARIMA,
+        models_id.ETS,
+        models_id.GP,
         models_id.RNN,
+        models_id.LSTM,
+        models_id.CNN,
+        models_id.GRU,
+        models_id.TCN,
     ],
+    # "BASE_MODELS_IDS": [
+    #     models_id.RNN,
+    # ],
     "META_MODELS_IDS": [
         models_id.REGRESSION_STACK,
         models_id.TREE_STACK,
@@ -227,10 +230,3 @@ PREDICTION_L2_CONFIG = {
     "RANDOM_FOREST": {},
     "FEEDFORWARD_NEURAL_NETWORK": {"verbose": 0},
 }
-
-"""
-L3 Layer Configuration
-define configuration for L3 layer here
-"""
-
-ALPHA = 500.0
