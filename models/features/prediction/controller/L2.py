@@ -30,7 +30,7 @@ class L2(IL2):
                 raise Exception(f"Model {model_id} in L2 is not supported")
             print("model_id", model_id)
             print("model setup config", model["setup_config"])
-            print("model prediction config", model["prediction_config"])
+            print("model prediction config", model["prediction_config"], "\n")
             models.append(model)
         return models
 
