@@ -36,7 +36,7 @@ class MainManager:
         self.l3_prediction_path = l3_prediction_path
         self.base_model_ids = base_model_ids
         self.meta_model_ids = meta_model_ids
-        self.meta_target = ACTUAL
+        self.meta_target = RAW if is_filtered else ACTUAL
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
         self.start_training_index = start_training_index
@@ -68,7 +68,7 @@ class MainManager:
             self.l3_prediction_path,
         ]
 
-    def Run(self, auto_loop: int = None):
+    def Run(self, auto_loop: int = 0):
         # Validate file if it is the first run
         if self.is_first_run:
             self.validateProcess()
@@ -89,7 +89,7 @@ class MainManager:
                     self.data_manager.CleanMissingRowsInCSV(dest, ACTUAL, RAW)
 
         # Prepare the initial CSV for L2 and L3 before manually running the loop
-        if auto_loop is not None:
+        if auto_loop > 0:
             for _ in range(auto_loop):
                 # Process prediction
                 self.ProcessPrediction()

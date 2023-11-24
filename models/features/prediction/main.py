@@ -63,8 +63,8 @@ def main():
 
     auto_loop = (
         math.ceil(CONFIG["AUTO_CREATED_FINAL_RESULT_SIZE"] / CONFIG["PREDICTION_STEPS"])
-        if CONFIG["AUTO_CREATED_FINAL_RESULT_SIZE"] is not None
-        else None
+        if CONFIG["AUTO_CREATED_FINAL_RESULT_SIZE"] > 0
+        else 0
     )
     MainManagerInstance.Run(auto_loop=auto_loop)
 
