@@ -40,7 +40,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
         self.scaled_X = self.scaler_X.fit_transform(self.X)
         self.scaled_y = self.scaler_y.fit_transform(self.y.values.reshape(-1, 1))
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         # Splitting data into train and validation sets
         X_train, X_val, y_train, y_val = train_test_split(
             self.scaled_X,

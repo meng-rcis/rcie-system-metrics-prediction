@@ -34,7 +34,7 @@ class SARIMAX(IBaseModel):
             if end_index is not None:
                 self.exog = self.exog.iloc[:end_index]
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         """
         Train a SARIMAX model on a given time series.
         - series: Pandas Series object representing the time series data.

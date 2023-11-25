@@ -95,7 +95,7 @@ class L1(IL1):
         ) as executor:
             futures = [
                 executor.submit(
-                    model["instance"].ConfigModel,
+                    model["instance"].TrainModel,
                     {
                         **model["setup_config"],
                         "steps": steps,
@@ -125,6 +125,6 @@ class L1(IL1):
                 start_index=start_index,
                 end_index=end_index,
             )
-            model["instance"].ConfigModel(
+            model["instance"].TrainModel(
                 config={**model["setup_config"], "steps": steps}
             )

@@ -28,7 +28,7 @@ class ARIMA(IBaseModel):
             else self.dataset.iloc[start_index:end_index]
         )
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         """
         Train an ARIMA model on a given time series.
         - series: Pandas Series object representing the time series data.

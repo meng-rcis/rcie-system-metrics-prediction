@@ -42,7 +42,7 @@ class GRU(IBaseModel):
             self.training_dataset.values.reshape(-1, 1)
         )
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         # Group data for GRU
         X, y = create_sequences(
             self.scaled_training_dataset,

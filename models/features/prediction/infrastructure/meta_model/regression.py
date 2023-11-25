@@ -30,7 +30,7 @@ class RidgeRegression(IMetaModel):
         self.X = self.training_dataset[features]
         self.y = self.training_dataset[target]
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         """
         Train a Ridge Regression model
         - alpha: Regularization strength; must be a positive float.
@@ -76,7 +76,7 @@ class LinearRegression(IMetaModel):
         self.X = self.training_dataset[features]
         self.y = self.training_dataset[target]
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         model = LRL()
         model.fit(self.X, self.y)
         self.model = model

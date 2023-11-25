@@ -30,7 +30,7 @@ class RandomForest(IMetaModel):
         self.X = self.training_dataset[features]
         self.y = self.training_dataset[target]
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         """
         Train a Random Forest model
         - n_estimators: The number of trees in the forest.

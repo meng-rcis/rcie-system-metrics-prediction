@@ -39,7 +39,7 @@ class GP(IBaseModel):
         self.X = self.training_dataset["time_num"].values.reshape(-1, 1)
         self.y = self.training_dataset[feature].values.reshape(-1, 1)
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         length_scale = config.get("length_scale", 1.0)
         noise_level = config.get("noise_level", 1.0)
         kernel = RBF(length_scale=length_scale) + WhiteKernel(noise_level=noise_level)

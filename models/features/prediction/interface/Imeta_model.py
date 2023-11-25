@@ -17,7 +17,7 @@ class IMetaModel(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         pass
 
     @abc.abstractmethod

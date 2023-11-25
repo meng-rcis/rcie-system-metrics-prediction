@@ -40,7 +40,7 @@ class CNN(IBaseModel):
             self.training_dataset.values.reshape(-1, 1)
         )
 
-    def ConfigModel(self, config: dict) -> Any:
+    def TrainModel(self, config: dict) -> Any:
         n_past = config.get("n_past", 5)
         steps = config.get("steps", 1)
         X, y = create_sequences(
