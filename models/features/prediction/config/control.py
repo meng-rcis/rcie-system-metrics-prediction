@@ -36,7 +36,8 @@ META_MODELS_IDS - define the list of meta model ids here
 """
 
 CONFIG = {
-    "SELECTED_FEATURE": "bandwidth_outbound",
+    # SELECTED_FEATURE's options: "cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"
+    "SELECTED_FEATURE": "bandwidth_inbound",
     "START_TRAINING_INDEX": 0,
     "PREDICTION_STEPS": 5,
     "INITIAL_BASE_TRAINING_SIZE": 1000,
