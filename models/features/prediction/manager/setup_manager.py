@@ -14,6 +14,8 @@ class SetupManager:
         dataset: pd.DataFrame,
         selected_feature: str,
         l1_prediction_path: str,
+        l2_prediction_path: str,
+        l3_prediction_path: str,
         base_model_ids: list[str],
         start_training_index: int = 0,
         initial_base_training_size: int = 100,
@@ -25,6 +27,8 @@ class SetupManager:
         self.dataset = dataset
         self.selected_feature = selected_feature
         self.l1_prediction_path = l1_prediction_path
+        self.l2_prediction_path = l2_prediction_path
+        self.l3_prediction_path = l3_prediction_path
         self.data_manager = DataManager()
         self.base_gateway = L1(
             model_ids=base_model_ids,
@@ -48,8 +52,22 @@ class SetupManager:
             raise Exception(error_message)
 
         # Move the outdated training file to archive directory
-        meta_archive_directory_path = generate_meta_archive_directory_path(layer="l1")
-        self.data_manager.MoveCSV(self.l1_prediction_path, meta_archive_directory_path)
+        archive_time = str(round(time.time() * 1000))
+        l1_archive_directory_path = generate_meta_archive_directory_path(
+            layer="l1",
+            folder_name=archive_time,
+        )
+        l2_archive_directory_path = generate_meta_archive_directory_path(
+            layer="l2",
+            folder_name=archive_time,
+        )
+        l3_archive_directory_path = generate_meta_archive_directory_path(
+            layer="l3",
+            folder_name=archive_time,
+        )
+        self.data_manager.MoveCSV(self.l1_prediction_path, l1_archive_directory_path)
+        self.data_manager.MoveCSV(self.l2_prediction_path, l2_archive_directory_path)
+        self.data_manager.MoveCSV(self.l3_prediction_path, l3_archive_directory_path)
 
         # Loop to split dataset with given number of rows
         meta_total_rows = 0

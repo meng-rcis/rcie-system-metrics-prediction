@@ -31,6 +31,8 @@ def main():
             dataset=DataManagerInstance.LoadDataset(BASE_DATASET_PATH),
             selected_feature=CONFIG["SELECTED_FEATURE"],
             l1_prediction_path=L1_PREDICTION_DATASET_PATH,
+            l2_prediction_path=L2_PREDICTION_DATASET_PATH,
+            l3_prediction_path=L3_PREDICTION_DATASET_PATH,
             base_model_ids=CONFIG["BASE_MODELS_IDS"],
             prediction_steps=CONFIG["PREDICTION_STEPS"],
             initial_base_training_size=CONFIG["INITIAL_BASE_TRAINING_SIZE"],
@@ -57,8 +59,9 @@ def main():
         is_parallel_processing=CONFIG["IS_PARALLEL_PROCESSING"],
         is_parallel_processing_for_l2=CONFIG["IS_PARALLEL_PROCESSING_FOR_L2"],
         is_clean_rows_required_initially=CONFIG["IS_CLEANING_ROWS_REQUIRED_INITIALLY"],
-        is_move_to_archive_required=CONFIG["IS_SETUP_META_MODEL_DATASET_REQUIRED"]
-        or CONFIG["MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER"],
+        is_move_to_archive_required=CONFIG[
+            "MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER"
+        ],
     )
 
     auto_loop = (
