@@ -37,12 +37,12 @@ META_MODELS_IDS - define the list of meta model ids here
 
 CONFIG = {
     # SELECTED_FEATURE's options: "cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"
-    "SELECTED_FEATURE": "bandwidth_inbound",
+    "SELECTED_FEATURE": "cpu_usage",
     "START_TRAINING_INDEX": 0,
     "PREDICTION_STEPS": 5,
     "INITIAL_BASE_TRAINING_SIZE": 1000,
-    "INITIAL_META_TRAINING_SIZE": 700,
-    "AUTO_CREATED_FINAL_RESULT_SIZE": 0,
+    "INITIAL_META_TRAINING_SIZE": 1000,
+    "AUTO_CREATED_FINAL_RESULT_SIZE": 250,
     "ALPHA": 500.0,
     "IS_FILTERED": True,
     "IS_HIDE_WARNING": True,
