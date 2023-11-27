@@ -212,9 +212,6 @@ SETUP_L2_CONFIG = {
         "alpha": 1.0,
     },
     "RANDOM_FOREST": {
-        "n_estimators": 300,
-        "max_features": 1,
-        "random_state": 0,
         "verbose": 0,
     },
     "FEEDFORWARD_NEURAL_NETWORK": {
