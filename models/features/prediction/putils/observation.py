@@ -37,3 +37,16 @@ def load_data(
     if last_appearance is not None:
         df = df.tail(last_appearance)
     return df
+
+
+def load_data_from_tuned_folder(layer: str, last_appearance: int = None):
+    dir = layer + ".csv"
+    df = pd.read_csv(dir)
+    df["Time"] = pd.to_datetime(df["Time"])
+    df["FormattedTime"] = df["Time"].dt.strftime("%H:%M:%S")
+    df = df.sort_values(by="FormattedTime")
+    df = df.set_index("FormattedTime")
+    # Reduce size of appearance
+    if last_appearance is not None:
+        df = df.tail(last_appearance)
+    return df
