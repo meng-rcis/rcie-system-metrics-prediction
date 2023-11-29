@@ -29,6 +29,7 @@ IS_HIDE_WARNING - define whether or not it should hide warning
 IS_PARALLEL_PROCESSING - use parallel processing or not (main switch to use parallel processing or not)
 IS_PARALLEL_PROCESSING_FOR_L2 - use parallel processing for L2 or not
 IS_CLEANING_ROWS_REQUIRED_INITIALLY - define cleaning rows is required initially or not
+IS_UPDATING_CSV_REQUIRED_INITIALLY - define updating csv is required initially or not
 IS_SETUP_META_MODEL_DATASET_REQUIRED - setup meta model dataset or not
 MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER - force to move L2 & L3 files to archive folder or not (used to start the new main process)
 BASE_MODELS_IDS - define the list of base model ids here
@@ -63,9 +64,6 @@ CONFIG = {
         models_id.GRU,
         models_id.TCN,
     ],
-    # "BASE_MODELS_IDS": [
-    #     models_id.RNN,
-    # ],
     "META_MODELS_IDS": [
         models_id.REGRESSION_STACK,
         models_id.TREE_STACK,
@@ -228,4 +226,13 @@ PREDICTION_L2_CONFIG = {
     "RIDGE_REGRESSION": {},
     "RANDOM_FOREST": {},
     "FEEDFORWARD_NEURAL_NETWORK": {"verbose": 0},
+}
+
+# override_features: the list of features that will be used for training - overriding the default features (BASE_MODELS_IDS)
+#   - DEFAULT: [], the default features will be used
+FEATURES_L2_CONFIG = {
+    "LINEAR_REGRESSION": {"override_features": []},
+    "RIDGE_REGRESSION": {"override_features": []},
+    "RANDOM_FOREST": {"override_features": []},
+    "FEEDFORWARD_NEURAL_NETWORK": {"override_features": []},
 }

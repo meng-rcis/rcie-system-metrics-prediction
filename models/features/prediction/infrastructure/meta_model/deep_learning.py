@@ -25,17 +25,23 @@ class FeedforwardNeuralNetwork(IMetaModel):
         self,
         dataset: pd.DataFrame,
         features: list[str],
+        features_config: dict,
         target: str,
         start_index: int,
         end_index: int,
     ):
+        override_features = features_config.get("override_features", [])
         cp_dataset = dataset.copy()
         self.training_dataset = (
             cp_dataset.iloc[start_index:]
             if end_index is None
             else cp_dataset.iloc[start_index:end_index]
         )
-        self.X = self.training_dataset[features]
+        self.X = (
+            self.training_dataset[features]
+            if len(override_features) == 0
+            else self.training_dataset[override_features]
+        )
         self.y = self.training_dataset[target]
         self.scaled_X = self.scaler_X.fit_transform(self.X)
         self.scaled_y = self.scaler_y.fit_transform(self.y.values.reshape(-1, 1))

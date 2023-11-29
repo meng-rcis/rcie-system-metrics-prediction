@@ -3,7 +3,12 @@ import pandas as pd
 import config.os as os_config
 
 from interface import IL2
-from config.control import L2_MODELS, SETUP_L2_CONFIG, PREDICTION_L2_CONFIG
+from config.control import (
+    L2_MODELS,
+    SETUP_L2_CONFIG,
+    PREDICTION_L2_CONFIG,
+    FEATURES_L2_CONFIG,
+)
 
 
 # NOTE: Purpose of the L2 is to let the user to define the base models and its configurations in a single place
@@ -25,6 +30,7 @@ class L2(IL2):
                 "instance": L2_MODELS.get(model_id, None),
                 "setup_config": SETUP_L2_CONFIG.get(model_id, {}),
                 "prediction_config": PREDICTION_L2_CONFIG.get(model_id, {}),
+                "features_config": FEATURES_L2_CONFIG.get(model_id, {}),
             }
             if model["instance"] is None:
                 raise Exception(f"Model {model_id} in L2 is not supported")
@@ -85,6 +91,7 @@ class L2(IL2):
             model["instance"].PrepareParameters(
                 dataset=dataset,
                 features=features,
+                features_config=model["features_config"],
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
@@ -120,6 +127,7 @@ class L2(IL2):
             model["instance"].PrepareParameters(
                 dataset=dataset,
                 features=features,
+                features_config=model["features_config"],
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
