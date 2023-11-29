@@ -170,12 +170,8 @@ class MainManager:
             self.updateCSVPredictionToLatest(dest)
 
     def updateCSVPredictionToLatest(self, dir: str):
-        if (
-            dir != self.l1_prediction_path
-            and dir != self.l2_prediction_path
-            and dir != self.l3_prediction_path
-        ):
-            raise Exception("dir must be either L1, L2 or L3")
+        if self.data_manager.IsFileExist(dir) == False:
+            return
         dest = self.data_manager.ReadCSV(path=dir, index_col=TIME)
         self.data_manager.UpdateDestinationToLatest(
             src=self.dataset,
