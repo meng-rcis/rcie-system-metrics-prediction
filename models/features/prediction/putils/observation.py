@@ -16,7 +16,7 @@ def compute_mae(actual, predicted):
 
 
 def load_data(
-    layer: str, datafile: str, archived: int = None, last_appearance: int = None
+    layer: str, datafile: str, archived: str | int = None, last_appearance: int = None
 ):
     dir = (
         "../source/" + layer + "_prediction_dataset/" + datafile
