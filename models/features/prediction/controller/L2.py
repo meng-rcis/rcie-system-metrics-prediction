@@ -7,7 +7,7 @@ from config.control import (
     L2_MODELS,
     SETUP_L2_CONFIG,
     PREDICTION_L2_CONFIG,
-    FEATURES_L2_CONFIG,
+    PREPARATION_L2_CONFIG,
 )
 
 
@@ -30,14 +30,14 @@ class L2(IL2):
                 "instance": L2_MODELS.get(model_id, None),
                 "setup_config": SETUP_L2_CONFIG.get(model_id, {}),
                 "prediction_config": PREDICTION_L2_CONFIG.get(model_id, {}),
-                "features_config": FEATURES_L2_CONFIG.get(model_id, {}),
+                "preparation_config": PREPARATION_L2_CONFIG.get(model_id, {}),
             }
             if model["instance"] is None:
                 raise Exception(f"Model {model_id} in L2 is not supported")
             print("model_id", model_id)
             print("model setup config", model["setup_config"])
             print("model prediction config", model["prediction_config"])
-            print("model features config", model["features_config"], "\n")
+            print("model features config", model["preparation_config"], "\n")
             models.append(model)
         return models
 
@@ -92,10 +92,10 @@ class L2(IL2):
             model["instance"].PrepareParameters(
                 dataset=dataset,
                 features=features,
-                features_config=model["features_config"],
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
+                preparation_config=model["preparation_config"],
             )
 
         # Use ProcessPoolExecutor for parallel execution
@@ -128,9 +128,9 @@ class L2(IL2):
             model["instance"].PrepareParameters(
                 dataset=dataset,
                 features=features,
-                features_config=model["features_config"],
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
+                preparation_config=model["preparation_config"],
             )
             model["instance"].TrainModel(config=model["setup_config"])

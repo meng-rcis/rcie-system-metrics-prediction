@@ -17,12 +17,12 @@ class RandomForest(IMetaModel):
         self,
         dataset: pd.DataFrame,
         features: list[str],
-        features_config: dict,
         target: str,
         start_index: int,
         end_index: int,
+        preparation_config: dict,
     ):
-        override_features = features_config.get("override_features", [])
+        override_features = preparation_config.get("override_features", [])
         cp_dataset = dataset.copy()
         self.training_dataset = (
             cp_dataset.iloc[start_index:]

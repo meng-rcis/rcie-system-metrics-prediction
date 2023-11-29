@@ -230,7 +230,7 @@ PREDICTION_L2_CONFIG = {
 
 # override_features: the list of features that will be used for training - overriding the default features (BASE_MODELS_IDS)
 #   - DEFAULT: [], the default features will be used
-FEATURES_L2_CONFIG = {
+PREPARATION_L2_CONFIG = {
     "LINEAR_REGRESSION": {"override_features": []},
     "RIDGE_REGRESSION": {"override_features": []},
     "RANDOM_FOREST": {"override_features": []},
