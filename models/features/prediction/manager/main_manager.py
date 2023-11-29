@@ -28,6 +28,7 @@ class MainManager:
         is_parallel_processing_for_l2: bool = False,
         is_move_to_archive_required: bool = False,
         is_clean_rows_required_initially: bool = True,
+        is_update_csv_required_initially: bool = False,
     ):
         self.dataset = dataset
         self.selected_feature = selected_feature
@@ -40,8 +41,8 @@ class MainManager:
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
         self.start_training_index = start_training_index
+        self.is_update_csv_required = is_update_csv_required_initially
         self.is_first_run = True
-        self.is_update_csv_required = False
         self.is_filtered = is_filtered
         self.l1_gateway = L1(
             model_ids=base_model_ids,

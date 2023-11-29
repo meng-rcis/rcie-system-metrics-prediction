@@ -58,7 +58,9 @@ def main():
         is_filtered=CONFIG["IS_FILTERED"],
         is_parallel_processing=CONFIG["IS_PARALLEL_PROCESSING"],
         is_parallel_processing_for_l2=CONFIG["IS_PARALLEL_PROCESSING_FOR_L2"],
-        is_clean_rows_required_initially=CONFIG["IS_CLEANING_ROWS_REQUIRED_INITIALLY"],
+        is_clean_rows_required_initially=CONFIG["IS_CLEANING_ROWS_REQUIRED_INITIALLY"]
+        and CONFIG["IS_UPDATING_CSV_REQUIRED_INITIALLY"] == False,
+        is_update_csv_required_initially=CONFIG["IS_UPDATING_CSV_REQUIRED_INITIALLY"],
         is_move_to_archive_required=CONFIG[
             "MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER"
         ],
