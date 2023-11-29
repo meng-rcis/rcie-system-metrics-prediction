@@ -37,7 +37,7 @@ class L2(IL2):
             print("model_id", model_id)
             print("model setup config", model["setup_config"])
             print("model prediction config", model["prediction_config"])
-            print("model features config", model["preparation_config"], "\n")
+            print("model preparation config", model["preparation_config"], "\n")
             models.append(model)
         return models
 
