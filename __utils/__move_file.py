@@ -14,7 +14,7 @@ SRC_L3 = BASE_L3 + "/prediction_result_filtered.csv"
 
 
 def create_dest_file_path(metric, layer):
-    return BASE + metric + "/base/" + layer + ".csv"
+    return BASE + metric + "/source/" + layer + ".csv"
 
 
 def create_folder(path):
