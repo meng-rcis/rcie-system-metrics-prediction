@@ -40,7 +40,7 @@ def load_data(
 
 
 def load_data_from_tuned_folder(layer: str, last_appearance: int = None):
-    dir = layer + ".csv"
+    dir = "./source/" + layer + ".csv"
     df = pd.read_csv(dir)
     df["Time"] = pd.to_datetime(df["Time"])
     df["FormattedTime"] = df["Time"].dt.strftime("%H:%M:%S")
