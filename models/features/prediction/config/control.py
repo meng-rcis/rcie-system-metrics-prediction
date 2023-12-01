@@ -38,20 +38,20 @@ META_MODELS_IDS - define the list of meta model ids here
 
 CONFIG = {
     # SELECTED_FEATURE's options: "cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"
-    "SELECTED_FEATURE": "bandwidth_outbound",
+    "SELECTED_FEATURE": "tps",
     "START_TRAINING_INDEX": 0,
     "PREDICTION_STEPS": 5,
     "INITIAL_BASE_TRAINING_SIZE": 1000,
     "INITIAL_META_TRAINING_SIZE": 1000,
     "AUTO_CREATED_FINAL_RESULT_SIZE": 250,
-    "ALPHA": 0.01,
+    "ALPHA": 100,
     "IS_FILTERED": True,
     "IS_HIDE_WARNING": True,
     "IS_PARALLEL_PROCESSING": True,
     "IS_PARALLEL_PROCESSING_FOR_L2": True,
     "IS_CLEANING_ROWS_REQUIRED_INITIALLY": True,
     "IS_UPDATING_CSV_REQUIRED_INITIALLY": True,
-    "IS_SETUP_META_MODEL_DATASET_REQUIRED": False,
+    "IS_SETUP_META_MODEL_DATASET_REQUIRED": True,
     "MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER": False,
     "BASE_MODELS_IDS": [
         models_id.ARIMA,
