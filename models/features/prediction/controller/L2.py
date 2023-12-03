@@ -15,9 +15,11 @@ from config.control import (
 class L2(IL2):
     def __init__(
         self,
+        target: str,
         model_ids: list[str],
         is_parallel_processing: bool = False,
     ):
+        self.target = target
         self.models = self.InitiateModels(model_ids)
         self.is_parallel_processing = is_parallel_processing
 
@@ -46,7 +48,6 @@ class L2(IL2):
         self,
         dataset: pd.DataFrame,
         features: list[str],
-        target: str,
         start_index: int = 0,
         end_index: int = None,
     ):
@@ -54,7 +55,7 @@ class L2(IL2):
             self.__parallel_model_train(
                 dataset=dataset,
                 features=features,
-                target=target,
+                target=self.target,
                 start_index=start_index,
                 end_index=end_index,
             )
@@ -62,7 +63,7 @@ class L2(IL2):
             self.__sequential_model_train(
                 dataset=dataset,
                 features=features,
-                target=target,
+                target=self.target,
                 start_index=start_index,
                 end_index=end_index,
             )

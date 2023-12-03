@@ -37,7 +37,6 @@ class MainManager:
         self.l3_prediction_path = l3_prediction_path
         self.base_model_ids = base_model_ids
         self.meta_model_ids = meta_model_ids
-        self.meta_target = RAW if is_filtered else ACTUAL
         self.prediction_steps = prediction_steps
         self.initial_base_training_size = initial_base_training_size
         self.start_training_index = start_training_index
@@ -49,6 +48,7 @@ class MainManager:
             is_parallel_processing=is_parallel_processing,
         )
         self.l2_gateway = L2(
+            target=ACTUAL,
             model_ids=meta_model_ids,
             is_parallel_processing=is_parallel_processing_for_l2,
         )
@@ -221,7 +221,6 @@ class MainManager:
         self.l2_gateway.TrainModels(
             dataset=dataset,
             features=self.base_model_ids,
-            target=self.meta_target,
         )
 
     def predictBaseModels(self) -> pd.DataFrame:
