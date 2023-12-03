@@ -38,25 +38,25 @@ META_MODELS_IDS - define the list of meta model ids here
 
 CONFIG = {
     # SELECTED_FEATURE's options: "cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"
-    "SELECTED_FEATURE": "response_time",
+    "SELECTED_FEATURE": "cpu_usage",
     "START_TRAINING_INDEX": 0,
     "PREDICTION_STEPS": 5,
     "INITIAL_BASE_TRAINING_SIZE": 1000,
     "INITIAL_META_TRAINING_SIZE": 1000,
     "AUTO_CREATED_FINAL_RESULT_SIZE": 250,
-    "ALPHA": 0.01,
+    "ALPHA": 100,
     "IS_FILTERED": True,
     "IS_HIDE_WARNING": True,
     "IS_PARALLEL_PROCESSING": True,
     "IS_PARALLEL_PROCESSING_FOR_L2": True,
     "IS_CLEANING_ROWS_REQUIRED_INITIALLY": True,
     "IS_UPDATING_CSV_REQUIRED_INITIALLY": True,
-    "IS_SETUP_META_MODEL_DATASET_REQUIRED": True,
+    "IS_SETUP_META_MODEL_DATASET_REQUIRED": False,
     "MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER": False,
     "BASE_MODELS_IDS": [
         models_id.ARIMA,
         models_id.SARIMA,
-        models_id.ETS,
+        # models_id.ETS,
         # models_id.GP,
         models_id.RNN,
         models_id.LSTM,
@@ -230,9 +230,30 @@ PREDICTION_L2_CONFIG = {
 
 # override_features: the list of features that will be used for training - overriding the default features (BASE_MODELS_IDS)
 #   - DEFAULT: [], the default features will be used
-PREPARATION_L2_CONFIG = {
-    "LINEAR_REGRESSION": {"override_features": []},
+COMMON_L2_CONFIG = {
+    "LINEAR_REGRESSION": {
+        "override_features": [
+            models_id.ARIMA,
+            models_id.SARIMA,
+            models_id.RNN,
+            models_id.LSTM,
+            models_id.CNN,
+            models_id.GRU,
+            models_id.TCN,
+        ]
+    },
     "RIDGE_REGRESSION": {"override_features": []},
-    "RANDOM_FOREST": {"override_features": []},
-    "FEEDFORWARD_NEURAL_NETWORK": {"override_features": []},
+    "RANDOM_FOREST": {
+        "override_features": [
+            models_id.RNN,
+            models_id.GRU,
+        ]
+    },
+    "FEEDFORWARD_NEURAL_NETWORK": {
+        "override_features": [
+            models_id.RNN,
+            models_id.LSTM,
+            models_id.GRU,
+        ]
+    },
 }

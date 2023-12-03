@@ -28,9 +28,9 @@ class FeedforwardNeuralNetwork(IMetaModel):
         target: str,
         start_index: int,
         end_index: int,
-        preparation_config: dict,
+        config: dict,
     ):
-        override_features = preparation_config.get("override_features", [])
+        override_features = config.get("override_features", [])
         cp_dataset = dataset.copy()
         self.training_dataset = (
             cp_dataset.iloc[start_index:]
@@ -77,10 +77,13 @@ class FeedforwardNeuralNetwork(IMetaModel):
         return self.model
 
     def Predict(self, config: dict):
+        override_features = config.get("override_features", [])
         input = config.get("input", None)
         verbose = config.get("verbose", 0)
         if input is None:
             raise ValueError("Input is not provided")
+        if len(override_features) != 0:
+            input = input[override_features]
         scaled_input = self.scaler_X.transform(input)
         yhat = self.model.predict(scaled_input, verbose=verbose)
         return self.scaler_y.inverse_transform(yhat)

@@ -7,7 +7,7 @@ from config.control import (
     L2_MODELS,
     SETUP_L2_CONFIG,
     PREDICTION_L2_CONFIG,
-    PREPARATION_L2_CONFIG,
+    COMMON_L2_CONFIG,
 )
 
 
@@ -30,14 +30,14 @@ class L2(IL2):
                 "instance": L2_MODELS.get(model_id, None),
                 "setup_config": SETUP_L2_CONFIG.get(model_id, {}),
                 "prediction_config": PREDICTION_L2_CONFIG.get(model_id, {}),
-                "preparation_config": PREPARATION_L2_CONFIG.get(model_id, {}),
+                "common_config": COMMON_L2_CONFIG.get(model_id, {}),
             }
             if model["instance"] is None:
                 raise Exception(f"Model {model_id} in L2 is not supported")
             print("model_id", model_id)
             print("model setup config", model["setup_config"])
             print("model prediction config", model["prediction_config"])
-            print("model preparation config", model["preparation_config"], "\n")
+            print("model common config", model["common_config"], "\n")
             models.append(model)
         return models
 
@@ -73,7 +73,11 @@ class L2(IL2):
 
         for model in self.models:
             prediction = model["instance"].Predict(
-                config={**model["prediction_config"], "input": input}
+                config={
+                    **model["prediction_config"],
+                    **model["common_config"],
+                    "input": input,
+                }
             )
             predictions[model["id"]] = prediction
 
@@ -95,7 +99,7 @@ class L2(IL2):
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
-                preparation_config=model["preparation_config"],
+                config=model["common_config"],
             )
 
         # Use ProcessPoolExecutor for parallel execution
@@ -131,6 +135,6 @@ class L2(IL2):
                 target=target,
                 start_index=start_index,
                 end_index=end_index,
-                preparation_config=model["preparation_config"],
+                config=model["common_config"],
             )
             model["instance"].TrainModel(config=model["setup_config"])

@@ -20,9 +20,9 @@ class RidgeRegression(IMetaModel):
         target: str,
         start_index: int,
         end_index: int,
-        preparation_config: dict,
+        config: dict,
     ):
-        override_features = preparation_config.get("override_features", [])
+        override_features = config.get("override_features", [])
         cp_dataset = dataset.copy()
         self.training_dataset = (
             cp_dataset.iloc[start_index:]
@@ -48,9 +48,12 @@ class RidgeRegression(IMetaModel):
         return self.model
 
     def Predict(self, config: dict):
+        override_features = config.get("override_features", [])
         input = config.get("input", None)
         if input is None:
             raise ValueError("Input is not provided")
+        if len(override_features) != 0:
+            input = input[override_features]
         return self.model.predict(input)
 
     def SaveModel(self, model: Any):
@@ -72,9 +75,9 @@ class LinearRegression(IMetaModel):
         target: str,
         start_index: int,
         end_index: int,
-        preparation_config: dict,
+        config: dict,
     ):
-        override_features = preparation_config.get("override_features", [])
+        override_features = config.get("override_features", [])
         cp_dataset = dataset.copy()
         self.training_dataset = (
             cp_dataset.iloc[start_index:]
@@ -95,9 +98,12 @@ class LinearRegression(IMetaModel):
         return self.model
 
     def Predict(self, config: dict):
+        override_features = config.get("override_features", [])
         input = config.get("input", None)
         if input is None:
             raise ValueError("Input is not provided")
+        if len(override_features) != 0:
+            input = input[override_features]
         return self.model.predict(input)
 
     def SaveModel(self, model: Any):

@@ -13,7 +13,7 @@ class IMetaModel(abc.ABC):
         target: str,
         start_index: int,
         end_index: int,
-        preparation_config: dict,
+        config: dict,
     ):
         pass
 
