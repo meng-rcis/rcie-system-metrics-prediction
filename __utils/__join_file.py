@@ -15,7 +15,7 @@ CONFIG = {
     # "cpu_usage", "memory_usage", "inbound_bandwidth", "outbound_bandwidth", "tps", "response_time"
     "features": ["cpu_usage", "memory_usage", "inbound_bandwidth"],
     "dataset": PATH_FROM_ROOT,
-    "file_source": "./models/features/tuning",
+    "file_source": "./models/features/classification_preparation",
     "file_destination": "./models/label/source/dataset.csv",
     "config": {
         "cpu_usage": {
