@@ -57,7 +57,7 @@ CONFIG = {
         models_id.ARIMA,
         models_id.SARIMA,
         models_id.ETS,
-        models_id.GP,
+        # models_id.GP,
         models_id.RNN,
         models_id.LSTM,
         models_id.CNN,

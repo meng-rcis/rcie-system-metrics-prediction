@@ -57,8 +57,8 @@ class FeedforwardNeuralNetwork(IMetaModel):
         # Define the model architecture
         model = Sequential(
             [
-                Dense(10, activation="relu", input_shape=(X_train.shape[1],)),
-                Dense(10, activation="relu"),
+                Dense(50, activation="relu", input_shape=(X_train.shape[1],)),
+                Dense(50, activation="relu"),
                 Dense(1),
             ]
         )

@@ -19,3 +19,9 @@ join all tuning files to one file
 ```bash
 python ./__utils/__join_file.py
 ```
+
+remove col in file
+
+```bash
+python ./__utils/__remove_col.py
+```
