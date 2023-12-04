@@ -38,13 +38,13 @@ META_MODELS_IDS - define the list of meta model ids here
 
 CONFIG = {
     # SELECTED_FEATURE's options: "cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"
-    "SELECTED_FEATURE": "cpu_usage",
+    "SELECTED_FEATURE": "response_time",
     "START_TRAINING_INDEX": 0,
     "PREDICTION_STEPS": 5,
     "INITIAL_BASE_TRAINING_SIZE": 1000,
     "INITIAL_META_TRAINING_SIZE": 1000,
     "AUTO_CREATED_FINAL_RESULT_SIZE": 1500,
-    "ALPHA": 100,
+    "ALPHA": 0.01,
     "IS_FILTERED": True,
     "IS_HIDE_WARNING": True,
     "IS_PARALLEL_PROCESSING": True,
@@ -56,7 +56,7 @@ CONFIG = {
     "BASE_MODELS_IDS": [
         models_id.ARIMA,
         models_id.SARIMA,
-        # models_id.ETS,
+        models_id.ETS,
         # models_id.GP,
         models_id.RNN,
         models_id.LSTM,
@@ -234,7 +234,6 @@ COMMON_L2_CONFIG = {
     "LINEAR_REGRESSION": {
         "override_features": [
             models_id.ARIMA,
-            models_id.SARIMA,
             models_id.RNN,
             models_id.LSTM,
             models_id.CNN,
@@ -245,15 +244,23 @@ COMMON_L2_CONFIG = {
     "RIDGE_REGRESSION": {"override_features": []},
     "RANDOM_FOREST": {
         "override_features": [
+            models_id.ARIMA,
+            models_id.ETS,
             models_id.RNN,
+            models_id.LSTM,
+            models_id.CNN,
             models_id.GRU,
+            models_id.TCN,
         ]
     },
     "FEEDFORWARD_NEURAL_NETWORK": {
         "override_features": [
+            models_id.ARIMA,
             models_id.RNN,
             models_id.LSTM,
+            models_id.CNN,
             models_id.GRU,
+            models_id.TCN,
         ]
     },
 }
