@@ -38,7 +38,7 @@ META_MODELS_IDS - define the list of meta model ids here
 
 CONFIG = {
     # SELECTED_FEATURE's options: "cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"
-    "SELECTED_FEATURE": "response_time",
+    "SELECTED_FEATURE": "tps",
     "START_TRAINING_INDEX": 0,
     "PREDICTION_STEPS": 5,
     "INITIAL_BASE_TRAINING_SIZE": 1000,
@@ -250,12 +250,15 @@ COMMON_L2_CONFIG = {
             models_id.LSTM,
             models_id.CNN,
             models_id.GRU,
+            models_id.LSTM,
+            models_id.CNN,
             models_id.TCN,
         ]
     },
     "FEEDFORWARD_NEURAL_NETWORK": {
         "override_features": [
             models_id.ARIMA,
+            models_id.SARIMA,
             models_id.RNN,
             models_id.LSTM,
             models_id.CNN,
