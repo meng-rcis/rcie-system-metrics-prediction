@@ -247,13 +247,16 @@ COMMON_L2_CONFIG = {
         "override_features": [
             models_id.RNN,
             models_id.GRU,
+            models_id.LSTM,
+            models_id.CNN,
         ]
     },
     "FEEDFORWARD_NEURAL_NETWORK": {
         "override_features": [
             models_id.RNN,
-            models_id.LSTM,
             models_id.GRU,
+            models_id.LSTM,
+            models_id.CNN,
         ]
     },
 }
