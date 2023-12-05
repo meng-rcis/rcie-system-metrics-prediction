@@ -12,12 +12,12 @@ import models.features.prediction.pconstant.models_id as models_id
 
 
 CONFIG = {
-    # "cpu_usage", "memory_usage", "inbound_bandwidth", "outbound_bandwidth", "tps", "response_time"
+    # "cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"
     "features": [
         "cpu_usage",
         "memory_usage",
-        "inbound_bandwidth",
-        "outbound_bandwidth",
+        "bandwidth_inbound",
+        "bandwidth_outbound",
         "tps",
         "response_time",
     ],
@@ -33,11 +33,11 @@ CONFIG = {
             "chosen_layer": "l1",
             "chosen_feature": models_id.RNN,
         },
-        "inbound_bandwidth": {
+        "bandwidth_inbound": {
             "chosen_layer": "l3",
             "chosen_feature": "Predicted",
         },
-        "outbound_bandwidth": {
+        "bandwidth_outbound": {
             "chosen_layer": "l1",
             "chosen_feature": models_id.RNN,
         },
