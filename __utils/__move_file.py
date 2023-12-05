@@ -3,7 +3,7 @@ import sys
 import shutil
 
 DEFAULT_SIZE = "1250"
-BASE = "./models/features/tuning/"
+BASE = "./models/features/tuning/correlation/"
 BASE_TEMPLATE = BASE + "template"
 BASE_L1 = "./models/features/source/l1_prediction_dataset"
 BASE_L2 = "./models/features/source/l2_prediction_dataset"
