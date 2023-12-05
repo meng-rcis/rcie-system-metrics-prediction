@@ -13,7 +13,14 @@ import models.features.prediction.pconstant.models_id as models_id
 
 CONFIG = {
     # "cpu_usage", "memory_usage", "inbound_bandwidth", "outbound_bandwidth", "tps", "response_time"
-    "features": ["cpu_usage", "memory_usage", "inbound_bandwidth"],
+    "features": [
+        "cpu_usage",
+        "memory_usage",
+        "inbound_bandwidth",
+        "outbound_bandwidth",
+        "tps",
+        "response_time",
+    ],
     "dataset": PATH_FROM_ROOT,
     "file_source": "./models/features/classification_preparation",
     "file_destination": "./models/label/source/dataset.csv",
@@ -24,18 +31,24 @@ CONFIG = {
         },
         "memory_usage": {
             "chosen_layer": "l1",
-            "chosen_feature": models_id.LSTM,
+            "chosen_feature": models_id.RNN,
         },
         "inbound_bandwidth": {
-            "chosen_layer": "l2",
-            "chosen_feature": models_id.REGRESSION_STACK,
+            "chosen_layer": "l3",
+            "chosen_feature": "Predicted",
         },
         "outbound_bandwidth": {
             "chosen_layer": "l1",
-            "chosen_feature": models_id.LSTM,
+            "chosen_feature": models_id.RNN,
         },
-        "tps": {},
-        "response_time": {},
+        "tps": {
+            "chosen_layer": "l3",
+            "chosen_feature": "Predicted",
+        },
+        "response_time": {
+            "chosen_layer": "l3",
+            "chosen_feature": "Predicted",
+        },
     },
 }
 
