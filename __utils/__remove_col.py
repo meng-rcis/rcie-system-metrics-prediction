@@ -18,5 +18,5 @@ loop_remove_column_from_csv(
     [
         "./models/features/source/l1_prediction_dataset/prediction_result_filtered.csv",
     ],
-    ["ETS"],
+    ["ETS", "SARIMA"],
 )
