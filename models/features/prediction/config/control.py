@@ -1,4 +1,3 @@
-import math
 import pconstant.models_id as models_id
 import infrastructure.base_model as base_models
 import infrastructure.meta_model as meta_models
@@ -34,6 +33,8 @@ IS_SETUP_META_MODEL_DATASET_REQUIRED - setup meta model dataset or not
 MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER - force to move L2 & L3 files to archive folder or not (used to start the new main process)
 BASE_MODELS_IDS - define the list of base model ids here
 META_MODELS_IDS - define the list of meta model ids here
+T_REDEFINE_MODEL_INTERVAL - the interval of redefining model (for tuning hyperparameter)
+T_AUTO_CREATED_BASE_RESULT_SIZE - the number of L1 size that will be automatically generated initially (for tuning hyperparameter)
 """
 
 CONFIG = {
@@ -43,7 +44,7 @@ CONFIG = {
     "PREDICTION_STEPS": 5,
     "INITIAL_BASE_TRAINING_SIZE": 1000,
     "INITIAL_META_TRAINING_SIZE": 1000,
-    "AUTO_CREATED_FINAL_RESULT_SIZE": 250,
+    "AUTO_CREATED_FINAL_RESULT_SIZE": 1500,
     "ALPHA": 0.01,
     "IS_FILTERED": True,
     "IS_HIDE_WARNING": True,
@@ -69,6 +70,8 @@ CONFIG = {
         models_id.TREE_STACK,
         models_id.NEURAL_STACK,
     ],
+    "T_REDEFINE_MODEL_INTERVAL": 250,
+    "T_AUTO_CREATED_BASE_RESULT_SIZE": 1500,
 }
 
 """
