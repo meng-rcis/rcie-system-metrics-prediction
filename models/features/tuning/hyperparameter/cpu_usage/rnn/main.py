@@ -18,6 +18,10 @@ from models.features.prediction.config.control import CONFIG
 from models.features.prediction.config.path import BASE_DATASET_PATH, BEFORE_FILTER_FILE
 from models.features.prediction.manager import DataManager
 
+FEATURE = "cpu_usage"
+SAVE_PATH = (
+    f"./models/features/tuning/hyperparameter/{FEATURE}/rnn/source/rnn_tune_result.csv"
+)
 MODEL_CONFIG = {
     "n_past": 64,
     "epochs": 100,
@@ -28,10 +32,6 @@ MODEL_CONFIG = {
     "activation_function_l1": "relu",
     "activation_function_l2": "relu",
 }
-
-SAVE_PATH = (
-    "./models/features/tuning/hyperparameter/cpu_usage/rnn/source/rnn_tune_result.csv"
-)
 
 
 def define_model(X, y, config):
@@ -72,12 +72,11 @@ def define_model(X, y, config):
 
 
 def main():
-    feature = "cpu_usage"
     scaler = MinMaxScaler(feature_range=(0, 1))
     dataset = DataManager.LoadDataset(BASE_DATASET_PATH)
     raw_dataset = DataManager.LoadDataset(BEFORE_FILTER_FILE)
-    dataset_cp = dataset.copy()[feature]
-    raw_dataset_cp = raw_dataset.copy()[feature]
+    dataset_cp = dataset.copy()[FEATURE]
+    raw_dataset_cp = raw_dataset.copy()[FEATURE]
     time_indices = dataset_cp.index
 
     n_past = MODEL_CONFIG["n_past"]
