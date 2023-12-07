@@ -70,7 +70,7 @@ CONFIG = {
         models_id.TREE_STACK,
         models_id.NEURAL_STACK,
     ],
-    "T_REDEFINE_MODEL_INTERVAL": 250,
+    "T_REDEFINE_MODEL_INTERVAL": 50,
     "T_AUTO_CREATED_BASE_RESULT_SIZE": 1500,
 }
 
