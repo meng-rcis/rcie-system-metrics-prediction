@@ -18,10 +18,9 @@ from models.features.prediction.config.control import CONFIG
 from models.features.prediction.config.path import BASE_DATASET_PATH, BEFORE_FILTER_FILE
 from models.features.prediction.manager import DataManager
 
-FEATURE = "cpu_usage"
-SAVE_PATH = (
-    f"./models/features/tuning/hyperparameter/{FEATURE}/rnn/source/rnn_base_result.csv"
-)
+FEATURE = "response_time"
+VERSION = "tune"
+SAVE_PATH = f"./models/features/tuning/hyperparameter/{FEATURE}/rnn/source/rnn_{VERSION}_result.csv"
 # Best score=0.0061
 # Best parameters:
 #               - n_past=21
@@ -32,26 +31,26 @@ SAVE_PATH = (
 #               - neurons_l2=59
 #               - activation_function_l1=sigmoid
 #               - activation_function_l2=sigmoid
-# MODEL_CONFIG = {
-#     "n_past": 21,
-#     "epochs": 139,
-#     "batch_size": 30,
-#     "learning_rate": 0.038230,
-#     "neurons_l1": 63,
-#     "neurons_l2": 59,
-#     "activation_function_l1": "sigmoid",
-#     "activation_function_l2": "sigmoid",
-# }
 MODEL_CONFIG = {
-    "n_past": 30,
-    "epochs": 50,
-    "batch_size": 32,
-    "learning_rate": 0.001,
-    "neurons_l1": 50,
-    "neurons_l2": 50,
-    "activation_function_l1": "relu",
-    "activation_function_l2": "relu",
+    "n_past": 21,
+    "epochs": 139,
+    "batch_size": 30,
+    "learning_rate": 0.038230,
+    "neurons_l1": 63,
+    "neurons_l2": 59,
+    "activation_function_l1": "sigmoid",
+    "activation_function_l2": "sigmoid",
 }
+# MODEL_CONFIG = {
+#     "n_past": 30,
+#     "epochs": 50,
+#     "batch_size": 32,
+#     "learning_rate": 0.001,
+#     "neurons_l1": 50,
+#     "neurons_l2": 50,
+#     "activation_function_l1": "relu",
+#     "activation_function_l2": "relu",
+# }
 
 
 def define_model(X, y, config):
