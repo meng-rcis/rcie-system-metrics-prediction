@@ -1,7 +1,5 @@
 import os
 import sys
-import warnings
-import math
 
 # Add path to the root folder
 sys.path.append(
@@ -10,76 +8,146 @@ sys.path.append(
     )
 )
 
-from manager import MainManager, DataManager, SetupManager
-from pconstant.feature_header import ACTUAL
-from controller import L1, L2, L3
+from manager import DataManager
+from putils.printer import print_loop_message
+from pconstant.feature_header import RAW, ACTUAL, TIME
+from controller import L2, L3
 from config.control import CONFIG
 from config.path import (
+    BASE_DATASET_PATH,
+    BEFORE_FILTER_FILE,
     L1_PREDICTION_DATASET_PATH,
     L2_PREDICTION_DATASET_PATH,
     L3_PREDICTION_DATASET_PATH,
-    BASE_DATASET_PATH,
 )
 
 
 def main():
-    df_l1 = DataManager().ReadCSV(L1_PREDICTION_DATASET_PATH)
-    base_training_size = CONFIG["INITIAL_BASE_TRAINING_SIZE"]
-    redefine_interval = CONFIG["T_REDEFINE_MODEL_INTERVAL"]
-    auto_created_base_result_size = CONFIG["T_AUTO_CREATED_BASE_RESULT_SIZE"]
-    l2_gateway = L2(
-        target=ACTUAL,
-        model_ids=CONFIG["META_MODELS_IDS"],
-        is_parallel_processing=CONFIG["IS_PARALLEL_PROCESSING_FOR_L2"],
+    (
+        alpha,
+        is_filtered,
+        meta_model_ids,
+        selected_feature,
+        steps,
+        cumulative_training_size,
+        is_parallel_processing_for_l2,
+        auto_created_final_result_size,
+    ) = (
+        CONFIG["ALPHA"],
+        CONFIG["IS_FILTERED"],
+        CONFIG["META_MODELS_IDS"],
+        CONFIG["SELECTED_FEATURE"],
+        CONFIG["PREDICTION_STEPS"],
+        CONFIG["INITIAL_BASE_TRAINING_SIZE"],
+        CONFIG["IS_PARALLEL_PROCESSING_FOR_L2"],
+        CONFIG["AUTO_CREATED_FINAL_RESULT_SIZE"],
     )
 
-    redefine_interval_loop_required = auto_created_base_result_size // redefine_interval
-    cumulative_training_size = base_training_size
+    df_l1 = DataManager.ReadCSV(
+        path=L1_PREDICTION_DATASET_PATH,
+        index_col=TIME,
+    )
+    base_df = DataManager.LoadDataset(path=BASE_DATASET_PATH)
+    before_filter_df = (
+        DataManager.LoadDataset(path=BEFORE_FILTER_FILE) if is_filtered else None
+    )
 
-    # # Initialize an empty DataFrame to store all results
-    # all_results_df = pd.DataFrame()
+    def updateCSVPredictionToLatest(dir: str):
+        if DataManager.IsFileExist(dir) == False:
+            return
+        dest = DataManager.ReadCSV(path=dir, index_col=TIME)
+        DataManager.UpdateDestinationToLatest(
+            src=base_df,
+            dest=dest,
+            src_target=selected_feature,
+            dest_target=ACTUAL,
+        )
+        if is_filtered:
+            DataManager.UpdateDestinationToLatest(
+                src=before_filter_df,
+                dest=dest,
+                src_target=selected_feature,
+                dest_target=RAW,
+            )
+        DataManager.UpdateRowsInCSV(
+            path=dir,
+            updated_rows=dest,
+            index_col_name=TIME,
+        )
 
-    # for i in range(redefine_interval_loop_required):
-    #     # Prepare data
-    #     start_time = time.time()
-    #     print(f"Redefine Model: {i + 1}")
-    #     next_prediction = cumulative_training_size + redefine_interval
-    #     end_index = min(next_prediction, len(dataset_cp))
-    #     training_dataset, testing_dataset = (
-    #         dataset_cp[starting_training_index:cumulative_training_size],
-    #         dataset_cp[cumulative_training_size - n_past : end_index],
-    #     )
-    #     scaled_training_dataset = scaler.fit_transform(
-    #         training_dataset.values.reshape(-1, 1)
-    #     )
-    #     scaled_testing_dataset = scaler.transform(testing_dataset.values.reshape(-1, 1))
-    #     X_train, y_train = create_sequences(scaled_training_dataset, n_past, steps)
-    #     X_test, y_test = create_sequences(scaled_testing_dataset, n_past, steps, False)
+    l2_gateway = L2(
+        target=ACTUAL,
+        model_ids=meta_model_ids,
+        is_parallel_processing=is_parallel_processing_for_l2,
+    )
+    l3_gateway = L3(
+        meta_model_ids=meta_model_ids,
+        meta_prediction_source=L2_PREDICTION_DATASET_PATH,
+        target_col=RAW if is_filtered else ACTUAL,
+        alpha=alpha,
+    )
 
-    #     # Define model
-    #     model = define_model(X_train, y_train, MODEL_CONFIG)
+    loop_required = auto_created_final_result_size // steps
+    for i in range(loop_required):
+        # Prepare Dataset
+        print_loop_message(i + 1, "MainFT", "Preparing dataset...")
+        next_prediction = cumulative_training_size + steps
+        end_index = min(next_prediction, len(df_l1))
+        training_dataset, testing_dataset = (
+            df_l1[:cumulative_training_size],
+            df_l1[cumulative_training_size:end_index],
+        )
 
-    #     # Predict
-    #     print(f"Predict Model: {i + 1}")
-    #     yhat = model.predict(X_test)
-    #     yhat_original = scaler.inverse_transform(yhat)
-    #     y_test = scaler.inverse_transform(y_test)
+        # L2 Prediction
+        print_loop_message(i + 1, "MainFT", "Training L2 models...")
+        l2_gateway.TrainModels(
+            dataset=training_dataset,
+            features=[],
+        )
+        print_loop_message(i + 1, "MainFT", "Predicting L2 models...")
+        l2_prediction = l2_gateway.Predict(input=testing_dataset)
 
-    #     # Prepare result
-    #     result_df = pd.DataFrame(
-    #         {
-    #             "Time": time_indices[cumulative_training_size:end_index],
-    #             "RNN": yhat_original.flatten(),
-    #             "Actual": y_test.flatten(),
-    #             "Raw": raw_dataset_cp[cumulative_training_size:end_index],
-    #         }
-    #     )
-    #     all_results_df = pd.concat([all_results_df, result_df], ignore_index=True)
-    #     cumulative_training_size += redefine_interval
-    #     end_time = time.time()
-    #     total_time = end_time - start_time
-    #     print(f"Cumulative Size: {cumulative_training_size} [{total_time} Seconds]\n")
+        # L3 Prediction
+        print_loop_message(i + 1, "MainFT", "Finding weights in L3 models...")
+        weights = l3_gateway.FindModelWeights()
+        print_loop_message(i + 1, "MainFT", "Predicting L3 models...")
+        l3_prediction = l3_gateway.Predict(
+            input=l2_prediction,
+            weights=weights,
+        )
 
-    # print("Save Results")
-    # all_results_df.to_csv(SAVE_PATH, index=False)
-    # print("Done")
+        # Share Index
+        l2_prediction.index = testing_dataset.index
+        l3_prediction.index = testing_dataset.index
+
+        # Save to CSV
+        print_loop_message(i + 1, "MainFT", "Saving to CSV...\n")
+        l2_rows, l2_headers = DataManager.ExtractMainPredictionToCSV(l2_prediction)
+        l3_rows, l3_headers = DataManager.ExtractMainPredictionToCSV(l3_prediction)
+
+        if is_filtered:
+            l2_headers.append("Raw")
+            l3_headers.append("Raw")
+
+        DataManager.WriteCSV(
+            path=L2_PREDICTION_DATASET_PATH,
+            headers=l2_headers,
+            rows=l2_rows,
+        )
+        DataManager.WriteCSV(
+            path=L3_PREDICTION_DATASET_PATH,
+            headers=l3_headers,
+            rows=l3_rows,
+        )
+
+        # Update CSV
+        print_loop_message(i + 1, "MainFT", "Updating CSV...")
+        updateCSVPredictionToLatest(dir=L2_PREDICTION_DATASET_PATH)
+        updateCSVPredictionToLatest(dir=L3_PREDICTION_DATASET_PATH)
+
+        # Update Cumulative Training Size
+        cumulative_training_size += steps
+
+
+if __name__ == "__main__":
+    main()
