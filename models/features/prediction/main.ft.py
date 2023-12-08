@@ -121,7 +121,7 @@ def main():
         l3_prediction.index = testing_dataset.index
 
         # Save to CSV
-        print_loop_message(i + 1, "MainFT", "Saving to CSV...\n")
+        print_loop_message(i + 1, "MainFT", "Saving to CSV...")
         l2_rows, l2_headers = DataManager.ExtractMainPredictionToCSV(l2_prediction)
         l3_rows, l3_headers = DataManager.ExtractMainPredictionToCSV(l3_prediction)
 
@@ -141,7 +141,7 @@ def main():
         )
 
         # Update CSV
-        print_loop_message(i + 1, "MainFT", "Updating CSV...")
+        print_loop_message(i + 1, "MainFT", "Updating CSV...\n")
         updateCSVPredictionToLatest(dir=L2_PREDICTION_DATASET_PATH)
         updateCSVPredictionToLatest(dir=L3_PREDICTION_DATASET_PATH)
 

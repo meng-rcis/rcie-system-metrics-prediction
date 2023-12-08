@@ -39,13 +39,13 @@ T_AUTO_CREATED_BASE_RESULT_SIZE - the number of L1 size that will be automatical
 
 CONFIG = {
     # SELECTED_FEATURE's options: "cpu_usage", "memory_usage", "bandwidth_inbound", "bandwidth_outbound", "tps", "response_time"
-    "SELECTED_FEATURE": "cpu_usage",
+    "SELECTED_FEATURE": "bandwidth_outbound",
     "START_TRAINING_INDEX": 0,
     "PREDICTION_STEPS": 5,
     "INITIAL_BASE_TRAINING_SIZE": 1000,
     "INITIAL_META_TRAINING_SIZE": 1000,
     "AUTO_CREATED_FINAL_RESULT_SIZE": 1500,
-    "ALPHA": 100,
+    "ALPHA": 0.01,
     "IS_FILTERED": True,
     "IS_HIDE_WARNING": True,
     "IS_PARALLEL_PROCESSING": True,
@@ -56,7 +56,7 @@ CONFIG = {
     "MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER": False,
     "BASE_MODELS_IDS": [
         models_id.ARIMA,
-        models_id.SARIMA,
+        # models_id.SARIMA,
         # models_id.ETS,
         # models_id.GP,
         models_id.RNN,
@@ -70,8 +70,8 @@ CONFIG = {
         models_id.TREE_STACK,
         models_id.NEURAL_STACK,
     ],
-    "T_REDEFINE_MODEL_INTERVAL": 250,
-    "T_AUTO_CREATED_BASE_RESULT_SIZE": 1500,
+    "T_REDEFINE_MODEL_INTERVAL": 50,
+    "T_AUTO_CREATED_BASE_RESULT_SIZE": 2500,
 }
 
 """
@@ -236,13 +236,7 @@ PREDICTION_L2_CONFIG = {
 COMMON_L2_CONFIG = {
     "LINEAR_REGRESSION": {
         "override_features": [
-            models_id.ARIMA,
-            models_id.SARIMA,
             models_id.RNN,
-            models_id.LSTM,
-            models_id.CNN,
-            models_id.GRU,
-            models_id.TCN,
         ]
     },
     "RIDGE_REGRESSION": {"override_features": []},
@@ -256,10 +250,12 @@ COMMON_L2_CONFIG = {
     },
     "FEEDFORWARD_NEURAL_NETWORK": {
         "override_features": [
+            models_id.ARIMA,
             models_id.RNN,
             models_id.LSTM,
             models_id.CNN,
             models_id.GRU,
+            models_id.TCN,
         ]
     },
 }
