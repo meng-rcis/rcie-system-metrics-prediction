@@ -33,6 +33,16 @@ MODEL_CONFIG = {
     "activation_function_l2": "relu",
 }
 
+# Best parameters:
+#               - n_past=36
+#               - epochs=74
+#               - batch_size=35
+#               - learning_rate=0.045884
+#               - neurons_l1=49
+#               - neurons_l2=55
+#               - activation_function_l1=sigmoid
+#               - activation_function_l2=sigmoid
+
 
 def define_model(X, y, config):
     # RNN Model
