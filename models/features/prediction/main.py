@@ -42,6 +42,10 @@ def main():
         )
         SetupManagerInstance.PrepareMetaModelDataset()
 
+    if CONFIG["IS_MAIN_PROCESS_REQUIRED"] == False:
+        print("Main process is not required. Exiting...")
+        return
+
     # Start Main Process
     print("Starting main process...")
     MainManagerInstance = MainManager(
