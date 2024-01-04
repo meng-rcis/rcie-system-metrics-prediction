@@ -6,7 +6,6 @@ jupyter_core==5.3.1
 matplotlib==3.7.2
 matplotlib-inline==0.1.6
 pandas==2.0.3
-scikit-learn==0.0.post5
 seaborn==0.12.2
 statsmodels==0.14.0
 scikit_optimize==0.9.0
@@ -16,4 +15,4 @@ tensorflow==2.14.0
 tensorflow-estimator==2.14.0
 tensorflow-io-gcs-filesystem==0.34.0
 eli5==0.13.0
-keras==2.12.0
+keras==2.14.0
