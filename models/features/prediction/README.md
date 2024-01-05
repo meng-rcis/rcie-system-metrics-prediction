@@ -25,7 +25,7 @@ python .\models\features\prediction\main.py
 MacOS:
 
 ```bash
-python3 ./models/features/prediction/main.py
+python ./models/features/prediction/main.py
 ```
 
 Note: Must run the main.py file from the root of the project because the predefined path is relative to the root of the project. Otherwise, you can change the path in the constant/path.py file. If not, the code will return an error.
