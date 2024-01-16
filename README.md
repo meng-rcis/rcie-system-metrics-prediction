@@ -40,7 +40,7 @@ For Prophet, it is typically used for univariate time series forecasting, but ad
 
 VAR is specifically designed for multivariate time series. It uses a set number of previous time steps from all variables in the system to predict the next time step.
 
-## Note - v2 (current)
+## Note - v2 (TBD)
 
 ### Project Structure
 
