@@ -16,12 +16,16 @@ def compute_mae(actual, predicted):
 
 
 def load_data(
-    layer: str, datafile: str, archived: str | int = None, last_appearance: int = None
+    layer: str, 
+    datafile: str, 
+    archived: str | int = None, 
+    last_appearance: int = None, 
+    source: str = "../source/"
 ):
     dir = (
-        "../source/" + layer + "_prediction_dataset/" + datafile
+        source + layer + "_prediction_dataset/" + datafile
         if archived is None
-        else "../source/"
+        else source
         + layer
         + "_prediction_dataset/archive/"
         + str(archived)
