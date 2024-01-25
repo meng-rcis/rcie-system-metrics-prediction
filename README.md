@@ -12,8 +12,6 @@ cd D:\nuttchai\dev\Projects\rcie\repo\rcie-system-metrics-prediction; jupyter no
 
 - To-do: Add later on
 
-### Project Directory
-
 Main file located at `models/predictions/features/main.py`
 
 - Next Action
