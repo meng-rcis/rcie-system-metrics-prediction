@@ -2,7 +2,7 @@ import os
 import csv
 import pandas as pd
 
-MODE = 1  # 0: Slice the window, 1: Slice the window with normalize data (value-mean)
+MODE = 2  # 0: Slice the window, 1: Slice the window with normalize data (value-mean), 2: Slice the window with normalize data (value-mean)/std
 SIZE, TARGET_Y = 16, 8
 WINDOW_SIZE = f"{SIZE}_{TARGET_Y}"
 TARGET = "./models/label/source/dataset.csv"
@@ -20,6 +20,8 @@ if MODE == 1:
     DEST = (
         f"./models/label/extra/window_slice/source/{WINDOW_SIZE}_normalize/dataset.csv"
     )
+if MODE == 2:
+    DEST = f"./models/label/extra/window_slice/source/{WINDOW_SIZE}_normalize_std/dataset.csv"
 
 
 def ensure_directory_exists(path):
@@ -35,12 +37,21 @@ def find_mean(df, cols) -> dict:
     return means
 
 
+def find_std(df, cols) -> dict:
+    stds = {}
+    for col in cols:
+        stds[col] = df[col].std()
+    return stds
+
+
 def slice_window(size: int, target_y: int, mode: int = 0) -> None:
     ensure_directory_exists(TARGET)  # Ensure the TARGET directory exists
     ensure_directory_exists(DEST)  # Ensure the DEST directory exists
 
     df = pd.read_csv(TARGET)
     means = find_mean(df, EXPANDED_COLS)
+    stds = find_std(df, EXPANDED_COLS)
+
     # Create expanded columns with the given windows size
     headers = ["Time", "status"]
     for col in EXPANDED_COLS:
@@ -63,10 +74,13 @@ def slice_window(size: int, target_y: int, mode: int = 0) -> None:
             for value in col_values:
                 if MODE == 1:
                     value = value - means[col]
+                if MODE == 2:
+                    value = (value - means[col]) / stds[col]
                 row.append(value)
 
         rows = rows + [row]
 
+    print(f"Writing to {DEST}...")
     # Write the expanded rows to the new CSV file
     with open(DEST, "w") as f:
         writer = csv.writer(f)
