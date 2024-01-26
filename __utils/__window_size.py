@@ -1,10 +1,11 @@
+import os
 import csv
 import pandas as pd
 
 SIZE, TARGET_Y = 10, 5
-WINDOW_SIZE = f"{SIZE}:{TARGET_Y}"
+WINDOW_SIZE = f"{SIZE}_{TARGET_Y}"
 TARGET = "./models/label/source/dataset.csv"
-DEST = "./models/label/extra/window_slice/source/dataset.csv"
+DEST = f"./models/label/extra/window_slice/source/{WINDOW_SIZE}/dataset.csv"
 EXPANDED_COLS = [
     "cpu_usage",
     "memory_usage",
@@ -15,9 +16,17 @@ EXPANDED_COLS = [
 ]
 
 
-def slice_window(size: int, target_y: int) -> None:
-    df = pd.read_csv(TARGET)
+def ensure_directory_exists(path):
+    directory = os.path.dirname(path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
+
+def slice_window(size: int, target_y: int) -> None:
+    ensure_directory_exists(TARGET)  # Ensure the TARGET directory exists
+    ensure_directory_exists(DEST)  # Ensure the DEST directory exists
+
+    df = pd.read_csv(TARGET)
     # Create expanded columns with the given windows size
     headers = ["Time", "status"]
     for col in EXPANDED_COLS:
@@ -42,8 +51,8 @@ def slice_window(size: int, target_y: int) -> None:
 
         rows = rows + [row]
 
-    # Write the expanded rows to the CSV file
-    with open(DEST, "w", newline="") as f:
+    # Write the expanded rows to the new CSV file
+    with open(DEST, "w") as f:
         writer = csv.writer(f)
         writer.writerow(headers)
         writer.writerows(rows)
