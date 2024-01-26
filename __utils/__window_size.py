@@ -1,8 +1,10 @@
 import csv
 import pandas as pd
 
+SIZE, TARGET_Y = 10, 5
+WINDOW_SIZE = f"{SIZE:TARGET_Y}"
 TARGET = "./models/label/source/dataset.csv"
-DEST = "./models/label/source/expanded_dataset.csv"
+DEST = "./models/label/extra/window_slice/source/dataset.csv"
 EXPANDED_COLS = [
     "cpu_usage",
     "memory_usage",
@@ -47,4 +49,4 @@ def slice_window(size: int, target_y: int) -> None:
         writer.writerows(rows)
 
 
-slice_window(size=10, target_y=5)
+slice_window(size=SIZE, target_y=TARGET_Y)
