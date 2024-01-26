@@ -2,7 +2,7 @@ import csv
 import pandas as pd
 
 SIZE, TARGET_Y = 10, 5
-WINDOW_SIZE = f"{SIZE:TARGET_Y}"
+WINDOW_SIZE = f"{SIZE}:{TARGET_Y}"
 TARGET = "./models/label/source/dataset.csv"
 DEST = "./models/label/extra/window_slice/source/dataset.csv"
 EXPANDED_COLS = [
