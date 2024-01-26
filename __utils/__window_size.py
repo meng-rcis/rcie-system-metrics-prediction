@@ -2,7 +2,13 @@ import os
 import csv
 import pandas as pd
 
-MODE = 2  # 0: Slice the window, 1: Slice the window with normalize data (value-mean), 2: Slice the window with normalize data (value-mean)/std
+"""
+0: Slice the window, 
+1: Slice the window with normalize data (value-mean)
+2: Slice the window with normalize data (value-mean)/std
+3: Combine 0 and 1
+"""
+MODE = 3
 SIZE, TARGET_Y = 16, 8
 WINDOW_SIZE = f"{SIZE}_{TARGET_Y}"
 TARGET = "./models/label/source/dataset.csv"
@@ -20,8 +26,10 @@ if MODE == 1:
     DEST = (
         f"./models/label/extra/window_slice/source/{WINDOW_SIZE}_normalize/dataset.csv"
     )
-if MODE == 2:
+elif MODE == 2:
     DEST = f"./models/label/extra/window_slice/source/{WINDOW_SIZE}_normalize_std/dataset.csv"
+elif MODE == 3:
+    DEST = f"./models/label/extra/window_slice/source/{WINDOW_SIZE}_combine_0_1/dataset.csv"
 
 
 def ensure_directory_exists(path):
@@ -55,7 +63,8 @@ def slice_window(size: int, target_y: int, mode: int = 0) -> None:
     # Create expanded columns with the given windows size
     headers = ["Time", "status"]
     for col in EXPANDED_COLS:
-        for i in range(0, size):
+        header_size = SIZE if MODE != 3 else SIZE * 2
+        for i in range(0, header_size):
             headers.append(f"{col}_{i}")
 
     # Loop through every rows
@@ -72,15 +81,21 @@ def slice_window(size: int, target_y: int, mode: int = 0) -> None:
         for col in EXPANDED_COLS:
             col_values = df_slice[col].values
             for value in col_values:
-                if MODE == 1:
+                if mode == 0:
+                    row.append(value)
+                elif mode == 1:
                     value = value - means[col]
-                if MODE == 2:
+                    row.append(value)
+                elif mode == 2:
                     value = (value - means[col]) / stds[col]
-                row.append(value)
-
+                    row.append(value)
+                elif mode == 3:
+                    value_mean = value - means[col]
+                    value_std = (value - means[col]) / stds[col]
+                    row.append(value_mean)
+                    row.append(value_std)
         rows = rows + [row]
 
-    print(f"Writing to {DEST}...")
     # Write the expanded rows to the new CSV file
     with open(DEST, "w") as f:
         writer = csv.writer(f)
