@@ -27,4 +27,4 @@ INDEX_COL = "time"
 FREQUENCY = "5S"
 
 # Window size for sliding window in classification
-SIZE, TARGET_Y, MODE = 16, 8, 2
+SIZE, TARGET_Y, MODE = 10, 10, 0
