@@ -8,8 +8,8 @@ import pandas as pd
 2: Slice the window with normalize data (value-mean)/std
 3: Combine 0 and 1
 """
-MODE = 3
-SIZE, TARGET_Y = 16, 8
+MODE = 0
+SIZE, TARGET_Y = 10, 10
 WINDOW_SIZE = f"{SIZE}_{TARGET_Y}"
 TARGET = "./models/label/source/dataset.csv"
 DEST = f"./models/label/extra/window_slice/source/{WINDOW_SIZE}/dataset.csv"
@@ -63,7 +63,7 @@ def slice_window(size: int, target_y: int, mode: int = 0) -> None:
     # Create expanded columns with the given windows size
     headers = ["Time", "status"]
     for col in EXPANDED_COLS:
-        header_size = SIZE if MODE != 3 else SIZE * 2
+        header_size = size if MODE != 3 else SIZE * 2
         for i in range(0, header_size):
             headers.append(f"{col}_{i}")
 
@@ -103,4 +103,4 @@ def slice_window(size: int, target_y: int, mode: int = 0) -> None:
         writer.writerows(rows)
 
 
-slice_window(size=SIZE, target_y=TARGET_Y, mode=MODE)
+slice_window(size=SIZE, target_y=TARGET_Y - 1, mode=MODE)
