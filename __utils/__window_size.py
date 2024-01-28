@@ -9,7 +9,7 @@ import pandas as pd
 3: Combine 0 and 1
 """
 MODE = 0
-SIZE, TARGET_Y = 10, 10
+SIZE, TARGET_Y = 10, 5
 WINDOW_SIZE = f"{SIZE}_{TARGET_Y}"
 TARGET = "./models/label/source/dataset.csv"
 DEST = f"./models/label/extra/window_slice/source/{WINDOW_SIZE}/dataset.csv"
