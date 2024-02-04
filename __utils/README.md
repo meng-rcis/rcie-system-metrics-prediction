@@ -29,5 +29,5 @@ python ./__utils/__remove_col.py
 apply window sliding to file
 
 ```bash
-.\__utils\__window_size.py
+python ./__utils/__window_size.py
 ```
