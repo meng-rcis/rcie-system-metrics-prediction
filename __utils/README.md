@@ -31,3 +31,9 @@ apply window sliding to file
 ```bash
 python ./__utils/__window_size.py
 ```
+
+convert file from pickle to csv
+
+```bash
+python ./__utils/__pickle_to_csv.py
+```
