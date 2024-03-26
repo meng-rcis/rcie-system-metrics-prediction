@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 
 from typing import Any
@@ -41,6 +42,7 @@ class CNN(IBaseModel):
         )
 
     def TrainModel(self, config: dict) -> Any:
+        start_time = time.time()
         n_past = config.get("n_past", 5)
         steps = config.get("steps", 1)
         X, y = create_sequences(
@@ -70,12 +72,15 @@ class CNN(IBaseModel):
             verbose=config.get("verbose", "auto"),
             batch_size=config.get("batch_size", 32),
             validation_split=config.get("validation_split", 0.2),
-            use_multiprocessing=config.get("use_multiprocessing", True),
+            use_multiprocessing=config.get("use_multiprocessing", False),
         )
         self.model = model
+        end_time = time.time()
+        print(f"[CNN] Training time: {end_time - start_time} seconds")
         return self.model
 
     def Predict(self, config: dict) -> pd.DataFrame:
+        start_time = time.time()
         n_past = config.get("n_past", 5)
         batch_size = config.get("batch_size", 1)
         features = config.get("features", 1)
@@ -103,6 +108,8 @@ class CNN(IBaseModel):
             columns=[CNN_ID],
             index=prediction_datetimes,
         )
+        end_time = time.time()
+        print(f"[CNN] Prediction time: {end_time - start_time} seconds")
         return prediction_df
 
     def SaveModel(self, model: Any):

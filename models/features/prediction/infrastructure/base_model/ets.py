@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 
 from typing import Any
@@ -36,6 +37,7 @@ class ETS(IBaseModel):
         - seasonal: Type of seasonal component.
         - seasonal_periods: The number of periods in a complete seasonal cycle.
         """
+        start_time = time.time()
         trend = config.get("trend", None)
         seasonal = config.get("seasonal", None)
         seasonal_periods = config.get("seasonal_periods", None)
@@ -46,11 +48,16 @@ class ETS(IBaseModel):
             seasonal_periods=seasonal_periods,
         )
         self.model = model.fit()
+        end_time = time.time()
+        print(f"[ETS] Training time: {end_time - start_time} seconds")
         return self.model
 
     def Predict(self, config: dict) -> pd.DataFrame:
+        start_time = time.time()
         steps = config.get("steps", 1)
         prediction = self.model.forecast(steps=steps)
+        end_time = time.time()
+        print(f"[ETS] Prediction time: {end_time - start_time} seconds")
         return prediction
 
     def SaveModel(self, model: Any):

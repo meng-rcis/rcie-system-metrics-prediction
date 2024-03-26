@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 
 from typing import Any
@@ -41,6 +42,7 @@ class SARIMAX(IBaseModel):
         - order: A tuple representing the (p,d,q) parameters for ARIMA.
         - seasonal_order: A tuple representing the (P,D,Q,s) seasonal parameters.
         """
+        start_time = time.time()
         order = config.get("order", (1, 1, 1))  # Non-seasonal order
         seasonal_order = config.get("seasonal_order", (1, 1, 1, 12))  # Seasonal order
         model = SARIMAXM(
@@ -50,14 +52,22 @@ class SARIMAX(IBaseModel):
             seasonal_order=seasonal_order,
         )
         self.model = model.fit()
+        end_time = time.time()
+        print(f"[SARIMAX] Training time: {end_time - start_time} seconds")
         return self.model
 
     def Predict(self, config: dict) -> pd.DataFrame:
+        start_time = time.time()
         steps = config.get("steps", 1)
         exog_future = config.get(
             "exog_future", None
         )  # Exogenous variables for the forecast period
-        return self.model.get_forecast(steps=steps, exog=exog_future).predicted_mean
+        predicted = self.model.get_forecast(
+            steps=steps, exog=exog_future
+        ).predicted_mean
+        end_time = time.time()
+        print(f"[SARIMAX] Prediction time: {end_time - start_time} seconds")
+        return predicted
 
     def SaveModel(self, model: Any):
         self.model = model

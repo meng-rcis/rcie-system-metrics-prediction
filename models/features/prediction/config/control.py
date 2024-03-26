@@ -52,14 +52,14 @@ CONFIG = {
     "IS_PARALLEL_PROCESSING_FOR_L2": True,
     "IS_CLEANING_ROWS_REQUIRED_INITIALLY": True,
     "IS_UPDATING_CSV_REQUIRED_INITIALLY": True,
-    "IS_SETUP_META_MODEL_DATASET_REQUIRED": True,
-    "IS_MAIN_PROCESS_REQUIRED": False,
+    "IS_SETUP_META_MODEL_DATASET_REQUIRED": False,
+    "IS_MAIN_PROCESS_REQUIRED": True,
     "MANUALLY_MOVE_L2_L3_FILES_TO_ARCHIVE_FOLDER": False,
     "BASE_MODELS_IDS": [
         models_id.ARIMA,
         models_id.SARIMA,
         models_id.ETS,
-        models_id.GP,
+        # models_id.GP,
         models_id.RNN,
         models_id.LSTM,
         models_id.CNN,
@@ -238,25 +238,29 @@ COMMON_L2_CONFIG = {
     "LINEAR_REGRESSION": {
         "override_features": [
             models_id.RNN,
+            models_id.GRU,
+            models_id.LSTM,
+            models_id.CNN,
+            models_id.ARIMA,
+            models_id.SARIMA,
+            models_id.TCN,
         ]
     },
     "RIDGE_REGRESSION": {"override_features": []},
     "RANDOM_FOREST": {
         "override_features": [
             models_id.RNN,
+            models_id.GRU,
             models_id.LSTM,
             models_id.CNN,
-            models_id.GRU,
         ]
     },
     "FEEDFORWARD_NEURAL_NETWORK": {
         "override_features": [
-            models_id.ARIMA,
             models_id.RNN,
+            models_id.GRU,
             models_id.LSTM,
             models_id.CNN,
-            models_id.GRU,
-            models_id.TCN,
         ]
     },
 }

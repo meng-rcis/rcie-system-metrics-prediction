@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 
 from typing import Any
@@ -42,6 +43,7 @@ class RandomForest(IMetaModel):
         - n_estimators: The number of trees in the forest.
         - random_state: Controls both the randomness of the bootstrapping of the samples used when building trees (if bootstrap=True), and the sampling of the features to consider when looking for the best split at each node (if max_features < n_features).
         """
+        start_time = time.time()
         n_estimators = config.get("n_estimators", 100)
         max_features = config.get("max_features", 1)
         random_state = config.get("random_state", 0)
@@ -54,16 +56,22 @@ class RandomForest(IMetaModel):
         )
         model.fit(self.X, self.y)
         self.model = model
+        end_time = time.time()
+        print(f"[RandomForest] Training time: {end_time - start_time} seconds")
         return self.model
 
     def Predict(self, config: dict):
+        start_time = time.time()
         override_features = config.get("override_features", [])
         input = config.get("input", None)
         if input is None:
             raise ValueError("Input is not provided")
         if len(override_features) != 0:
             input = input[override_features]
-        return self.model.predict(input)
+        predicted = self.model.predict(input)
+        end_time = time.time()
+        print(f"[RandomForest] Prediction time: {end_time - start_time} seconds")
+        return predicted
 
     def SaveModel(self, model: Any):
         self.model = model
