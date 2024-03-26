@@ -73,6 +73,7 @@ class TCN(IBaseModel):
             verbose=config.get("verbose", "auto"),
             batch_size=config.get("batch_size", 32),
             validation_split=config.get("validation_split", 0.2),
+            use_multiprocessing=config.get("use_multiprocessing", True),
         )
         self.model = model
         return self.model
