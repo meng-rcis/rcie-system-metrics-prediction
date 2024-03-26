@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 import tensorflow as tf
 
@@ -43,6 +44,7 @@ class RNN(IBaseModel):
         )
 
     def TrainModel(self, config: dict) -> Any:
+        start_time = time.time()
         # Group data for RNN
         X, y = create_sequences(
             self.scaled_training_dataset,
@@ -74,9 +76,12 @@ class RNN(IBaseModel):
             use_multiprocessing=config.get("use_multiprocessing", True),
         )
         self.model = model
+        end_time = time.time()
+        print(f"[RNN] Training time: {end_time - start_time} seconds")
         return self.model
 
     def Predict(self, config: dict) -> pd.DataFrame:
+        start_time = time.time()
         n_past = config.get("n_past", 5)
         batch_size = config.get("batch_size", 1)
         features = config.get("features", 1)
@@ -105,6 +110,8 @@ class RNN(IBaseModel):
             columns=[RNN_ID],
             index=prediction_datetimes,
         )
+        end_time = time.time()
+        print(f"[RNN] Prediction time: {end_time - start_time} seconds")
         return prediction_df
 
     def SaveModel(self, model: Any):

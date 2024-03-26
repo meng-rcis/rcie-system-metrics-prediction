@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 import tensorflow as tf
 
@@ -43,6 +44,7 @@ class LSTM(IBaseModel):
         )
 
     def TrainModel(self, config: dict) -> Any:
+        start_time = time.time()
         # Group data for LSTM
         X, y = create_sequences(
             self.scaled_training_dataset,
@@ -75,9 +77,12 @@ class LSTM(IBaseModel):
             use_multiprocessing=config.get("use_multiprocessing", True),
         )
         self.model = model
+        end_time = time.time()
+        print(f"[LSTM] Training time: {end_time - start_time} seconds")
         return self.model
 
     def Predict(self, config: dict) -> pd.DataFrame:
+        start_time = time.time()
         n_past = config.get("n_past", 5)
         batch_size = config.get("batch_size", 1)
         features = config.get("features", 1)
@@ -106,6 +111,8 @@ class LSTM(IBaseModel):
             columns=[LSTM_ID],
             index=prediction_datetimes,
         )
+        end_time = time.time()
+        print(f"[LSTM] Prediction time: {end_time - start_time} seconds")
         return prediction_df
 
     def SaveModel(self, model: Any):

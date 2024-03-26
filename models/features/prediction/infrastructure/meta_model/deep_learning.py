@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 
 from typing import Any
@@ -47,6 +48,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
         self.scaled_y = self.scaler_y.fit_transform(self.y.values.reshape(-1, 1))
 
     def TrainModel(self, config: dict) -> Any:
+        start_time = time.time()
         # Splitting data into train and validation sets
         X_train, X_val, y_train, y_val = train_test_split(
             self.scaled_X,
@@ -75,9 +77,12 @@ class FeedforwardNeuralNetwork(IMetaModel):
             use_multiprocessing=config.get("use_multiprocessing", True),
         )
         self.model = model
+        end_time = time.time()
+        print(f"[FFN] Training time: {end_time - start_time} seconds")
         return self.model
 
     def Predict(self, config: dict):
+        start_time = time.time()
         override_features = config.get("override_features", [])
         input = config.get("input", None)
         verbose = config.get("verbose", 0)
@@ -87,7 +92,10 @@ class FeedforwardNeuralNetwork(IMetaModel):
             input = input[override_features]
         scaled_input = self.scaler_X.transform(input)
         yhat = self.model.predict(scaled_input, verbose=verbose)
-        return self.scaler_y.inverse_transform(yhat)
+        predicted = self.scaler_y.inverse_transform(yhat)
+        end_time = time.time()
+        print(f"[FFN] Prediction time: {end_time - start_time} seconds")
+        return predicted
 
     def SaveModel(self, model: Any):
         self.model = model

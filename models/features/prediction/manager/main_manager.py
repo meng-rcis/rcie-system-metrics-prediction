@@ -112,15 +112,36 @@ class MainManager:
             self.updateCSVToLatest()
 
         # Train base models with the latest data in based CSV
+        base_training_start_time = time.time()
         self.trainBaseModels()
+        base_training_end_time = time.time()
 
         # Train meta models with the latest data in CSV-1
+        meta_training_start_time = time.time()
         self.trainMetaModels()
+        meta_training_end_time = time.time()
+
+        # Print the time taken to train the base and meta models
+        print_loop_message(
+            self.loop_count,
+            "Main",
+            "Training",
+            f"[Base: {base_training_end_time - base_training_start_time} seconds, Meta: {meta_training_end_time - meta_training_start_time} seconds]",
+        )
+
+        # Print the total time taken to train the base and meta models
+        print_loop_message(
+            self.loop_count,
+            "Main",
+            "Total Training Time",
+            f"[Total Time: {meta_training_end_time - base_training_start_time} seconds]",
+        )
 
         # Calculate weight of each meta model with the data in CSV-2
         weights = self.calculateWeight()
 
         # Predict the next step using prediction_steps based on the base models
+        predict_start_time = time.time()
         base_results = self.predictBaseModels()
 
         # Predict the next step using prediction_steps based on the meta models
@@ -128,6 +149,15 @@ class MainManager:
 
         # Find final result by weight averaging of the prediction result from meta models
         final_result = self.predictFinalResultWithWeightAverage(meta_results, weights)
+        predict_end_time = time.time()
+
+        # Print the time taken to predict (predict_end_time - predict_start_time)
+        print_loop_message(
+            self.loop_count,
+            "Main",
+            "Predicting",
+            f"[Total Time: {predict_end_time - predict_start_time} seconds]",
+        )
 
         # Share index to the meta and final's prediction result
         self.shareIndex(base_results, meta_results, final_result)
