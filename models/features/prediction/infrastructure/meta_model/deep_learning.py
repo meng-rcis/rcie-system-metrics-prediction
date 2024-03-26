@@ -72,6 +72,7 @@ class FeedforwardNeuralNetwork(IMetaModel):
             batch_size=config.get("batch_size", 1),
             verbose=config.get("verbose", "auto"),
             validation_data=(X_val, y_val),
+            use_multiprocessing=config.get("use_multiprocessing", True),
         )
         self.model = model
         return self.model
