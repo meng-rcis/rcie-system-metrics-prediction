@@ -2,7 +2,7 @@
 
 Main file located at `models/predictions/features/main.py`
 
-There are two main parts: setup and main phrases
+There are two main parts: setup and main phases
 
 setup: used for preparing the models
 
