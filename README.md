@@ -8,4 +8,4 @@ setup: used for preparing the models
 
 main: used for prediction and refinement
 
-todo write folder structure
+TODO: write and describe the folder structure
