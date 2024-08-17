@@ -4,6 +4,6 @@ Main Python file located at `models/predictions/features/main.py`
 
 There are two main parts: setup and main phases
 
-setup: used for preparing the models
+setup: preparing the models
 
-main: used for prediction and refinement
+main: prediction and refinement
