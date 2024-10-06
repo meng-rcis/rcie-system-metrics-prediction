@@ -1,4 +1,4 @@
-# rcis-system-metrics-prediction 
+# rcie-system-metrics-prediction 
 
 Main Python file located at `models/predictions/features/main.py`
 
