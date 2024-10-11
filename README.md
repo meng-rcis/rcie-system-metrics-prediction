@@ -11,3 +11,5 @@ main: prediction and refinement
 TO-DO:
 
 - Upload Thesis Document
+
+- Refactor project
