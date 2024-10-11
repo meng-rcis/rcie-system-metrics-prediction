@@ -12,4 +12,4 @@ TO-DO:
 
 - Upload Thesis Document
 
-- Refactor project
+- Refactor Project
