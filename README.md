@@ -12,4 +12,4 @@ TO-DO:
 
 - Upload Thesis Document
 
-- Refactor Project
+- Refactor Project: Gather Data, + Automated Classification Prediction
